@@ -25,7 +25,7 @@ class NotificationManager {
         content.body = "Stay hydrated! How many gulps did you take?"
         content.categoryIdentifier = "CHUGS_CATEGORY"
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(hours * 3600), repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(hours * 5), repeats: false)
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request)
