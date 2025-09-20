@@ -20,14 +20,14 @@ struct ContentView: View {
                 Stepper("Reminder every \(interval) hrs", value: $interval, in: 1...6)
                 
                 Button("Set Reminder") {
-                    NotificationManager.shared.scheduleNotification(in: interval)
+                    NotificationManager.shared.scheduleNotifications()
                 }
                 .buttonStyle(.borderedProminent)
                 
-                ProgressView(value: Double(tracker.dailyChugs), total: Double(tracker.goal))
+                ProgressView(value: Double(tracker.dailyGulps), total: Double(tracker.goal))
                     .padding()
                 
-                Text("Chugs today: \(tracker.dailyChugs)/\(tracker.goal)")
+                Text("Today's water intake: \(tracker.dailyGulps)/\(tracker.goal)")
             }
             .padding()
             .onAppear {

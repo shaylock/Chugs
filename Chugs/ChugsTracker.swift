@@ -8,14 +8,14 @@
 import SwiftUI
 
 class ChugTracker: ObservableObject {
-    @AppStorage("dailyChugs") var dailyChugs = 0
+    @AppStorage("dailyChugs") var dailyGulps = 0
     @AppStorage("goal") var goal = 8
     
     func addChug(amount: Int = 1) {
-        dailyChugs += amount
+        dailyGulps += amount
     }
     
     func resetDaily() {
-        dailyChugs = 0
+        dailyGulps = 0
     }
 }
