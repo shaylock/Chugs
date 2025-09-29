@@ -8,20 +8,18 @@
 import SwiftUI
 
 struct SettingsView: View {
-    // Persisted settings
-    @AppStorage("isCustomGulpEnabled") private var isCustomGulpEnabled = false
-    @AppStorage("gulpSize") private var gulpSize = 10
+    // Settings for manual input of gulp size
+    @AppStorage("remindersEnabled") private var isRemindersEnabled: Bool = false
+    @AppStorage("isCustomGulpEnabled") private var isCustomGulpEnabled: Bool = false
+    @AppStorage("gulpSize") private var gulpSize: Int = 10
+    // todo: Settings for automatic gulp size calculation
     
-    @AppStorage("goalWhole") private var goalWhole = 2
-    @AppStorage("goalFractionTenths") private var goalFractionTenths = 5
+    // Settings for daily goal
+    @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
     
-    // Store start & end as minutes from midnight
-    @AppStorage("startMinutes") private var startMinutes = 8 * 60   // 08:00
-    @AppStorage("endMinutes") private var endMinutes = 22 * 60      // 22:00
-    
-    private var goalValue: Double {
-        Double(goalWhole) + Double(goalFractionTenths) / 10.0
-    }
+    // Settings for notifications
+    @AppStorage("startMinutes") private var startMinutes: Int = 8 * 60   // 08:00
+    @AppStorage("endMinutes") private var endMinutes: Int = 22 * 60      // 22:00
     
     // Helpers: convert between Int minutes and Date for the pickers
     private var startDate: Date {
@@ -47,62 +45,35 @@ struct SettingsView: View {
             Form {
                 // Goals section
                 Section(header: Text("Goals")) {
-                    // Daily water intake
-                    HStack {
-                        Text("Daily water intake")
-                        Spacer()
-                        VStack(alignment: .trailing, spacing: 6) {
-                            Text(String(format: "%.1f L", goalValue))
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                            
-                            HStack(spacing: 8) {
-                                Picker("", selection: $goalWhole) {
-                                    ForEach(0...5, id: \.self) { value in
-                                        Text("\(value)").tag(value)
-                                    }
-                                }
-                                .labelsHidden()
-                                .pickerStyle(.wheel)
-                                .frame(width: 70, height: 100)
-                                
-                                Picker("", selection: $goalFractionTenths) {
-                                    ForEach(0...9, id: \.self) { t in
-                                        Text(String(format: "%.1f", Double(t) / 10.0)).tag(t)
-                                    }
-                                }
-                                .labelsHidden()
-                                .pickerStyle(.wheel)
-                                .frame(width: 70, height: 100)
-                            }
-                        }
-                    }
+                    remindersSection
+                    goalsSection
                     
                     // Start / End hours (stored as minutes)
-                    DatePicker("Start hour",
-                               selection: Binding(
-                                   get: { startDate },
-                                   set: { newValue in
-                                       let newMinutes = dateToMinutes(newValue)
-                                       startMinutes = newMinutes
-                                       if startMinutes > endMinutes {
-                                           endMinutes = startMinutes
-                                       }
-                                   }),
-                               displayedComponents: .hourAndMinute)
-                    
-                    DatePicker("End hour",
-                               selection: Binding(
-                                   get: { endDate },
-                                   set: { newValue in
-                                       let newMinutes = dateToMinutes(newValue)
-                                       endMinutes = newMinutes
-                                       if endMinutes < startMinutes {
-                                           startMinutes = endMinutes
-                                       }
-                                   }),
-                               displayedComponents: .hourAndMinute)
+//                    DatePicker("Start hour",
+//                               selection: Binding(
+//                                   get: { startDate },
+//                                   set: { newValue in
+//                                       let newMinutes = dateToMinutes(newValue)
+//                                       startMinutes = newMinutes
+//                                       if startMinutes > endMinutes {
+//                                           endMinutes = startMinutes
+//                                       }
+//                                   }),
+//                               displayedComponents: .hourAndMinute)
+//                    
+//                    DatePicker("End hour",
+//                               selection: Binding(
+//                                   get: { endDate },
+//                                   set: { newValue in
+//                                       let newMinutes = dateToMinutes(newValue)
+//                                       endMinutes = newMinutes
+//                                       if endMinutes < startMinutes {
+//                                           startMinutes = endMinutes
+//                                       }
+//                                   }),
+//                               displayedComponents: .hourAndMinute)
                 }
+                hoursSection
                 
                 // Gulp measuring section
                 Section(header: Text("Gulp measuring")) {
@@ -118,7 +89,167 @@ struct SettingsView: View {
             .navigationTitle("Settings")
         }
     }
+    
+    // MARK: - Reminders Section
+    private var remindersSection: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text("Reminders")
+                .font(.headline)
+//                .foregroundColor(foregroundColor)
+                .padding(.horizontal, 4)
+                .padding(.bottom, 8)
+
+            VStack(spacing: 0) {
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text("Reminders")
+                            .font(.system(size: 16, weight: .medium))
+//                            .foregroundColor(foregroundColor)
+
+                        Text("Daily reminders to drink water")
+                            .font(.subheadline)
+//                            .foregroundColor(foregroundMutedColor)
+                    }
+
+                    Spacer()
+
+                    Toggle("", isOn: $isRemindersEnabled)
+                        .labelsHidden()
+//                        .toggleStyle(SwitchToggleStyle(tint: .primaryColor))
+                }
+                .padding(16)
+                .overlay(Divider().offset(y: 20), alignment: .bottom)
+
+//                NavigationLink(destination: ScheduleView()) {
+//                    HStack {
+//                        VStack(alignment: .leading) {
+//                            Text("Schedule")
+//                                .font(.system(size: 16, weight: .medium))
+////                                .foregroundColor(foregroundColor)
+//                            Text("Customize your reminder schedule")
+//                                .font(.subheadline)
+////                                .foregroundColor(foregroundMutedColor)
+//                        }
+//                        Spacer()
+//                        Image(systemName: "chevron.right")
+////                            .foregroundColor(foregroundMutedColor)
+//                    }
+//                    .padding(16)
+//                }
+            }
+//            .background(cardBackground)
+            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+//            .shadow(color: shadowColor, radius: 2, x: 0, y: 1)
+        }
+    }
+    
+    // MARK: - Goals Section
+    private var goalsSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Daily water consumption")
+                .font(.headline)
+//                .foregroundColor(foregroundColor)
+                .padding(.horizontal, 4)
+                .padding(.bottom, 8)
+
+            VStack(spacing: 12) {
+                HStack {
+                    Text("Daily Water Goal")
+                        .font(.system(size: 16, weight: .medium))
+//                        .foregroundColor(foregroundColor)
+                    Spacer()
+                    Text(String(format: "%.1fL", dailyGoal))
+                        .font(.system(size: 16, weight: .semibold))
+//                        .foregroundColor(.primaryColor)
+                }
+                
+                Slider(value: $dailyGoal, in: 1...5, step: 0.1)
+                    .accentColor(.blue)   // progress bar color
+            }
+            .padding(16)
+//            .background(cardBackground)
+            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+//            .shadow(color: shadowColßor, radius: 2, x: 0, y: 1)
+        }
+    }
+    
+    private var hoursSection: some View {
+        Section(header: Text("Notification times")) {
+            VStack(alignment: .leading, spacing: 0) {
+                // Start / End hours (stored as minutes)
+                DatePicker("Start hour",
+                           selection: Binding(
+                            get: { startDate },
+                            set: { newValue in
+                                let newMinutes = dateToMinutes(newValue)
+                                startMinutes = newMinutes
+                                if startMinutes > endMinutes {
+                                    endMinutes = startMinutes
+                                }
+                            }),
+                           displayedComponents: .hourAndMinute)
+                
+                DatePicker("End hour",
+                           selection: Binding(
+                            get: { endDate },
+                            set: { newValue in
+                                let newMinutes = dateToMinutes(newValue)
+                                endMinutes = newMinutes
+                                if endMinutes < startMinutes {
+                                    startMinutes = endMinutes
+                                }
+                            }),
+                           displayedComponents: .hourAndMinute)
+            }
+        }
+    }
+    
+    private var hoursSection1: some View {
+        Section(header: Text("Notification times")) {
+            VStack(alignment: .leading, spacing: 12) { // spacing between pickers
+                HStack {
+                    Text("Start hour")
+                        .frame(width: 90, alignment: .leading) // fixed label width
+                    DatePicker(
+                        "",
+                        selection: Binding(
+                            get: { startDate },
+                            set: { newValue in
+                                let newMinutes = dateToMinutes(newValue)
+                                startMinutes = newMinutes
+                                if startMinutes > endMinutes {
+                                    endMinutes = startMinutes
+                                }
+                            }),
+                        displayedComponents: .hourAndMinute
+                    )
+                    .labelsHidden()
+                }
+
+                HStack {
+                    Text("End hour")
+                        .frame(width: 90, alignment: .leading) // same fixed label width
+                    DatePicker(
+                        "",
+                        selection: Binding(
+                            get: { endDate },
+                            set: { newValue in
+                                let newMinutes = dateToMinutes(newValue)
+                                endMinutes = newMinutes
+                                if endMinutes < startMinutes {
+                                    startMinutes = endMinutes
+                                }
+                            }),
+                        displayedComponents: .hourAndMinute
+                    )
+                    .labelsHidden()
+                }
+            }
+        }
+    }
+
 }
+
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
