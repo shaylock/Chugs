@@ -11,7 +11,7 @@ import SwiftUI
 // SwiftUI implementation of the provided HTML UI
 // iOS 15+ recommended (for some modern SwiftUI APIs)
 
-struct HydrationLogView: View {
+struct DrinkTrackView: View {
     @State private var consumedLiters: Double = 1.8
     private let goalLiters: Double = 3.0
     @Environment(\.colorScheme) var colorScheme
@@ -97,10 +97,10 @@ struct RingView: View {
 struct HydrationLogView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            HydrationLogView()
+            DrinkTrackView()
                 .environment(\.colorScheme, .light)
 
-            HydrationLogView()
+            DrinkTrackView()
                 .environment(\.colorScheme, .dark)
         }
     }

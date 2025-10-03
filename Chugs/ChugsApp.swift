@@ -73,29 +73,29 @@ struct ChugsApp: App {
     var body: some Scene {
         WindowGroup {
             TabView {
-                HomeView(tracker: tracker)
-                    .tabItem {
-                        Label("Home", systemImage: "house.fill")
-                    }
+//                HomeView(tracker: tracker)
+//                    .tabItem {
+//                        Label("Home", systemImage: "house.fill")
+//                    }
                 
-                HydrationLogView()
+                DrinkTrackView()
                     .tabItem {
                         Label("Drink", systemImage: "drop.fill")
                     }
                 
-                ContentView(tracker: tracker)
+//                ContentView(tracker: tracker)
+//                    .tabItem {
+//                        Label("Chugs", systemImage: "drop.fill")
+//                    }
+                
+                NotificationSettingView()
                     .tabItem {
-                        Label("Chugs", systemImage: "drop.fill")
+                        Label("Reminders", systemImage: "alarm")
                     }
                 
                 SettingsView()
                     .tabItem {
                         Label("Settings", systemImage: "gearshape")
-                    }
-                
-                TestSettingsView()
-                    .tabItem {
-                        Label("Test", systemImage: "gearshape")
                     }
             }
             .appTheme(AppTheme(
