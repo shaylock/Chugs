@@ -4,6 +4,7 @@
 //
 //  Created by Shay Blum on 29/09/2025.
 //
+
 import SwiftUI
 
 enum NotificationType: String, CaseIterable, Identifiable {

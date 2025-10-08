@@ -12,8 +12,11 @@ import SwiftUI
 // iOS 15+ recommended (for some modern SwiftUI APIs)
 
 struct DrinkTrackView: View {
-    @State private var consumedLiters: Double = 1.8
-    private let goalLiters: Double = 3.0
+    @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
+    @AppStorage("dailyProgress") private var dailyProgress: Double = 0.0
+    @AppStorage("gulpSize") private var gulpSize: Int = 10
+//    @State private var consumedLiters: Double = 1.8
+//    private let goalLiters: Double = 3.0
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -30,14 +33,14 @@ struct DrinkTrackView: View {
                         .opacity(0.12)
 
                     // Progress ring showing consumed/goal
-                    RingView(progress: min(consumedLiters / goalLiters, 1.0))
+                    RingView(progress: min(dailyProgress / dailyGoal, 1.0))
                         .frame(width: 220, height: 220)
 
                     // Center text
                     VStack(spacing: 6) {
-                        Text(String(format: "%.1fL", consumedLiters))
+                        Text(String(format: "%.1fL", dailyProgress))
                             .font(.system(size: 36, weight: .bold))
-                        Text(String(format: "/ %.0fL", goalLiters))
+                        Text(String(format: "/ %.1fL", dailyGoal))
                             .font(.system(size: 14))
                             .foregroundColor(.secondary)
                     }
@@ -45,10 +48,10 @@ struct DrinkTrackView: View {
 
                 VStack(spacing: 12) {
                     Button(action: {
-                        // simple example: add 250ml to consumed amount
-                        consumedLiters = min(consumedLiters + 0.25, goalLiters)
+//                        dailyProgress = min(dailyProgress + (Double(gulpSize) / 1000.0), dailyGoal)
+                        dailyProgress += Double(gulpSize) / 1000.0
                     }) {
-                        Text("Log Drink")
+                        Text("Chug! 💧")
                             .font(.system(size: 16, weight: .bold))
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 14)
@@ -64,6 +67,23 @@ struct DrinkTrackView: View {
                     Text("Stay refreshed and energized!")
                         .font(.system(size: 13))
                         .foregroundColor(Color(UIColor.secondaryLabel))
+                    
+                    Button(action: {
+//                        dailyProgress = min(dailyProgress + (Double(gulpSize) / 1000.0), dailyGoal)
+                        dailyProgress = 0.0
+                    }) {
+                        Text("Reset Progress")
+                            .font(.system(size: 16, weight: .bold))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .background(
+                                LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)), Color(#colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1))]), startPoint: .leading, endPoint: .trailing)
+                            )
+                            .foregroundColor(.white)
+                            .cornerRadius(999)
+                            .shadow(color: Color.primary.opacity(0.2), radius: 10, x: 0, y: 6)
+                            .frame(maxWidth: 200)
+                    }
                 }
             }
             .padding(.horizontal, 24)
@@ -80,6 +100,8 @@ struct DrinkTrackView: View {
 
 // MARK: - RingView
 struct RingView: View {
+    // Settings for daily goal
+    @AppStorage("dailyProgress") private var dailyProgress: Double = 3.0
     var progress: Double // 0.0 - 1.0
 
     var body: some View {

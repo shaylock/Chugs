@@ -73,20 +73,10 @@ struct ChugsApp: App {
     var body: some Scene {
         WindowGroup {
             TabView {
-//                HomeView(tracker: tracker)
-//                    .tabItem {
-//                        Label("Home", systemImage: "house.fill")
-//                    }
-                
                 DrinkTrackView()
                     .tabItem {
                         Label("Drink", systemImage: "drop.fill")
                     }
-                
-//                ContentView(tracker: tracker)
-//                    .tabItem {
-//                        Label("Chugs", systemImage: "drop.fill")
-//                    }
                 
                 NotificationSettingView()
                     .tabItem {
