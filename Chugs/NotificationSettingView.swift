@@ -1,5 +1,5 @@
 //
-//  TestSettingsView.swift
+//  NotificationSettingView.swift
 //  Chugs
 //
 //  Created by Shay Blum on 29/09/2025.
@@ -14,17 +14,21 @@ enum NotificationType: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 }
 
+// Mock example manager
+//final class NotificationManager {
+//    static let shared = NotificationManager()
+//    
+//    func setNotificationType(_ type: NotificationType) {
+//        print("Notification type set to \(type.rawValue)")
+//        // Your logic here, e.g., update scheduled notifications
+//    }
+//}
+
 struct NotificationSettingView: View {
     @AppStorage("notificationType") private var notificationType: NotificationType = .smart
-    
-    // Smart notifications
-    
-    // Interval notifications
     @AppStorage("interval") private var interval: Int = 30
     
-//    @State private var selectedType: NotificationType = .smart
-    
-    // Local state for sections
+    // Local state
     @State private var useAI = true
     @State private var dailyLimit = 5
     
@@ -36,6 +40,14 @@ struct NotificationSettingView: View {
                 Spacer()
             }
             .navigationTitle("Notifications")
+            // 👇 React to changes in notificationType
+            .onChange(of: notificationType) {
+                NotificationManager.shared.setNotificationType(notificationType)
+            }
+            // 👇 Optionally trigger once when view loads
+            .onAppear {
+                NotificationManager.shared.setNotificationType(notificationType)
+            }
         }
     }
 }

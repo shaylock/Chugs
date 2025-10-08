@@ -13,6 +13,8 @@ class NotificationManager {
     
     private let userDefaults = UserDefaults.standard
     
+    private init() {}
+    
     // MARK: - Request permission
     func requestPermission() {
         UNUserNotificationCenter.current()
@@ -40,6 +42,20 @@ class NotificationManager {
         )
         
         UNUserNotificationCenter.current().setNotificationCategories([category])
+    }
+    
+    func setNotificationType(_ type: NotificationType) {
+        print("Notification type set to \(type.rawValue)")
+        // Your logic here, e.g., update scheduled notifications
+        switch type {
+        case .smart:
+            let scheduler = SmartNotificationScheduler()
+//            scheduler.scheduleNext()
+            
+        case .interval:
+            let scheduler = IntervalNotificationScheduler()
+            scheduler.scheduleNext()
+        }
     }
     
     // MARK: - Schedule notifications for the day
