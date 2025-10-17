@@ -8,14 +8,11 @@
 import SwiftUI
 
 struct SettingsView: View {
-    // Settings for daily goal
     @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
-    // Settings for notifications
     @AppStorage("startMinutes") private var startMinutes: Int = 8 * 60   // 08:00
     @AppStorage("endMinutes") private var endMinutes: Int = 22 * 60      // 22:00
-    // Gulp settings
-    @AppStorage("gulpSize") private var gulpSize: Double = 10.0 / 1000.0
-    @State private var tempGulpSizeInt: Int = 10 // temporary integer for the picker (ml)
+    @AppStorage("gulpSize") private var gulpSize: Double = 10.0 / 1000.0 // 10 ml
+    @State private var tempGulpSizeInt: Int = 10
     
     var body: some View {
         NavigationView {
@@ -28,51 +25,32 @@ struct SettingsView: View {
         }
     }
     
-    // Helpers: convert between Int minutes and Date for the pickers
-    private var startDate: Date {
-        minutesToDate(startMinutes)
-    }
-    private var endDate: Date {
-        minutesToDate(endMinutes)
-    }
-    
-    private func minutesToDate(_ minutes: Int) -> Date {
-        let h = minutes / 60
-        let m = minutes % 60
-        return Calendar.current.date(bySettingHour: h, minute: m, second: 0, of: Date()) ?? Date()
-    }
-    
-    private func dateToMinutes(_ date: Date) -> Int {
-        let comps = Calendar.current.dateComponents([.hour, .minute], from: date)
-        return (comps.hour ?? 0) * 60 + (comps.minute ?? 0)
-    }
-    
-    // MARK: - Reminders Section
-    private var remindersSection: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text("Reminders")
-                .font(.headline)
-                .padding(.horizontal, 4)
-                .padding(.bottom, 8)
-
-            VStack(spacing: 0) {
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text("Reminders")
-                            .font(.system(size: 16, weight: .medium))
-
-                        Text("Daily reminders to drink water")
-                            .font(.subheadline)
-                    }
-
-                    Spacer()
-                }
-                .padding(16)
-                .overlay(Divider().offset(y: 20), alignment: .bottom)
-            }
-            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-        }
-    }
+//    // MARK: - Reminders Section
+//    private var remindersSection: some View {
+//        VStack(alignment: .leading, spacing: 0) {
+//            Text("Reminders")
+//                .font(.headline)
+//                .padding(.horizontal, 4)
+//                .padding(.bottom, 8)
+//
+//            VStack(spacing: 0) {
+//                HStack {
+//                    VStack(alignment: .leading) {
+//                        Text("Reminders")
+//                            .font(.system(size: 16, weight: .medium))
+//
+//                        Text("Daily reminders to drink water")
+//                            .font(.subheadline)
+//                    }
+//
+//                    Spacer()
+//                }
+//                .padding(16)
+//                .overlay(Divider().offset(y: 20), alignment: .bottom)
+//            }
+//            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+//        }
+//    }
     
     // MARK: - Goals Section
     private var goalsSection: some View {
@@ -100,9 +78,9 @@ struct SettingsView: View {
                 // Start / End hours (stored as minutes)
                 DatePicker("Start hour",
                            selection: Binding(
-                            get: { startDate },
+                            get: { TimeUtilities.minutesToDate(startMinutes) },
                             set: { newValue in
-                                let newMinutes = dateToMinutes(newValue)
+                                let newMinutes = TimeUtilities.dateToMinutes(newValue)
                                 startMinutes = newMinutes
                                 if startMinutes > endMinutes {
                                     endMinutes = startMinutes
@@ -112,9 +90,9 @@ struct SettingsView: View {
                 
                 DatePicker("End hour",
                            selection: Binding(
-                            get: { endDate },
+                            get: { TimeUtilities.minutesToDate(endMinutes) },
                             set: { newValue in
-                                let newMinutes = dateToMinutes(newValue)
+                                let newMinutes = TimeUtilities.dateToMinutes(newValue)
                                 endMinutes = newMinutes
                                 if endMinutes < startMinutes {
                                     startMinutes = endMinutes
@@ -134,6 +112,7 @@ struct SettingsView: View {
             }
             .onChange(of: tempGulpSizeInt) {
                 gulpSize = Double(tempGulpSizeInt) / 1000.0
+                print("gulp size: \(gulpSize) ml")
             }
         }
     }

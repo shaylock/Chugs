@@ -54,7 +54,9 @@ class NotificationManager {
             
         case .interval:
             let scheduler = IntervalNotificationScheduler()
-            scheduler.scheduleNext()
+            Task {
+                await scheduler.scheduleNext()
+            }
         }
     }
     

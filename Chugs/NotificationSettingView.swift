@@ -122,3 +122,7 @@ private extension NotificationSettingView {
         }
     }
 }
+
+#Preview {
+    NotificationSettingView()
+}
