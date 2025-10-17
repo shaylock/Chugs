@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		9DF10C502E98FE9D00F451FC /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DF10C4F2E98FE9D00F451FC /* UserNotifications.framework */; };
+		9DF10C522E98FE9D00F451FC /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DF10C512E98FE9D00F451FC /* UserNotificationsUI.framework */; };
+		9DF10C5C2E98FE9D00F451FC /* ChugsNotificationExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9DF10C4D2E98FE9D00F451FC /* ChugsNotificationExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		9D0AFF352E69C04A0079E900 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,12 +27,36 @@
 			remoteGlobalIDString = 9D0AFF262E69C0490079E900;
 			remoteInfo = Chugs;
 		};
+		9DF10C5A2E98FE9D00F451FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D0AFF1F2E69C0490079E900 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9DF10C4C2E98FE9C00F451FC;
+			remoteInfo = ChugsNotificationExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9DF10C612E98FE9D00F451FC /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				9DF10C5C2E98FE9D00F451FC /* ChugsNotificationExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		9D0AFF272E69C0490079E900 /* Chugs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chugs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D0AFF342E69C04A0079E900 /* ChugsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChugsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D0AFF3E2E69C04A0079E900 /* ChugsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChugsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9DF10C4D2E98FE9D00F451FC /* ChugsNotificationExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ChugsNotificationExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		9DF10C4F2E98FE9D00F451FC /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		9DF10C512E98FE9D00F451FC /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -36,6 +66,13 @@
 				Info.plist,
 			);
 			target = 9D0AFF262E69C0490079E900 /* Chugs */;
+		};
+		9DF10C602E98FE9D00F451FC /* Exceptions for "ChugsNotificationExtension" folder in "ChugsNotificationExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 9DF10C4C2E98FE9C00F451FC /* ChugsNotificationExtension */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -56,6 +93,14 @@
 		9D0AFF412E69C04A0079E900 /* ChugsUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = ChugsUITests;
+			sourceTree = "<group>";
+		};
+		9DF10C532E98FE9D00F451FC /* ChugsNotificationExtension */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				9DF10C602E98FE9D00F451FC /* Exceptions for "ChugsNotificationExtension" folder in "ChugsNotificationExtension" target */,
+			);
+			path = ChugsNotificationExtension;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -82,6 +127,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9DF10C4A2E98FE9C00F451FC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9DF10C522E98FE9D00F451FC /* UserNotificationsUI.framework in Frameworks */,
+				9DF10C502E98FE9D00F451FC /* UserNotifications.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -91,6 +145,8 @@
 				9D0AFF292E69C0490079E900 /* Chugs */,
 				9D0AFF372E69C04A0079E900 /* ChugsTests */,
 				9D0AFF412E69C04A0079E900 /* ChugsUITests */,
+				9DF10C532E98FE9D00F451FC /* ChugsNotificationExtension */,
+				9DF10C4E2E98FE9D00F451FC /* Frameworks */,
 				9D0AFF282E69C0490079E900 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -101,8 +157,18 @@
 				9D0AFF272E69C0490079E900 /* Chugs.app */,
 				9D0AFF342E69C04A0079E900 /* ChugsTests.xctest */,
 				9D0AFF3E2E69C04A0079E900 /* ChugsUITests.xctest */,
+				9DF10C4D2E98FE9D00F451FC /* ChugsNotificationExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		9DF10C4E2E98FE9D00F451FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9DF10C4F2E98FE9D00F451FC /* UserNotifications.framework */,
+				9DF10C512E98FE9D00F451FC /* UserNotificationsUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -115,10 +181,12 @@
 				9D0AFF232E69C0490079E900 /* Sources */,
 				9D0AFF242E69C0490079E900 /* Frameworks */,
 				9D0AFF252E69C0490079E900 /* Resources */,
+				9DF10C612E98FE9D00F451FC /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				9DF10C5B2E98FE9D00F451FC /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				9D0AFF292E69C0490079E900 /* Chugs */,
@@ -176,6 +244,28 @@
 			productReference = 9D0AFF3E2E69C04A0079E900 /* ChugsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		9DF10C4C2E98FE9C00F451FC /* ChugsNotificationExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9DF10C5D2E98FE9D00F451FC /* Build configuration list for PBXNativeTarget "ChugsNotificationExtension" */;
+			buildPhases = (
+				9DF10C492E98FE9C00F451FC /* Sources */,
+				9DF10C4A2E98FE9C00F451FC /* Frameworks */,
+				9DF10C4B2E98FE9C00F451FC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				9DF10C532E98FE9D00F451FC /* ChugsNotificationExtension */,
+			);
+			name = ChugsNotificationExtension;
+			packageProductDependencies = (
+			);
+			productName = ChugsNotificationExtension;
+			productReference = 9DF10C4D2E98FE9D00F451FC /* ChugsNotificationExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -183,7 +273,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1640;
+				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					9D0AFF262E69C0490079E900 = {
@@ -196,6 +286,9 @@
 					9D0AFF3D2E69C04A0079E900 = {
 						CreatedOnToolsVersion = 16.4;
 						TestTargetID = 9D0AFF262E69C0490079E900;
+					};
+					9DF10C4C2E98FE9C00F451FC = {
+						CreatedOnToolsVersion = 26.0.1;
 					};
 				};
 			};
@@ -216,6 +309,7 @@
 				9D0AFF262E69C0490079E900 /* Chugs */,
 				9D0AFF332E69C04A0079E900 /* ChugsTests */,
 				9D0AFF3D2E69C04A0079E900 /* ChugsUITests */,
+				9DF10C4C2E98FE9C00F451FC /* ChugsNotificationExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -236,6 +330,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		9D0AFF3C2E69C04A0079E900 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9DF10C4B2E98FE9C00F451FC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -266,6 +367,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9DF10C492E98FE9C00F451FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -278,6 +386,11 @@
 			isa = PBXTargetDependency;
 			target = 9D0AFF262E69C0490079E900 /* Chugs */;
 			targetProxy = 9D0AFF3F2E69C04A0079E900 /* PBXContainerItemProxy */;
+		};
+		9DF10C5B2E98FE9D00F451FC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9DF10C4C2E98FE9C00F451FC /* ChugsNotificationExtension */;
+			targetProxy = 9DF10C5A2E98FE9D00F451FC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -406,8 +519,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Chugs/Chugs.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MB8WUDQ572;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Chugs/Info.plist;
@@ -434,8 +549,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Chugs/Chugs.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MB8WUDQ572;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Chugs/Info.plist;
@@ -525,6 +642,62 @@
 			};
 			name = Release;
 		};
+		9DF10C5E2E98FE9D00F451FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ChugsNotificationExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ChugsNotificationExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shayblum.Chugs.ChugsNotificationExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9DF10C5F2E98FE9D00F451FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ChugsNotificationExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ChugsNotificationExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shayblum.Chugs.ChugsNotificationExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -560,6 +733,15 @@
 			buildConfigurations = (
 				9D0AFF4F2E69C04A0079E900 /* Debug */,
 				9D0AFF502E69C04A0079E900 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9DF10C5D2E98FE9D00F451FC /* Build configuration list for PBXNativeTarget "ChugsNotificationExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9DF10C5E2E98FE9D00F451FC /* Debug */,
+				9DF10C5F2E98FE9D00F451FC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
