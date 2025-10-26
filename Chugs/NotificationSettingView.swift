@@ -40,26 +40,16 @@ struct NotificationSettingView: View {
     @State private var useAI = true
     @State private var dailyLimit = 5
     
+    private let logger = LoggerUtilities.makeLogger(for: Self.self)
+    
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                notificationTypePicker
-                notificationSettingsSection
+                notificationTypePickerView(notificationType: $notificationType)
+                notificationSettingsSectionView(notificationType: $notificationType, interval: $interval)
                 Spacer()
             }
             .navigationTitle("Notifications")
-            // 👇 React to changes in notificationType
-            .onChange(of: notificationType) {
-                if self.notificationType == .smart {
-                    calculateSmartInterval()
-                }
-                print("notification type changed")
-                NotificationManager.shared.setNotificationType(notificationType)
-            }
-            // 👇 Optionally trigger once when view loads
-            .onAppear {
-                NotificationManager.shared.setNotificationType(notificationType)
-            }
         }
     }
     
@@ -77,20 +67,28 @@ struct NotificationSettingView: View {
     }
 }
 
-// MARK: - Sections
-private extension NotificationSettingView {
-    
-    var notificationTypePicker: some View {
+private struct notificationTypePickerView: View {
+    @Binding var notificationType: NotificationType
+    private let logger = LoggerUtilities.makeLogger(for: Self.self)
+    var body: some View {
         Picker("Notification Type", selection: $notificationType) {
             ForEach(NotificationType.allCases) { type in
                 Text(type.rawValue).tag(type)
             }
         }
+        .onChange(of: notificationType) {
+            logger.debug("picker changed to \(notificationType.rawValue)")
+            NotificationManager.shared.setNotificationType(notificationType)
+        }
         .pickerStyle(SegmentedPickerStyle())
         .padding()
     }
-    
-    var notificationSettingsSection: some View {
+}
+
+private struct notificationSettingsSectionView: View {
+    @Binding var notificationType: NotificationType
+    @Binding var interval: Int
+    var body: some View {
         Group {
             switch notificationType {
             case .smart:
@@ -108,8 +106,9 @@ private extension NotificationSettingView {
     
     var smartSettings: some View {
         VStack(alignment: .leading, spacing: 15) {
-            Toggle("Enable AI-based timing", isOn: $useAI)
-            Stepper("Daily limit: \(dailyLimit)", value: $dailyLimit, in: 1...20)
+            Text("Smart notifications will trigger regular notifications based on your drinking patterns and hydration goals.")
+//            Toggle("Enable AI-based timing", isOn: $useAI)
+//            Stepper("Daily limit: \(dailyLimit)", value: $dailyLimit, in: 1...20)
         }
     }
     

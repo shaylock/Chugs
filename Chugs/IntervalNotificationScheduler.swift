@@ -50,6 +50,52 @@ struct IntervalNotificationScheduler {
             logger.error("Failed to schedule notification: \(error)")
         }
     }
+
+    func scheduleDailyNotifications() {
+        let center = UNUserNotificationCenter.current()
+        center.removeAllPendingNotificationRequests() // optional: clear old ones
+        
+        let minuteMultiplier = BuildUtilities.isDebugBuild ? 60 : 1
+        let start = BuildUtilities.isDebugEnabled ? startMinutes * minuteMultiplier : startMinutes
+        let end = BuildUtilities.isDebugBuild ? endMinutes * minuteMultiplier : endMinutes
+        let maxNotifications = 64
+
+        let now = Date()
+        let calendar = Calendar.current
+        var components = calendar.dateComponents([.year, .month, .day], from: now)
+
+        var count = 0
+
+        for minutes in stride(from: start, through: end, by: interval) {
+            if count >= maxNotifications {
+                print("⚠️ Reached iOS 64-notification limit, stopping scheduling.")
+                break
+            }
+
+            let hour = minutes / (minuteMultiplier * 60)
+            let minute = minutes % (minuteMultiplier * 60)
+
+            components.hour = hour
+            components.minute = minute
+
+            let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
+
+            let content = UNMutableNotificationContent()
+            content.title = "Time for a drink!"
+            content.body = "Stay hydrated 🥤"
+            content.categoryIdentifier = "CHUGS_CATEGORY"
+            content.sound = .default
+
+            let id = "reminder-\(hour)-\(minute)"
+            let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
+            center.add(request)
+
+            count += 1
+        }
+
+        print("✅ Scheduled \(count) notifications.")
+    }
+
     
     private func createNextNotificationDateComponents() -> DateComponents {
         let now = Date()
