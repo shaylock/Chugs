@@ -13,6 +13,7 @@ struct IntervalNotificationScheduler {
     @AppStorage("endMinutes") private var endMinutes: Int = 22 * 60      // 22:00
     @AppStorage("interval") private var interval: Int = 30               // Minutes
     private let logger = LoggerUtilities.makeLogger(for: Self.self)
+    static var shared: IntervalNotificationScheduler = .init()
        
 //    // ⚙️ Testing Mode
 //        print("🔧 Scheduling TEST notifications every 10 seconds...")

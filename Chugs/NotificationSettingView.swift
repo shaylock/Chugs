@@ -14,16 +14,6 @@ enum NotificationType: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 }
 
-// Mock example manager
-//final class NotificationManager {
-//    static let shared = NotificationManager()
-//    
-//    func setNotificationType(_ type: NotificationType) {
-//        print("Notification type set to \(type.rawValue)")
-//        // Your logic here, e.g., update scheduled notifications
-//    }
-//}
-
 struct NotificationSettingView: View {
     // Global settings
     @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
@@ -77,11 +67,23 @@ private struct notificationTypePickerView: View {
             }
         }
         .onChange(of: notificationType) {
-            logger.debug("picker changed to \(notificationType.rawValue)")
-            NotificationManager.shared.setNotificationType(notificationType)
+            setNotificationType()
         }
         .pickerStyle(SegmentedPickerStyle())
         .padding()
+    }
+    
+    private func setNotificationType() {
+        logger.debug("Notification type changed to \(notificationType.rawValue)")
+        switch notificationType {
+        case .smart:
+            let scheduler = SmartNotificationScheduler()
+            scheduler.scheduleNext(gulpsConsumed: 0)
+        case .interval:
+            Task {
+                await IntervalNotificationScheduler.shared.scheduleDailyNotifications()
+            }
+        }
     }
 }
 
@@ -92,9 +94,9 @@ private struct notificationSettingsSectionView: View {
         Group {
             switch notificationType {
             case .smart:
-                smartSettings
+                SmartSettings()
             case .interval:
-                intervalSettings
+                IntervalSettingsView()
             }
         }
         .padding()
@@ -103,21 +105,59 @@ private struct notificationSettingsSectionView: View {
         .cornerRadius(12)
         .padding(.horizontal)
     }
-    
-    var smartSettings: some View {
+}
+
+
+struct SmartSettings: View {
+    var body: some View {
         VStack(alignment: .leading, spacing: 15) {
             Text("Smart notifications will trigger regular notifications based on your drinking patterns and hydration goals.")
-//            Toggle("Enable AI-based timing", isOn: $useAI)
-//            Stepper("Daily limit: \(dailyLimit)", value: $dailyLimit, in: 1...20)
         }
     }
-    
-    var intervalSettings: some View {
+}
+
+struct IntervalSettingsView: View {
+    @AppStorage("interval") private var interval: Int = 30
+    @State private var tempInterval: Int = 30
+
+    var body: some View {
         VStack(alignment: .leading, spacing: 15) {
-            Stepper("Every \(interval) minutes", value: $interval, in: 5...120, step: 5)
+            Stepper("Every \(tempInterval) minutes", value: $tempInterval, in: 5...120, step: 5)
             Text("Notifications will repeat at this interval.")
                 .font(.footnote)
                 .foregroundColor(.secondary)
+            
+            Button(action: {
+                interval = tempInterval // update stored interval
+                Task {
+                    await IntervalNotificationScheduler.shared.scheduleDailyNotifications()
+                }
+            }) {
+                Text("Confirm")
+                    .font(.system(size: 16, weight: .bold))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 14)
+                    .background(
+                        LinearGradient(
+                            gradient: Gradient(colors: [
+                                Color(#colorLiteral(red: 0.0, green: 0.7843137389, blue: 1.0, alpha: 1.0)),
+                                Color(#colorLiteral(red: 0.0, green: 0.4470588267, blue: 0.9764705896, alpha: 1.0))
+                            ]),
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .foregroundColor(.white)
+                    .cornerRadius(999)
+                    .shadow(color: Color.primary.opacity(0.2), radius: 10, x: 0, y: 6)
+                    .frame(maxWidth: 320)
+            }
+            .disabled(tempInterval == interval) // disable if temp equals stored
+            .opacity(tempInterval == interval ? 0.5 : 1) // greyed out when disabled
+        }
+        .padding()
+        .onAppear {
+            tempInterval = interval // sync temp with stored interval
         }
     }
 }

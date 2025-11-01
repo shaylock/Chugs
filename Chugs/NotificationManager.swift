@@ -44,21 +44,20 @@ class NotificationManager {
         UNUserNotificationCenter.current().setNotificationCategories([category])
     }
     
-    func setNotificationType(_ type: NotificationType) {
-        print("Notification type set to \(type.rawValue)")
-        // Your logic here, e.g., update scheduled notifications
-        switch type {
-        case .smart:
-            let scheduler = SmartNotificationScheduler()
-            scheduler.scheduleNext(gulpsConsumed: 0)
-            
-        case .interval:
-            let scheduler = IntervalNotificationScheduler()
-            Task {
-                await scheduler.scheduleDailyNotifications()
-            }
-        }
-    }
+//    func setNotificationType(_ type: NotificationType) {
+//        print("Notification type set to \(type.rawValue)")
+//        // Your logic here, e.g., update scheduled notifications
+//        switch type {
+//        case .smart:
+//            let scheduler = SmartNotificationScheduler()
+//            scheduler.scheduleNext(gulpsConsumed: 0)
+//            
+//        case .interval:
+//            Task {
+//                await IntervalNotificationScheduler.shared.scheduleDailyNotifications()
+//            }
+//        }
+//    }
     
 //    // MARK: - Schedule notifications for the day
 //    func scheduleNotifications() {
