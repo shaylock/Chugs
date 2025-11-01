@@ -647,6 +647,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MB8WUDQ572;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ChugsNotificationExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ChugsNotificationExtension;
@@ -675,6 +676,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MB8WUDQ572;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ChugsNotificationExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ChugsNotificationExtension;

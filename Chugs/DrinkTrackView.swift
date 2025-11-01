@@ -42,7 +42,7 @@ struct DrinkTrackView: View {
 
             // Center text
             VStack(spacing: 6) {
-                Text(String(format: "%.1fL", dailyProgress))
+                Text(String(format: "%.2fL", dailyProgress))
                     .font(.system(size: 36, weight: .bold))
                 Text(String(format: "/ %.1fL", dailyGoal))
                     .font(.system(size: 14))

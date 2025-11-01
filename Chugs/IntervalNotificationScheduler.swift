@@ -21,7 +21,8 @@ struct IntervalNotificationScheduler {
     func scheduleDailyNotifications() async {
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests() // Clear old notifications first
-        let intervalSeconds: Int = BuildUtilities.isDebugBuild ? interval : interval * 60
+//        let intervalSeconds: Int = BuildUtilities.isDebugBuild ? interval : interval * 60
+        let intervalSeconds: Int = interval * 60
         let startSeconds: Int = startMinutes * 60
         let endSeconds: Int = endMinutes * 60
         
@@ -32,10 +33,12 @@ struct IntervalNotificationScheduler {
         let currentSeconds = (currentComponents.hour ?? 0) * 3600 +
                              (currentComponents.minute ?? 0) * 60 +
                              (currentComponents.second ?? 0)
-        let effectiveStartSeconds = min(max(startSeconds, currentSeconds), endSeconds)
+//        let effectiveStartSeconds = min(max(startSeconds, currentSeconds), endSeconds)
+        let effectiveStartSeconds = startSeconds
         
         var notificationsScheduled = 0
-        let maxNotificationCount = BuildUtilities.isDebugBuild ? 10 : 64
+//        let maxNotificationCount = BuildUtilities.isDebugBuild ? 10 : 64
+        let maxNotificationCount = 64
 
         for currentSeconds in stride(from: effectiveStartSeconds, through: endSeconds, by: intervalSeconds) {
             if notificationsScheduled >= maxNotificationCount {
@@ -77,45 +80,4 @@ struct IntervalNotificationScheduler {
 
         logger.debug("✅ Scheduled \(notificationsScheduled) notifications.")
     }
-
-//    private func createNextNotificationDateComponents() -> DateComponents {
-//        let now = Date()
-//        let calendar = Calendar.current
-//        let nowMinutes = calendar.component(.hour, from: now) * 60 + calendar.component(.minute, from: now)
-//        
-//        var nextMinutes: Int
-//        let nextSeconds: Int = BuildUtilities.isDebugEnabled ? interval : 0
-//        
-//        if nowMinutes >= endMinutes {
-//            // After end time: schedule for start time tomorrow
-//            nextMinutes = startMinutes
-//        } else if nowMinutes < startMinutes {
-//            // Before start time: schedule for start time today
-//            nextMinutes = startMinutes
-//        } else {
-//            // Between start and end: schedule for next interval
-//            let minutesSinceStart = nowMinutes - startMinutes
-//            let intervalsPassed = (minutesSinceStart / interval) + 1
-//            nextMinutes = startMinutes + intervalsPassed * interval
-//            
-//            // Ensure we don't go past endMinutes
-//            if nextMinutes > endMinutes {
-//                nextMinutes = startMinutes
-//            }
-//        }
-//        
-//        // Convert nextMinutes to DateComponents
-//        var nextDateComponents = DateComponents()
-//        var nextDate = now
-//        if (BuildUtilities.isDebugEnabled) {
-//            nextDate = calendar.date(byAdding: .second, value: nextSeconds, to: nextDate)!
-//        } else {
-//            nextDate = calendar.date(byAdding: .minute, value: nextMinutes, to: nextDate)!
-//        }
-//        
-//        nextDateComponents.hour = calendar.component(.hour, from: nextDate)
-//        nextDateComponents.minute = calendar.component(.minute, from: nextDate)
-//        nextDateComponents.second = calendar.component(.second, from: nextDate)
-//        return nextDateComponents
-//    }
 }
