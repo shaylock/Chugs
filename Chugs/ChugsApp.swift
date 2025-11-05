@@ -5,7 +5,6 @@
 //  Created by Shay Blum on 04/09/2025.
 //
 
-
 import SwiftUI
 import UserNotifications
 
@@ -53,7 +52,7 @@ struct ThemedText: View {
     
     var body: some View {
         Text(content)
-            .foregroundColor(theme.label)   // Automatically uses Label color
+            .foregroundColor(theme.label)
             .font(font)
     }
 }
@@ -61,39 +60,55 @@ struct ThemedText: View {
 @main
 struct ChugsApp: App {
     private let notificationDelegate: NotificationDelegate
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false // 🆕 persistent onboarding flag
     
     init() {
         notificationDelegate = NotificationDelegate()
         UNUserNotificationCenter.current().delegate = notificationDelegate
-
+        
         // Request notification permission and ensure our category exists.
-        NotificationManager.shared.requestNotificationPermission()
-        NotificationManager.shared.ensureChugsCategoryExists()
+        if hasCompletedOnboarding {
+            NotificationManager.shared.requestNotificationPermission()
+            NotificationManager.shared.ensureChugsCategoryExists()
+        }
     }
     
     var body: some Scene {
         WindowGroup {
-            TabView {
-                DrinkTrackView()
-                    .tabItem {
-                        Label("Drink", systemImage: "drop.fill")
-                    }
-                
-                NotificationSettingView()
-                    .tabItem {
-                        Label("Reminders", systemImage: "alarm")
-                    }
-                
-                SettingsView()
-                    .tabItem {
-                        Label("Settings", systemImage: "gearshape")
-                    }
+            if hasCompletedOnboarding {
+                // Normal app flow
+                MainTabView()
+                    .appTheme(AppTheme(
+                        label: Color("Label"),
+                        background: Color("SystemBackground"),
+                        accent: Color("AccentColor")
+                    ))
+            } else {
+                // 🆕 Show onboarding until completed
+                OnboardingView(hasCompletedOnboarding: $hasCompletedOnboarding)
             }
-            .appTheme(AppTheme(
-                label: Color("Label"),
-                background: Color("SystemBackground"),
-                accent: Color("AccentColor")
-            ))
+        }
+    }
+}
+
+// 🆕 Extracted your TabView into a reusable view for clarity
+struct MainTabView: View {
+    var body: some View {
+        TabView {
+            DrinkTrackView()
+                .tabItem {
+                    Label("Drink", systemImage: "drop.fill")
+                }
+            
+            NotificationSettingView()
+                .tabItem {
+                    Label("Reminders", systemImage: "alarm")
+                }
+            
+            SettingsView()
+                .tabItem {
+                    Label("Settings", systemImage: "gearshape")
+                }
         }
     }
 }

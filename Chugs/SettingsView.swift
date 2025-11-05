@@ -12,6 +12,7 @@ struct SettingsView: View {
     @AppStorage("startMinutes") private var startMinutes: Int = 8 * 60   // 08:00
     @AppStorage("endMinutes") private var endMinutes: Int = 22 * 60      // 22:00
     @AppStorage("gulpSize") private var gulpSize: Double = 10.0 / 1000.0 // 10 ml
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false // 🆕 Flag for onboarding
     @State private var tempGulpSizeInt: Int = 10
     
     var body: some View {
@@ -20,6 +21,7 @@ struct SettingsView: View {
                 goalsSection
                 notificationTimesSection
                 gulpSizeSection
+                replayOnboardingSection   // 🆕 Add the button at the bottom
             }
             .navigationTitle("Settings")
         }
@@ -51,6 +53,19 @@ struct SettingsView: View {
 //            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
 //        }
 //    }
+    
+    // MARK: - Replay Onboarding Section
+    private var replayOnboardingSection: some View {
+        Section {
+            Button(action: {
+                hasCompletedOnboarding = false
+                print("Onboarding flag reset!")
+            }) {
+                Text("Replay Onboarding")
+                    .foregroundColor(.red)
+            }
+        }
+    }
     
     // MARK: - Goals Section
     private var goalsSection: some View {
