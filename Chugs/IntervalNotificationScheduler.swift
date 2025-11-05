@@ -60,7 +60,7 @@ struct IntervalNotificationScheduler {
             // Create content
             let content = UNMutableNotificationContent()
             content.title = "Time for a drink!"
-            content.body = "Stay hydrated 🥤"
+            content.body = "Stay hydrated 💧"
             content.categoryIdentifier = "CHUGS_CATEGORY"
             content.sound = .default
 

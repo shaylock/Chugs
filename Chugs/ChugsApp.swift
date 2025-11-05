@@ -60,14 +60,15 @@ struct ThemedText: View {
 
 @main
 struct ChugsApp: App {
-    @StateObject private var tracker = ChugTracker()
     private let notificationDelegate: NotificationDelegate
     
     init() {
-        let tracker = ChugTracker()
-        _tracker = StateObject(wrappedValue: tracker)
-        notificationDelegate = NotificationDelegate(tracker: tracker)
+        notificationDelegate = NotificationDelegate()
         UNUserNotificationCenter.current().delegate = notificationDelegate
+
+        // Request notification permission and ensure our category exists.
+        NotificationManager.shared.requestNotificationPermission()
+        NotificationManager.shared.ensureChugsCategoryExists()
     }
     
     var body: some Scene {
