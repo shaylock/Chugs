@@ -122,7 +122,16 @@ struct IntervalSettingsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
-            Stepper("Every \(tempInterval) minutes", value: $tempInterval, in: 5...120, step: 5)
+            // Picker replacing the Stepper
+            Picker("Notification Interval", selection: $tempInterval) {
+                ForEach(1...120, id: \.self) { minute in
+                    Text("\(minute) minute\(minute == 1 ? "" : "s")")
+                        .tag(minute)
+                }
+            }
+            .pickerStyle(WheelPickerStyle()) // or .menu if you prefer a dropdown
+            .frame(maxWidth: .infinity, maxHeight: 150)
+            
             Text("Notifications will repeat at this interval.")
                 .font(.footnote)
                 .foregroundColor(.secondary)
@@ -152,15 +161,16 @@ struct IntervalSettingsView: View {
                     .shadow(color: Color.primary.opacity(0.2), radius: 10, x: 0, y: 6)
                     .frame(maxWidth: 320)
             }
-            .disabled(tempInterval == interval) // disable if temp equals stored
-            .opacity(tempInterval == interval ? 0.5 : 1) // greyed out when disabled
+            .disabled(tempInterval == interval)
+            .opacity(tempInterval == interval ? 0.5 : 1)
         }
         .padding()
         .onAppear {
-            tempInterval = interval // sync temp with stored interval
+            tempInterval = interval
         }
     }
 }
+
 
 #Preview {
     NotificationSettingView()
