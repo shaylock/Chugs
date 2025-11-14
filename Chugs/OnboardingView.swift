@@ -45,13 +45,10 @@ struct OnboardingView: View {
                 )
                 .tag(2)
                 
-                OnboardingPage(
+                OnboardingPage<EmptyView>(
                     title: "Tap to Track 💧",
                     subtitle: "Try it! Tap below to see how easy it is to log a drink.",
                     buttonTitle: "Continue",
-                    content: {
-                        DrinkTrackView(demoMode: true)
-                    },
                     action: { page += 1 } // advance your onboarding page index
                 ).tag(3)
                 
