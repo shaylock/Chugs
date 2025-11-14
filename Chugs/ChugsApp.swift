@@ -71,6 +71,9 @@ struct ChugsApp: App {
             NotificationManager.shared.requestNotificationPermission()
             NotificationManager.shared.ensureChugsCategoryExists()
         }
+        
+        OnboardingPageConstants.subtitleFont = .system(size: 18)
+        OnboardingPageConstants.buttonFont = .system(size: 20, weight: .semibold)
     }
     
     var body: some Scene {

@@ -32,6 +32,18 @@ struct OnboardingView: View {
             )
             .tag(1)
             
+            OnboardingPage<EmptyView>(
+                image: "lock.fill",
+                title: "Track From Lock Screen",
+                subtitle: "In Settings → Apps → Chugs\nOpen Notifications → Show Preview\nClick ’Always’.",
+                buttonTitle: "Open App Settings",
+                action: {
+                    openAppNotificationSettings()
+                    page += 1
+                }
+            )
+            .tag(2)
+            
             OnboardingPage(
                 title: "Tap to Track 💧",
                 subtitle: "Try it! Tap below to see how easy it is to log a drink.",
@@ -40,7 +52,7 @@ struct OnboardingView: View {
                     DrinkTrackView(demoMode: true)
                 },
                 action: { page += 1 } // advance your onboarding page index
-            ).tag(2)
+            ).tag(3)
             
             OnboardingPage<EmptyView>(
                 image: "bell.badge.fill",
@@ -52,43 +64,46 @@ struct OnboardingView: View {
                     NotificationManager.shared.ensureChugsCategoryExists()
                     page += 1
                 }
-            ).tag(3)
+            ).tag(4)
             
             OnboardingPage<EmptyView>(
                 image: "gearshape.fill",
                 title: "Smart vs Interval",
                 subtitle: "Smart mode adapts to your habits. Interval mode reminds you every X minutes.",
                 buttonTitle: "Continue",
-                action: { page += 1 }
-            ).tag(4)
-            
-            OnboardingPage<EmptyView>(
-                image: "lock.fill",
-                title: "Quick Actions on Lock Screen",
-                subtitle: "To track without unlocking, enable ‘Show Previews: Always’ under Settings → Notifications → Chugs.",
-                buttonTitle: "Open Settings",
                 action: {
-                    if let url = URL(string: UIApplication.openSettingsURLString) {
-                        UIApplication.shared.open(url)
-                    }
-                    // End onboarding
+                    page += 1
                     hasCompletedOnboarding = true
                 }
             ).tag(5)
         }
         .tabViewStyle(PageTabViewStyle())
     }
+    
+    func openAppNotificationSettings() {
+        if let url = URL(string: UIApplication.openNotificationSettingsURLString),
+           UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        }
+    }
+}
+
+struct OnboardingPageConstants {
+    static var titleFont: Font = .title.bold()
+    static var subtitleFont: Font = .body
+    static var buttonFont: Font = .headline
+    static var imageSize: CGFloat = 80
+    static var contentHeight: CGFloat = 350
 }
 
 struct OnboardingPage<Content: View>: View {
-    let image: String?      // Optional system image
+    let image: String?
     let title: String
     let subtitle: String
     let buttonTitle: String
     let action: () -> Void
-    let content: Content?   // Optional embedded view
+    let content: Content?
 
-    // Flexible initializer: content is optional
     init(
         image: String? = nil,
         title: String,
@@ -111,31 +126,33 @@ struct OnboardingPage<Content: View>: View {
 
             if let image = image, !image.isEmpty {
                 Image(systemName: image)
-                    .font(.system(size: 80))
+                    .font(.system(size: OnboardingPageConstants.imageSize))
                     .foregroundStyle(.blue)
             }
 
             Text(title)
-                .font(.title.bold())
+                .font(OnboardingPageConstants.titleFont)
                 .multilineTextAlignment(.center)
 
             Text(subtitle)
-                .font(.body)
+                .font(OnboardingPageConstants.subtitleFont)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 30)
 
             if let content = content {
                 content
-                    .frame(height: 350)
+                    .frame(height: OnboardingPageConstants.contentHeight)
                     .padding(.horizontal)
             }
 
-            Spacer()
-
             Button(buttonTitle, action: action)
+                .font(OnboardingPageConstants.buttonFont)
                 .buttonStyle(.borderedProminent)
+                .padding(.top, 10)
                 .padding(.bottom, 40)
+            
+            Spacer()
         }
     }
 }
@@ -200,5 +217,4 @@ struct VideoOnboardingPage: View {
         }
     }
 }
-
 
