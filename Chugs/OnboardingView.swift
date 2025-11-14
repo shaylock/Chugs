@@ -13,71 +13,82 @@ struct OnboardingView: View {
     @State private var page = 0
     
     var body: some View {
-        TabView(selection: $page) {
-            OnboardingPage<EmptyView>(
-                image: "drop.fill",
-                title: "Welcome to Chugs 💧",
-                subtitle: "Your smart water drinking buddy.",
-                buttonTitle: "Continue",
-                action: { page += 1 }
-            ).tag(0)
+        ZStack(alignment: .topTrailing) {
+            TabView(selection: $page) {
+                OnboardingPage<EmptyView>(
+                    image: "drop.fill",
+                    title: "Welcome to Chugs 💧",
+                    subtitle: "Your smart water drinking buddy.",
+                    buttonTitle: "Continue",
+                    action: { page += 1 }
+                ).tag(0)
+                
+                VideoOnboardingPage(
+                    title: "Track from Notifications 🚀",
+                    subtitle: "Long-press a reminder to log a drink instantly — no need to open the app!",
+                    buttonTitle: "Continue",
+                    videoName: "NotificationDemo",
+                    fileExtension: "mp4",
+                    action: { page += 1 }
+                )
+                .tag(1)
+                
+                OnboardingPage<EmptyView>(
+                    image: "lock.fill",
+                    title: "Track From Lock Screen",
+                    subtitle: "In Settings → Apps → Chugs\nOpen Notifications → Show Preview\nClick ’Always’.",
+                    buttonTitle: "Open App Settings",
+                    action: {
+                        openAppNotificationSettings()
+                        page += 1
+                    }
+                )
+                .tag(2)
+                
+                OnboardingPage(
+                    title: "Tap to Track 💧",
+                    subtitle: "Try it! Tap below to see how easy it is to log a drink.",
+                    buttonTitle: "Continue",
+                    content: {
+                        DrinkTrackView(demoMode: true)
+                    },
+                    action: { page += 1 } // advance your onboarding page index
+                ).tag(3)
+                
+                OnboardingPage<EmptyView>(
+                    image: "bell.badge.fill",
+                    title: "Enable Notifications",
+                    subtitle: "We’ll remind you to drink at smart intervals.",
+                    buttonTitle: "Enable",
+                    action: {
+                        NotificationManager.shared.requestNotificationPermission()
+                        NotificationManager.shared.ensureChugsCategoryExists()
+                        page += 1
+                    }
+                ).tag(4)
+                
+                OnboardingPage<EmptyView>(
+                    image: "gearshape.fill",
+                    title: "Smart vs Interval",
+                    subtitle: "Smart mode adapts to your habits. Interval mode reminds you every X minutes.",
+                    buttonTitle: "Continue",
+                    action: {
+                        page += 1
+                        hasCompletedOnboarding = true
+                    }
+                ).tag(5)
+            }
+            .tabViewStyle(PageTabViewStyle())
             
-            VideoOnboardingPage(
-                title: "Track from Notifications 🚀",
-                subtitle: "Long-press a reminder to log a drink instantly — no need to open the app!",
-                buttonTitle: "Continue",
-                videoName: "NotificationDemo",
-                fileExtension: "mp4",
-                action: { page += 1 }
-            )
-            .tag(1)
-            
-            OnboardingPage<EmptyView>(
-                image: "lock.fill",
-                title: "Track From Lock Screen",
-                subtitle: "In Settings → Apps → Chugs\nOpen Notifications → Show Preview\nClick ’Always’.",
-                buttonTitle: "Open App Settings",
-                action: {
-                    openAppNotificationSettings()
-                    page += 1
-                }
-            )
-            .tag(2)
-            
-            OnboardingPage(
-                title: "Tap to Track 💧",
-                subtitle: "Try it! Tap below to see how easy it is to log a drink.",
-                buttonTitle: "Continue",
-                content: {
-                    DrinkTrackView(demoMode: true)
-                },
-                action: { page += 1 } // advance your onboarding page index
-            ).tag(3)
-            
-            OnboardingPage<EmptyView>(
-                image: "bell.badge.fill",
-                title: "Enable Notifications",
-                subtitle: "We’ll remind you to drink at smart intervals.",
-                buttonTitle: "Enable",
-                action: {
-                    NotificationManager.shared.requestNotificationPermission()
-                    NotificationManager.shared.ensureChugsCategoryExists()
-                    page += 1
-                }
-            ).tag(4)
-            
-            OnboardingPage<EmptyView>(
-                image: "gearshape.fill",
-                title: "Smart vs Interval",
-                subtitle: "Smart mode adapts to your habits. Interval mode reminds you every X minutes.",
-                buttonTitle: "Continue",
-                action: {
-                    page += 1
-                    hasCompletedOnboarding = true
-                }
-            ).tag(5)
+            Button("Skip") {
+                hasCompletedOnboarding = true
+            }
+            .padding(.top, 16)
+            .padding(.trailing, 20)
+            .buttonStyle(.borderless)
+            .font(.headline)
+            .foregroundColor(.blue)
         }
-        .tabViewStyle(PageTabViewStyle())
     }
     
     func openAppNotificationSettings() {
