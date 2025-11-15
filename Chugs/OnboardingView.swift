@@ -65,6 +65,21 @@ struct OnboardingView: View {
                 ).tag(4)
                 
                 OnboardingPage<EmptyView>(
+                    image: "heart.fill",
+                    title: "Enable Health",
+                    subtitle: "We’ll update apple health with your progress.",
+                    buttonTitle: "Enable",
+                    action: {
+                        // TODO: change to static call
+                        let healthStore = HealthStore()
+                        healthStore.requestAuthorization { success, error in
+                            print("HealthKit authorization: \(success), error: \(String(describing: error))")
+                        }
+                        page += 1
+                    }
+                ).tag(5)
+                
+                OnboardingPage<EmptyView>(
                     image: "gearshape.fill",
                     title: "Smart vs Interval",
                     subtitle: "Smart mode adapts to your habits. Interval mode reminds you every X minutes.",
@@ -73,7 +88,7 @@ struct OnboardingView: View {
                         page += 1
                         hasCompletedOnboarding = true
                     }
-                ).tag(5)
+                ).tag(6)
             }
             .tabViewStyle(PageTabViewStyle())
             

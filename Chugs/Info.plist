@@ -3,6 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>Privacy - Local Notifications Usage Description</key>
-	<string>"Chugs uses notifications to remind you to drink water."</string>
+	<string>&quot;Chugs uses notifications to remind you to drink water.&quot;</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>&quot;This app needs permission to record the amount of water you drink in Apple Health.&quot;</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>“This app reads your hydration data from Apple Health to track your daily water intake.”</string>
 </dict>
 </plist>

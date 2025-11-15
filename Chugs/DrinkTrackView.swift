@@ -127,6 +127,22 @@ struct DrinkTrackView: View {
             }
         }
     }
+    
+//    func saveWaterIntake(amountInML: Double, completion: @escaping (Bool, Error?) -> Void) {
+//        guard let waterType = HKQuantityType.quantityType(forIdentifier: .dietaryWater) else {
+//            return
+//        }
+//
+//        // HK uses liters. Convert mL → L
+//        let liters = amountInML / 1000.0
+//        let quantity = HKQuantity(unit: .liter(), doubleValue: liters)
+//
+//        let now = Date()
+//        let sample = HKQuantitySample(type: waterType, quantity: quantity, start: now, end: now)
+//
+//        HKHealthStore().save(sample, withCompletion: completion)
+//    }
+
 }
 
 // MARK: - RingView
