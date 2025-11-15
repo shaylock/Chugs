@@ -79,8 +79,19 @@ struct SettingsView: View {
                         .font(.system(size: 16, weight: .semibold))
                 }
                 
-                Slider(value: $dailyGoal, in: 1...5, step: 0.1)
-                    .accentColor(.blue)   // progress bar color
+//                Slider(value: $dailyGoal, in: 1...5, step: 0.1)
+//                    .accentColor(.blue)   // progress bar color
+                
+                PillSlider(value: $dailyGoal,
+                           range: 1...5,
+                           step: 0.1,
+                           thumbSize: 48,              // bigger thumb
+                           trackHeight: 8,
+                           thumbColor: Color(#colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)),
+                           fillColor: Color(#colorLiteral(red: 0.0, green: 0.6, blue: 1.0, alpha: 1.0)),
+                           trackColor: Color.gray.opacity(0.25),
+                           showValueLabels: false)
+                    .frame(height: 60)
             }
             .padding(16)
             .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))

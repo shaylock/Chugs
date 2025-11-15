@@ -79,16 +79,28 @@ struct DrinkTrackView: View {
             VStack(spacing: 6) {
                 HStack {
                     Text("Gulps:")
-                        .font(.system(size: 13, weight: .medium))
+                        .font(.system(size: 16, weight: .medium))
                         .foregroundColor(Color(UIColor.secondaryLabel))
                     Spacer()
                     Text(String(format: "%.0f", numberOfGulps))
-                        .font(.system(size: 13, weight: .semibold))
+                        .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(Color(UIColor.label))
                 }
 
-                Slider(value: $numberOfGulps, in: 1...10, step: 1)
-                    .accentColor(Color(#colorLiteral(red: 0.0, green: 0.6, blue: 1.0, alpha: 1.0)))
+//                Slider(value: $numberOfGulps, in: 1...10, step: 1)
+//                    .accentColor(Color(#colorLiteral(red: 0.0, green: 0.6, blue: 1.0, alpha: 1.0)))
+                
+                PillSlider(value: $numberOfGulps,
+                           range: 1...10,
+                           step: 1,
+                           thumbSize: 48,              // bigger thumb
+                           trackHeight: 8,
+                           thumbColor: Color(#colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)),
+                           fillColor: Color(#colorLiteral(red: 0.0, green: 0.6, blue: 1.0, alpha: 1.0)),
+                           trackColor: Color.gray.opacity(0.25),
+                           showValueLabels: false)
+                    .frame(height: 60)
+                    .padding()
             }
             .padding(.horizontal, 24)
 
