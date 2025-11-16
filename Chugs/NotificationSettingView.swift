@@ -124,8 +124,8 @@ struct IntervalSettingsView: View {
         VStack(alignment: .leading, spacing: 15) {
             // Picker replacing the Stepper
             Picker("Notification Interval", selection: $tempInterval) {
-                ForEach(1...120, id: \.self) { minute in
-                    Text("\(minute) minute\(minute == 1 ? "" : "s")")
+                ForEach(Array(stride(from: 5, through: 120, by: 5)), id: \.self) { minute in
+                    Text("\(minute) minutes")
                         .tag(minute)
                 }
             }
