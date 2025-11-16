@@ -137,7 +137,7 @@ struct IntervalSettingsView: View {
                 .foregroundColor(.secondary)
             
             Button(action: {
-                interval = tempInterval // update stored interval
+                interval = tempInterval
                 Task {
                     await IntervalNotificationScheduler.shared.scheduleDailyNotifications()
                 }
@@ -146,23 +146,31 @@ struct IntervalSettingsView: View {
                     .font(.system(size: 16, weight: .bold))
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
-                    .background(
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color(#colorLiteral(red: 0.0, green: 0.7843137389, blue: 1.0, alpha: 1.0)),
-                                Color(#colorLiteral(red: 0.0, green: 0.4470588267, blue: 0.9764705896, alpha: 1.0))
-                            ]),
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
                     .foregroundColor(.white)
+                    .background(
+                        Group {
+                            if tempInterval == interval {
+                                // Disabled appearance — strongly greyed out
+                                Color(.systemGray4)
+                            } else {
+                                // Enabled gradient
+                                LinearGradient(
+                                    gradient: Gradient(colors: [
+                                        Color(#colorLiteral(red: 0.0, green: 0.7843137389, blue: 1.0, alpha: 1.0)),
+                                        Color(#colorLiteral(red: 0.0, green: 0.4470588267, blue: 0.9764705896, alpha: 1.0))
+                                    ]),
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            }
+                        }
+                    )
                     .cornerRadius(999)
                     .shadow(color: Color.primary.opacity(0.2), radius: 10, x: 0, y: 6)
                     .frame(maxWidth: 320)
             }
             .disabled(tempInterval == interval)
-            .opacity(tempInterval == interval ? 0.5 : 1)
+
         }
         .padding()
         .onAppear {
