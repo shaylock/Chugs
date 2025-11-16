@@ -13,44 +13,80 @@ struct DrinkTrackView: View {
     @AppStorage("dailyProgress") private var dailyProgress: Double = 0.0
     @AppStorage("gulpSize") private var gulpSize: Double = 10.0 / 1000.0 // 10 ml
     @AppStorage("lastProgressDate") private var lastProgressDate: String = ""
+    @AppStorage("tooltipsShown") private var tooltipsShown: Bool = false
+
     @State private var numberOfGulps: Double = 1.0
+    @State private var tooltipIndex: Int = 0
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
+        ZStack {
+            mainContent
+                .disabled(showingTooltip) // disable interactions when tooltip is active
+            
+            if showingTooltip {
+                tooltipOverlay
+            }
+        }
+        .onAppear { resetIfNewDay() }
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .active { resetIfNewDay() }
+        }
+    }
+    
+    // MARK: - Main content
+    private var mainContent: some View {
         VStack(spacing: 0) {
-
             Spacer()
-
-            // Main content centered vertically
+            
             VStack(spacing: 28) {
                 progressView
                 trackingButtonsView
             }
-
+            
             Spacer()
-        }
-        .onAppear {
-            resetIfNewDay()
-        }
-        .onChange(of: scenePhase) {
-            if scenePhase == .active {
-                resetIfNewDay()
-            }
         }
     }
     
+    private var showingTooltip: Bool {
+        !tooltipsShown && tooltipIndex < 3
+    }
+    
+    // MARK: - Tooltip overlay
+    private var tooltipOverlay: some View {
+        Color.black.opacity(0.4)
+            .edgesIgnoringSafeArea(.all)
+            .onTapGesture {
+                tooltipIndex += 1
+                if tooltipIndex >= 3 {
+                    tooltipsShown = true
+                }
+            }
+            .overlay(
+                Group {
+                    switch tooltipIndex {
+                    case 0:
+                        TooltipView(text: "This ring shows your progress towards your daily goal!", target: .circle)
+                    case 1:
+                        TooltipView(text: "Tap this button to log a gulp!", target: .chugButton)
+                    case 2:
+                        TooltipView(text: "Use this slider to select the number of gulps.", target: .slider)
+                    default:
+                        EmptyView()
+                    }
+                }
+            )
+    }
+    
+    // MARK: - Progress view
     private var progressView: some View {
         ZStack {
-            // Outer ring background (faint)
             RingView(progress: 1.0)
                 .frame(width: 220, height: 220)
                 .opacity(0.12)
-
-            // Progress ring showing consumed/goal
             RingView(progress: min(dailyProgress / dailyGoal, 1.0))
                 .frame(width: 220, height: 220)
-
-            // Center text
+            
             VStack(spacing: 6) {
                 Text(String(format: "%.2fL", dailyProgress))
                     .font(.system(size: 36, weight: .bold))
@@ -61,11 +97,11 @@ struct DrinkTrackView: View {
         }
     }
     
+    // MARK: - Buttons and slider
     private var trackingButtonsView: some View {
         VStack(spacing: 16) {
             Button(action: {
                 dailyProgress += gulpSize * numberOfGulps
-                print("daily progress: \(dailyProgress) / \(dailyGoal) (gulpSize: \(gulpSize), numberOfGulps: \(numberOfGulps)")
             }) {
                 Text("Chug! 💧")
                     .font(.system(size: 16, weight: .bold))
@@ -96,14 +132,11 @@ struct DrinkTrackView: View {
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(Color(UIColor.label))
                 }
-
-//                Slider(value: $numberOfGulps, in: 1...10, step: 1)
-//                    .accentColor(Color(#colorLiteral(red: 0.0, green: 0.6, blue: 1.0, alpha: 1.0)))
                 
                 PillSlider(value: $numberOfGulps,
                            range: 1...10,
                            step: 1,
-                           thumbSize: 48,              // bigger thumb
+                           thumbSize: 48,
                            trackHeight: 8,
                            thumbColor: Color(#colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)),
                            fillColor: Color(#colorLiteral(red: 0.0, green: 0.6, blue: 1.0, alpha: 1.0)),
@@ -113,10 +146,8 @@ struct DrinkTrackView: View {
                     .padding()
             }
             .padding(.horizontal, 24)
-
-            Button(action: {
-                dailyProgress = 0.0
-            }) {
+            
+            Button(action: { dailyProgress = 0.0 }) {
                 Text("Reset Progress")
                     .font(.system(size: 16, weight: .bold))
                     .frame(maxWidth: .infinity)
@@ -140,12 +171,37 @@ struct DrinkTrackView: View {
     
     private func resetIfNewDay() {
         let today = DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none)
-
-        // If the stored date is different, it's a new day
         if lastProgressDate != today {
             dailyProgress = 0.0
             lastProgressDate = today
         }
+    }
+}
+
+// MARK: - Tooltip View
+struct TooltipView: View {
+    enum Target { case circle, chugButton, slider }
+    
+    let text: String
+    let target: Target
+    
+    var body: some View {
+        VStack {
+            if target == .circle { Spacer().frame(height: 120) } // roughly center
+            else if target == .chugButton { Spacer().frame(height: 300) }
+            else if target == .slider { Spacer().frame(height: 400) }
+            
+            Text(text)
+                .font(.headline)
+                .padding()
+                .background(Color.white)
+                .cornerRadius(12)
+                .shadow(radius: 6)
+            
+            Spacer()
+        }
+        .padding()
+        .transition(.opacity)
     }
     
 //    func saveWaterIntake(amountInML: Double, completion: @escaping (Bool, Error?) -> Void) {
