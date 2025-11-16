@@ -12,7 +12,9 @@ struct DrinkTrackView: View {
     @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
     @AppStorage("dailyProgress") private var dailyProgress: Double = 0.0
     @AppStorage("gulpSize") private var gulpSize: Double = 10.0 / 1000.0 // 10 ml
+    @AppStorage("lastProgressDate") private var lastProgressDate: String = ""
     @State private var numberOfGulps: Double = 1.0
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         VStack(spacing: 0) {
@@ -26,6 +28,14 @@ struct DrinkTrackView: View {
             }
 
             Spacer()
+        }
+        .onAppear {
+            resetIfNewDay()
+        }
+        .onChange(of: scenePhase) {
+            if scenePhase == .active {
+                resetIfNewDay()
+            }
         }
     }
     
@@ -125,6 +135,16 @@ struct DrinkTrackView: View {
                     .shadow(color: Color.primary.opacity(0.2), radius: 10, x: 0, y: 6)
                     .frame(maxWidth: 200)
             }
+        }
+    }
+    
+    private func resetIfNewDay() {
+        let today = DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none)
+
+        // If the stored date is different, it's a new day
+        if lastProgressDate != today {
+            dailyProgress = 0.0
+            lastProgressDate = today
         }
     }
     
