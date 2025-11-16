@@ -8,90 +8,32 @@
 import SwiftUI
 import AVKit
 
+
+enum OnboardingStep: Int, CaseIterable {
+    case welcome
+    case enableNotifications
+    case notificationVideo
+    case lockScreen
+//    case tapToTrack
+    case enableHealth
+    case smartVsInterval
+}
+
 struct OnboardingView: View {
     @Binding var hasCompletedOnboarding: Bool
-    @State private var page = 0
-    
+    @State private var page: Int = 0
+
     var body: some View {
         ZStack(alignment: .topTrailing) {
             TabView(selection: $page) {
-                OnboardingPage<EmptyView>(
-                    image: "drop.fill",
-                    title: "Welcome to Chugs 💧",
-                    subtitle: "Your smart water drinking buddy.",
-                    buttonTitle: "Continue",
-                    action: { page += 1 }
-                ).tag(0)
-                
-                VideoOnboardingPage(
-                    title: "Track from Notifications 🚀",
-                    subtitle: "Long-press a reminder to log a drink instantly — no need to open the app!",
-                    buttonTitle: "Continue",
-                    videoName: "NotificationDemo",
-                    fileExtension: "mp4",
-                    action: { page += 1 }
-                )
-                .tag(1)
-                
-                OnboardingPage<EmptyView>(
-                    image: "lock.fill",
-                    title: "Track From Lock Screen",
-                    subtitle: "In Settings → Apps → Chugs\nOpen Notifications → Show Preview\nClick ’Always’.",
-                    buttonTitle: "Open App Settings",
-                    action: {
-                        openAppNotificationSettings()
-                        page += 1
-                    }
-                )
-                .tag(2)
-                
-                OnboardingPage<EmptyView>(
-                    title: "Tap to Track 💧",
-                    subtitle: "Try it! Tap below to see how easy it is to log a drink.",
-                    buttonTitle: "Continue",
-                    action: { page += 1 } // advance your onboarding page index
-                ).tag(3)
-                
-                OnboardingPage<EmptyView>(
-                    image: "bell.badge.fill",
-                    title: "Enable Notifications",
-                    subtitle: "We’ll remind you to drink at smart intervals.",
-                    buttonTitle: "Enable",
-                    action: {
-                        NotificationManager.shared.requestNotificationPermission()
-                        NotificationManager.shared.ensureChugsCategoryExists()
-                        page += 1
-                    }
-                ).tag(4)
-                
-                OnboardingPage<EmptyView>(
-                    image: "heart.fill",
-                    title: "Enable Health",
-                    subtitle: "We’ll update apple health with your progress.",
-                    buttonTitle: "Enable",
-                    action: {
-                        // TODO: change to static call
-                        let healthStore = HealthStore()
-                        healthStore.requestAuthorization { success, error in
-                            print("HealthKit authorization: \(success), error: \(String(describing: error))")
-                        }
-                        page += 1
-                    }
-                ).tag(5)
-                
-                OnboardingPage<EmptyView>(
-                    image: "gearshape.fill",
-                    title: "Smart vs Interval",
-                    subtitle: "Smart mode adapts to your habits. Interval mode reminds you every X minutes.",
-                    buttonTitle: "Continue",
-                    action: {
-                        page += 1
-                        hasCompletedOnboarding = true
-                    }
-                ).tag(6)
+                ForEach(OnboardingStep.allCases, id: \.self) { step in
+                    onboardingView(for: step)
+                        .tag(step.rawValue)
+                }
             }
             .tabViewStyle(PageTabViewStyle())
-            
+
+            // Skip button
             Button("Skip") {
                 hasCompletedOnboarding = true
             }
@@ -102,7 +44,103 @@ struct OnboardingView: View {
             .foregroundColor(.blue)
         }
     }
-    
+
+    // MARK: - Page Builder
+    @ViewBuilder
+    func onboardingView(for step: OnboardingStep) -> some View {
+        switch step {
+        case .welcome:
+            OnboardingPage<EmptyView>(
+                image: "drop.fill",
+                title: "Welcome to Chugs 💧",
+                subtitle: "Your smart water drinking buddy.",
+                buttonTitle: "Continue",
+                action: goToNext
+            )
+
+        case .notificationVideo:
+            VideoOnboardingPage(
+                title: "Track from Notifications 🚀",
+                subtitle: "Long-press a reminder to log a drink instantly — no need to open the app!",
+                buttonTitle: "Continue",
+                videoName: "NotificationDemo",
+                fileExtension: "mp4",
+                action: goToNext
+            )
+
+        case .lockScreen:
+            OnboardingPage<EmptyView>(
+                image: "lock.fill",
+                title: "Track From Lock Screen",
+                subtitle: """
+                In Settings → Apps → Chugs
+                Open Notifications → Show Preview
+                Click ’Always’.
+                """,
+                buttonTitle: "Open App Settings",
+                action: {
+                    openAppNotificationSettings()
+                    goToNext()
+                }
+            )
+
+//        case .tapToTrack:
+//            OnboardingPage<EmptyView>(
+//                title: "Tap to Track 💧",
+//                subtitle: "Try it! Tap below to see how easy it is to log a drink.",
+//                buttonTitle: "Continue",
+//                action: goToNext
+//            )
+
+        case .enableNotifications:
+            OnboardingPage<EmptyView>(
+                image: "bell.badge.fill",
+                title: "Enable Notifications",
+                subtitle: "We’ll remind you to drink.",
+                buttonTitle: "Enable",
+                action: {
+                    NotificationManager.shared.requestNotificationPermission()
+                    NotificationManager.shared.ensureChugsCategoryExists()
+                    goToNext()
+                }
+            )
+
+        case .enableHealth:
+            OnboardingPage<EmptyView>(
+                image: "heart.fill",
+                title: "Enable Health",
+                subtitle: "We’ll update apple health with your progress.",
+                buttonTitle: "Enable",
+                action: {
+                    let healthStore = HealthStore()
+                    healthStore.requestAuthorization { success, error in
+                        print("HealthKit authorization: \(success), error: \(String(describing: error))")
+                    }
+                    goToNext()
+                }
+            )
+
+        case .smartVsInterval:
+            OnboardingPage<EmptyView>(
+                image: "gearshape.fill",
+                title: "Smart vs Interval",
+                subtitle: "Smart mode adapts to your habits. Interval mode reminds you every X minutes.",
+                buttonTitle: "Continue",
+                action: finishOnboarding
+            )
+        }
+    }
+
+    // MARK: - Actions
+
+    private func goToNext() {
+        page += 1
+    }
+
+    private func finishOnboarding() {
+        hasCompletedOnboarding = true
+    }
+
     func openAppNotificationSettings() {
         if let url = URL(string: UIApplication.openNotificationSettingsURLString),
            UIApplication.shared.canOpenURL(url) {
@@ -241,3 +279,6 @@ struct VideoOnboardingPage: View {
     }
 }
 
+#Preview {
+    OnboardingView(hasCompletedOnboarding: .constant(false))
+}
