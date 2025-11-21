@@ -174,9 +174,10 @@ struct TooltipView: View {
             Text(text)
                 .font(.headline)
                 .padding()
-                .background(Color.white)
-                .cornerRadius(12)
-                .shadow(radius: 6)
+                .background(.regularMaterial)   // beautiful translucent tooltip bubble
+                .cornerRadius(14)
+                .foregroundStyle(.primary)
+                .shadow(radius: 4)
             
             Spacer()
         }
