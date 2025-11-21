@@ -9,12 +9,14 @@ import SwiftUI
 
 struct SettingsView: View {
     @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
+    @AppStorage("dailyProgress") private var dailyProgress: Double = 0.0
     @AppStorage("startMinutes") private var startMinutes: Int = 8 * 60   // 08:00
     @AppStorage("endMinutes") private var endMinutes: Int = 22 * 60      // 22:00
     @AppStorage("gulpSize") private var gulpSize: Double = 10.0 / 1000.0 // 10 ml
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
     @AppStorage("tooltipsShown") private var tooltipsShown: Bool = false
     @State private var tempGulpSizeInt: Int = 10
+    @State private var showResetConfirmation = false
     
     var body: some View {
         NavigationView {
@@ -22,42 +24,33 @@ struct SettingsView: View {
                 goalsSection
                 notificationTimesSection
                 gulpSizeSection
-                replayOnboardingSection
-                replayTooltips
+                resetReplayView
             }
             .navigationTitle("Settings")
         }
     }
     
-//    // MARK: - Reminders Section
-//    private var remindersSection: some View {
-//        VStack(alignment: .leading, spacing: 0) {
-//            Text("Reminders")
-//                .font(.headline)
-//                .padding(.horizontal, 4)
-//                .padding(.bottom, 8)
-//
-//            VStack(spacing: 0) {
-//                HStack {
-//                    VStack(alignment: .leading) {
-//                        Text("Reminders")
-//                            .font(.system(size: 16, weight: .medium))
-//
-//                        Text("Daily reminders to drink water")
-//                            .font(.subheadline)
-//                    }
-//
-//                    Spacer()
-//                }
-//                .padding(16)
-//                .overlay(Divider().offset(y: 20), alignment: .bottom)
-//            }
-//            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-//        }
-//    }
-    
-    private var replayOnboardingSection: some View {
-        Section {
+    private var resetReplayView: some View {
+        Section(header: Text("Reset / Replay")) {
+            Button(action: {
+                showResetConfirmation = true
+            }) {
+                Text("Reset Daily Progress")
+                    .foregroundColor(dailyProgress == 0 ? .gray : .red)
+            }
+            .disabled(dailyProgress == 0)
+            .confirmationDialog(
+                "Are you sure you want to reset your daily progress? This action cannot be undone.",
+                isPresented: $showResetConfirmation,
+                titleVisibility: .visible
+            ) {
+                Button("Reset", role: .destructive) {
+                    dailyProgress = 0
+                    debugPrint("Daily progress reset to 0!")
+                }
+                Button("Cancel", role: .cancel) { }
+            }
+            
             Button(action: {
                 hasCompletedOnboarding = false
                 print("Onboarding flag reset!")
@@ -65,11 +58,7 @@ struct SettingsView: View {
                 Text("Replay Onboarding")
                     .foregroundColor(.red)
             }
-        }
-    }
-    
-    private var replayTooltips: some View {
-        Section {
+            
             Button(action: {
                 tooltipsShown = false
                 print("Tooltips flag reset!")
@@ -91,9 +80,6 @@ struct SettingsView: View {
                     Text(String(format: "%.1fL", dailyGoal))
                         .font(.system(size: 16, weight: .semibold))
                 }
-                
-//                Slider(value: $dailyGoal, in: 1...5, step: 0.1)
-//                    .accentColor(.blue)   // progress bar color
                 
                 PillSlider(value: $dailyGoal,
                            range: 1...5,
@@ -155,51 +141,6 @@ struct SettingsView: View {
             }
         }
     }
-    
-//    private var hoursSection1: some View {
-//        Section(header: Text("Notification times")) {
-//            VStack(alignment: .leading, spacing: 12) { // spacing between pickers
-//                HStack {
-//                    Text("Start hour")
-//                        .frame(width: 90, alignment: .leading) // fixed label width
-//                    DatePicker(
-//                        "",
-//                        selection: Binding(
-//                            get: { startDate },
-//                            set: { newValue in
-//                                let newMinutes = dateToMinutes(newValue)
-//                                startMinutes = newMinutes
-//                                if startMinutes > endMinutes {
-//                                    endMinutes = startMinutes
-//                                }
-//                            }),
-//                        displayedComponents: .hourAndMinute
-//                    )
-//                    .labelsHidden()
-//                }
-//
-//                HStack {
-//                    Text("End hour")
-//                        .frame(width: 90, alignment: .leading) // same fixed label width
-//                    DatePicker(
-//                        "",
-//                        selection: Binding(
-//                            get: { endDate },
-//                            set: { newValue in
-//                                let newMinutes = dateToMinutes(newValue)
-//                                endMinutes = newMinutes
-//                                if endMinutes < startMinutes {
-//                                    startMinutes = endMinutes
-//                                }
-//                            }),
-//                        displayedComponents: .hourAndMinute
-//                    )
-//                    .labelsHidden()
-//                }
-//            }
-//        }
-//    }
-
 }
 
 

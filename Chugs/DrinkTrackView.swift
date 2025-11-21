@@ -146,26 +146,6 @@ struct DrinkTrackView: View {
                     .padding()
             }
             .padding(.horizontal, 24)
-            
-            Button(action: { dailyProgress = 0.0 }) {
-                Text("Reset Progress")
-                    .font(.system(size: 16, weight: .bold))
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 14)
-                    .background(
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color(#colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)),
-                                Color(#colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1))
-                            ]),
-                            startPoint: .leading, endPoint: .trailing
-                        )
-                    )
-                    .foregroundColor(.white)
-                    .cornerRadius(999)
-                    .shadow(color: Color.primary.opacity(0.2), radius: 10, x: 0, y: 6)
-                    .frame(maxWidth: 200)
-            }
         }
     }
     
