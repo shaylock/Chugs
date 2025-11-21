@@ -103,7 +103,7 @@ struct DrinkTrackView: View {
             Button(action: {
                 dailyProgress += gulpSize * numberOfGulps
             }) {
-                Text("Chug! 💧")
+                (Text("button_chug") + Text(" 💧"))
                     .font(.system(size: 16, weight: .bold))
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
@@ -124,7 +124,7 @@ struct DrinkTrackView: View {
 
             VStack(spacing: 6) {
                 HStack {
-                    Text("Gulps:")
+                    Text("slider_gulps")
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(Color(UIColor.secondaryLabel))
                     Spacer()

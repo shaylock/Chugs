@@ -94,6 +94,7 @@ struct PillSlider: View {
             .frame(height: max(thumbSize, 44))
         }
         .padding(.horizontal, 4)
+        .environment(\.layoutDirection, .leftToRight)
         .accessibilityValue(Text("\(Int(value))"))
     }
 
