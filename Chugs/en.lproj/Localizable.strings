@@ -3,3 +3,20 @@
 "tab_settings" = "Settingsss";
 "button_chug" = "Chug!";
 "slider_gulps" = "Gulps:";
+
+/* Settings screen */
+"settings.title" = "Settings";
+"settings.resetReplay.header" = "Reset / Replay";
+"settings.resetDailyProgress" = "Reset Daily Progress";
+"settings.resetDailyProgress.confirmation" = "Are you sure you want to reset your daily progress? This action cannot be undone.";
+"settings.reset" = "Reset";
+"settings.cancel" = "Cancel";
+"settings.replayOnboarding" = "Replay Onboarding";
+"settings.replayTooltips" = "Replay Tooltips";
+"settings.goals.header" = "Goals";
+"settings.goals.dailyWaterConsumption" = "Daily Water Consumption";
+"settings.notificationTimes.header" = "Notification times";
+"settings.startHour" = "Start hour";
+"settings.endHour" = "End hour";
+"settings.gulpSize.header" = "Gulp size";
+"settings.gulpSize.picker" = "Gulp size in ml";

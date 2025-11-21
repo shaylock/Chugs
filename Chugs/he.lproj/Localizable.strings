@@ -3,3 +3,20 @@
 "tab_settings" = "הגדרות";
 "button_chug" = "לשתות!";
 "slider_gulps" = "שלוקים:";
+
+/* Settings screen */
+"settings.title" = "הגדרות";
+"settings.resetReplay.header" = "אפס / הפעל";
+"settings.resetDailyProgress" = "אפס את ההתקדמות היומית";
+"settings.resetDailyProgress.confirmation" = "האם אתה בטוח שברצונך לאפס את ההתקדמות היומית? פעולה זו לא ניתנת לביטול.";
+"settings.reset" = "אפס";
+"settings.cancel" = "בטל";
+"settings.replayOnboarding" = "הפעל את ההתחלה";
+"settings.replayTooltips" = "הפעל את הרמזים";
+"settings.goals.header" = "מטרות";
+"settings.goals.dailyWaterConsumption" = "צריכת מים יומית";
+"settings.notificationTimes.header" = "זמני ההתראות";
+"settings.startHour" = "שעת התחלה";
+"settings.endHour" = "שעת סיום";
+"settings.gulpSize.header" = "גודל לגימה";
+"settings.gulpSize.picker" = "גודל לגימה (מל)";

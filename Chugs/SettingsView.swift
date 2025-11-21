@@ -15,78 +15,73 @@ struct SettingsView: View {
     @AppStorage("gulpSize") private var gulpSize: Double = 10.0 / 1000.0 // 10 ml
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
     @AppStorage("tooltipsShown") private var tooltipsShown: Bool = false
+
     @State private var tempGulpSizeInt: Int = 10
     @State private var showResetConfirmation = false
-    
+
     var body: some View {
         NavigationView {
             Form {
                 goalsSection
                 notificationTimesSection
                 gulpSizeSection
-                resetReplayView
+                resetReplaySection
             }
-            .navigationTitle("Settings")
+            .navigationTitle(LocalizedStringKey("settings.title"))
         }
     }
-    
-    private var resetReplayView: some View {
-        Section(header: Text("Reset / Replay")) {
-            Button(action: {
+
+    private var resetReplaySection: some View {
+        Section(header: Text(LocalizedStringKey("settings.resetReplay.header"))) {
+            Button {
                 showResetConfirmation = true
-            }) {
-                Text("Reset Daily Progress")
+            } label: {
+                Text(LocalizedStringKey("settings.resetDailyProgress"))
                     .foregroundColor(dailyProgress == 0 ? .gray : .red)
             }
             .disabled(dailyProgress == 0)
             .confirmationDialog(
-                "Are you sure you want to reset your daily progress? This action cannot be undone.",
+                LocalizedStringKey("settings.resetDailyProgress.confirmation"),
                 isPresented: $showResetConfirmation,
                 titleVisibility: .visible
             ) {
-                Button("Reset", role: .destructive) {
+                Button(LocalizedStringKey("settings.reset"), role: .destructive) {
                     dailyProgress = 0
-                    debugPrint("Daily progress reset to 0!")
                 }
-                Button("Cancel", role: .cancel) { }
+                Button(LocalizedStringKey("settings.cancel"), role: .cancel) {}
             }
-            
-            Button(action: {
+
+            Button {
                 hasCompletedOnboarding = false
-                print("Onboarding flag reset!")
-            }) {
-                Text("Replay Onboarding")
+            } label: {
+                Text(LocalizedStringKey("settings.replayOnboarding"))
                     .foregroundColor(.red)
             }
-            
-            Button(action: {
+
+            Button {
                 tooltipsShown = false
-                print("Tooltips flag reset!")
-            }) {
-                Text("Replay Tooltips")
+            } label: {
+                Text(LocalizedStringKey("settings.replayTooltips"))
                     .foregroundColor(.red)
             }
         }
     }
-    
-    // MARK: - Goals Section
+
     private var goalsSection: some View {
-        Section(header: Text("Goals")) {
+        Section(header: Text(LocalizedStringKey("settings.goals.header"))) {
             VStack(spacing: 12) {
                 HStack {
-                    Text("Daily Water Consumption")
-                        .font(.system(size: 16, weight: .medium))
+                    Text(LocalizedStringKey("settings.goals.dailyWaterConsumption"))
                     Spacer()
                     Text(String(format: "%.1fL", dailyGoal))
-                        .font(.system(size: 16, weight: .semibold))
                 }
-                
+
                 PillSlider(value: $dailyGoal,
                            range: 1...5,
                            step: 0.1,
-                           thumbSize: 48,              // bigger thumb
+                           thumbSize: 48,
                            trackHeight: 8,
-                           thumbColor: Color(#colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)),
+                           thumbColor: Color(#colorLiteral(red: 0.47, green: 0.84, blue: 0.97, alpha: 1)),
                            fillColor: Color(#colorLiteral(red: 0.0, green: 0.6, blue: 1.0, alpha: 1.0)),
                            trackColor: Color.gray.opacity(0.25),
                            showValueLabels: false)
@@ -96,48 +91,42 @@ struct SettingsView: View {
             .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
         }
     }
-    
+
     private var notificationTimesSection: some View {
-        Section(header: Text("Notification times")) {
+        Section(header: Text(LocalizedStringKey("settings.notificationTimes.header"))) {
             VStack(alignment: .leading, spacing: 0) {
-                // Start / End hours (stored as minutes)
-                DatePicker("Start hour",
+                DatePicker(LocalizedStringKey("settings.startHour"),
                            selection: Binding(
-                            get: { TimeUtilities.minutesToDate(startMinutes) },
-                            set: { newValue in
-                                let newMinutes = TimeUtilities.dateToMinutes(newValue)
-                                startMinutes = newMinutes
-                                if startMinutes > endMinutes {
-                                    endMinutes = startMinutes
-                                }
-                            }),
+                               get: { TimeUtilities.minutesToDate(startMinutes) },
+                               set: { newValue in
+                                   let newMinutes = TimeUtilities.dateToMinutes(newValue)
+                                   startMinutes = newMinutes
+                                   if startMinutes > endMinutes { endMinutes = startMinutes }
+                               }),
                            displayedComponents: .hourAndMinute)
-                
-                DatePicker("End hour",
+
+                DatePicker(LocalizedStringKey("settings.endHour"),
                            selection: Binding(
-                            get: { TimeUtilities.minutesToDate(endMinutes) },
-                            set: { newValue in
-                                let newMinutes = TimeUtilities.dateToMinutes(newValue)
-                                endMinutes = newMinutes
-                                if endMinutes < startMinutes {
-                                    startMinutes = endMinutes
-                                }
-                            }),
+                               get: { TimeUtilities.minutesToDate(endMinutes) },
+                               set: { newValue in
+                                   let newMinutes = TimeUtilities.dateToMinutes(newValue)
+                                   endMinutes = newMinutes
+                                   if endMinutes < startMinutes { startMinutes = endMinutes }
+                               }),
                            displayedComponents: .hourAndMinute)
             }
         }
     }
-    
+
     private var gulpSizeSection: some View {
-        Section(header: Text("Gulp size")) {
-            Picker("Gulp size in ml", selection: $tempGulpSizeInt) {
+        Section(header: Text(LocalizedStringKey("settings.gulpSize.header"))) {
+            Picker(LocalizedStringKey("settings.gulpSize.picker"), selection: $tempGulpSizeInt) {
                 ForEach(1..<101, id: \.self) { value in
                     Text("\(value) ml").tag(value)
                 }
             }
             .onChange(of: tempGulpSizeInt) {
                 gulpSize = Double(tempGulpSizeInt) / 1000.0
-                print("gulp size: \(gulpSize) ml")
             }
         }
     }
