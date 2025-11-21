@@ -20,3 +20,13 @@
 "settings.endHour" = "שעת סיום";
 "settings.gulpSize.header" = "גודל לגימה";
 "settings.gulpSize.picker" = "גודל לגימה (מל)";
+
+"settings.notifications.title" = "התראות";
+"settings.notifications.typePicker.title" = "סוג התראה";
+"settings.notifications.type.smart" = "חכם";
+"settings.notifications.type.interval" = "מרווח זמן קבוע";
+"settings.notifications.smart.description" = "התראות חכמות יישלחו בהתאם להרגלי השתייה והיעדים היומיים שלך.";
+"settings.notifications.intervalPicker.title" = "מרווח התראות";
+"settings.notifications.intervalPicker.minutes" = "%d דקות";
+"settings.notifications.interval.description" = "התראות יישלחו במרווח קבוע.";
+"settings.notifications.confirmButton" = "אישור";

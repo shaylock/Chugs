@@ -8,8 +8,8 @@
 import SwiftUI
 
 enum NotificationType: String, CaseIterable, Identifiable {
-    case smart = "Smart"
-    case interval = "Interval"
+    case smart = "settings.notifications.type.smart"
+    case interval = "settings.notifications.type.interval"
     
     var id: String { rawValue }
 }
@@ -24,9 +24,8 @@ struct NotificationSettingView: View {
     // Notification settings
     @AppStorage("notificationType") private var notificationType: NotificationType = .smart
     @AppStorage("interval") private var interval: Int = 30
-    @AppStorage("smartInterval") private var smartInterval: Double = 10 // in minutes
+    @AppStorage("smartInterval") private var smartInterval: Double = 10
     
-    // Local state
     @State private var useAI = true
     @State private var dailyLimit = 5
     
@@ -39,10 +38,11 @@ struct NotificationSettingView: View {
                 notificationSettingsSectionView(notificationType: $notificationType, interval: $interval)
                 Spacer()
             }
-            .navigationTitle("Notifications")
+            .navigationTitle("settings.notifications.title")
         }
     }
     
+    // todo: is this used?
     private func calculateSmartInterval() {
         let totalMl = dailyGoal * 1000.0
         guard gulpSize > 0 else { return }
@@ -60,10 +60,11 @@ struct NotificationSettingView: View {
 private struct notificationTypePickerView: View {
     @Binding var notificationType: NotificationType
     private let logger = LoggerUtilities.makeLogger(for: Self.self)
+    
     var body: some View {
-        Picker("Notification Type", selection: $notificationType) {
+        Picker("settings.notifications.typePicker.title", selection: $notificationType) {
             ForEach(NotificationType.allCases) { type in
-                Text(type.rawValue).tag(type)
+                Text(LocalizedStringKey(type.rawValue)).tag(type)
             }
         }
         .onChange(of: notificationType) {
@@ -77,8 +78,7 @@ private struct notificationTypePickerView: View {
         logger.debug("Notification type changed to \(notificationType.rawValue)")
         switch notificationType {
         case .smart:
-            let scheduler = SmartNotificationScheduler()
-            scheduler.scheduleNext(gulpsConsumed: 0)
+            SmartNotificationScheduler().scheduleNext(gulpsConsumed: 0)
         case .interval:
             Task {
                 await IntervalNotificationScheduler.shared.scheduleDailyNotifications()
@@ -90,6 +90,7 @@ private struct notificationTypePickerView: View {
 private struct notificationSettingsSectionView: View {
     @Binding var notificationType: NotificationType
     @Binding var interval: Int
+    
     var body: some View {
         Group {
             switch notificationType {
@@ -107,11 +108,10 @@ private struct notificationSettingsSectionView: View {
     }
 }
 
-
 struct SmartSettings: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
-            Text("Smart notifications will trigger regular notifications based on your drinking patterns and hydration goals.")
+            Text("settings.notifications.smart.description")
         }
     }
 }
@@ -119,20 +119,20 @@ struct SmartSettings: View {
 struct IntervalSettingsView: View {
     @AppStorage("interval") private var interval: Int = 30
     @State private var tempInterval: Int = 30
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
-            // Picker replacing the Stepper
-            Picker("Notification Interval", selection: $tempInterval) {
-                ForEach(Array(stride(from: 5, through: 120, by: 5)), id: \.self) { minute in
-                    Text("\(minute) minutes")
-                        .tag(minute)
+            
+            Picker("settings.notifications.intervalPicker.title", selection: $tempInterval) {
+                ForEach(Array(stride(from: 5, through: 120, by: 5)), id: \.self) { minutes in
+                    Text(String(format: NSLocalizedString("settings.notifications.intervalPicker.minutes", comment: ""), minutes))
+                        .tag(minutes)
                 }
             }
-            .pickerStyle(WheelPickerStyle()) // or .menu if you prefer a dropdown
+            .pickerStyle(WheelPickerStyle())
             .frame(maxWidth: .infinity, maxHeight: 150)
             
-            Text("Notifications will repeat at this interval.")
+            Text("settings.notifications.interval.description")
                 .font(.footnote)
                 .foregroundColor(.secondary)
             
@@ -142,7 +142,7 @@ struct IntervalSettingsView: View {
                     await IntervalNotificationScheduler.shared.scheduleDailyNotifications()
                 }
             }) {
-                Text("Confirm")
+                Text("settings.notifications.confirmButton")
                     .font(.system(size: 16, weight: .bold))
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
@@ -150,10 +150,8 @@ struct IntervalSettingsView: View {
                     .background(
                         Group {
                             if tempInterval == interval {
-                                // Disabled appearance — strongly greyed out
                                 Color(.systemGray4)
                             } else {
-                                // Enabled gradient
                                 LinearGradient(
                                     gradient: Gradient(colors: [
                                         Color(#colorLiteral(red: 0.0, green: 0.7843137389, blue: 1.0, alpha: 1.0)),
@@ -170,15 +168,11 @@ struct IntervalSettingsView: View {
                     .frame(maxWidth: 320)
             }
             .disabled(tempInterval == interval)
-
         }
         .padding()
-        .onAppear {
-            tempInterval = interval
-        }
+        .onAppear { tempInterval = interval }
     }
 }
-
 
 #Preview {
     NotificationSettingView()

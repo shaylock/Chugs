@@ -20,3 +20,13 @@
 "settings.endHour" = "End hour";
 "settings.gulpSize.header" = "Gulp size";
 "settings.gulpSize.picker" = "Gulp size in ml";
+
+"settings.notifications.title" = "Notifications";
+"settings.notifications.typePicker.title" = "Notification Type";
+"settings.notifications.type.smart" = "Smart";
+"settings.notifications.type.interval" = "Interval";
+"settings.notifications.smart.description" = "Smart notifications will trigger based on your hydration habits and daily drinking goals.";
+"settings.notifications.intervalPicker.title" = "Notification Interval";
+"settings.notifications.intervalPicker.minutes" = "%d minutes";
+"settings.notifications.interval.description" = "Notifications will repeat at this interval.";
+"settings.notifications.confirmButton" = "Confirm";
