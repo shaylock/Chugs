@@ -1,7 +1,7 @@
 "tab_drink" = "שתייה";
 "tab_reminders" = "תזכורות";
 "tab_settings" = "הגדרות";
-"button_chug" = "לשתות!";
+"button_chug" = "שתיתי!";
 "slider_gulps" = "שלוקים:";
 
 /* Settings screen */
@@ -11,8 +11,8 @@
 "settings.resetDailyProgress.confirmation" = "האם אתה בטוח שברצונך לאפס את ההתקדמות היומית? פעולה זו לא ניתנת לביטול.";
 "settings.reset" = "אפס";
 "settings.cancel" = "בטל";
-"settings.replayOnboarding" = "הפעל את ההתחלה";
-"settings.replayTooltips" = "הפעל את הרמזים";
+"settings.replayOnboarding" = "הפעל מחדש את ההדרכה";
+"settings.replayTooltips" = "הפעל מחדש את הטיפים";
 "settings.goals.header" = "מטרות";
 "settings.goals.dailyWaterConsumption" = "צריכת מים יומית";
 "settings.notificationTimes.header" = "זמני ההתראות";
