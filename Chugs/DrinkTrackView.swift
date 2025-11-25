@@ -12,7 +12,6 @@ struct DrinkTrackView: View {
     @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
     @AppStorage("dailyProgress") private var dailyProgress: Double = 0.0
     @AppStorage("gulpSize") private var gulpSize: Double = 10.0 / 1000.0 // 10 ml
-    @AppStorage("lastProgressDate") private var lastProgressDate: String = ""
     @AppStorage("tooltipsShown") private var tooltipsShown: Bool = false
 
     @State private var numberOfGulps: Double = 1.0
@@ -28,10 +27,13 @@ struct DrinkTrackView: View {
                 tooltipOverlay
             }
         }
-        .onAppear { resetIfNewDay() }
+        .onAppear { HydrationManager.shared.resetIfNewDay() }
         .onChange(of: scenePhase) { _, newPhase in
-            if newPhase == .active { resetIfNewDay() }
+            if newPhase == .active {
+                HydrationManager.shared.resetIfNewDay()
+            }
         }
+
     }
     
     // MARK: - Main content
@@ -101,7 +103,7 @@ struct DrinkTrackView: View {
     private var trackingButtonsView: some View {
         VStack(spacing: 16) {
             Button(action: {
-                dailyProgress += gulpSize * numberOfGulps
+                HydrationManager.shared.addWater(amount: gulpSize * numberOfGulps)
             }) {
                 (Text("track.button.chug") + Text(" 💧"))
                     .font(.system(size: 16, weight: .bold))
@@ -148,14 +150,6 @@ struct DrinkTrackView: View {
             .padding(.horizontal, 24)
         }
     }
-    
-    private func resetIfNewDay() {
-        let today = DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none)
-        if lastProgressDate != today {
-            dailyProgress = 0.0
-            lastProgressDate = today
-        }
-    }
 }
 
 // MARK: - Tooltip View
@@ -184,22 +178,6 @@ struct TooltipView: View {
         .padding()
         .transition(.opacity)
     }
-    
-//    func saveWaterIntake(amountInML: Double, completion: @escaping (Bool, Error?) -> Void) {
-//        guard let waterType = HKQuantityType.quantityType(forIdentifier: .dietaryWater) else {
-//            return
-//        }
-//
-//        // HK uses liters. Convert mL → L
-//        let liters = amountInML / 1000.0
-//        let quantity = HKQuantity(unit: .liter(), doubleValue: liters)
-//
-//        let now = Date()
-//        let sample = HKQuantitySample(type: waterType, quantity: quantity, start: now, end: now)
-//
-//        HKHealthStore().save(sample, withCompletion: completion)
-//    }
-
 }
 
 // MARK: - RingView

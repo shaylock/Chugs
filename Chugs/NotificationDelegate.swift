@@ -21,13 +21,13 @@ class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         switch response.actionIdentifier {
         case "CHUG_1":
-            dailyProgress += gulpSize
+            HydrationManager.shared.addWater(amount: gulpSize)
         case "CHUG_2":
-            dailyProgress += gulpSize * 2.0
+            HydrationManager.shared.addWater(amount: gulpSize * 2.0)
         case "CHUG_3":
-            dailyProgress += gulpSize * 3.0
+            HydrationManager.shared.addWater(amount: gulpSize * 3.0)
         case "CHUG_4":
-            dailyProgress += gulpSize * 4.0
+            HydrationManager.shared.addWater(amount: gulpSize * 4.0)
         case "CHUG_MORE":
             print("Opening app for more gulps…")
         case "NOT_NOW":
