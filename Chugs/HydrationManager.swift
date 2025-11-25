@@ -9,6 +9,12 @@ import Foundation
 import HealthKit
 import SwiftUI
 
+struct DailyHydration: Identifiable {
+    let id = UUID()
+    let date: Date
+    let totalLiters: Double
+}
+
 final class HydrationManager: ObservableObject {
     static let shared = HydrationManager()
 
@@ -18,10 +24,11 @@ final class HydrationManager: ObservableObject {
     @AppStorage("dailyProgress") private var dailyProgress: Double = 0.0
     @AppStorage("lastProgressDate") private var lastProgressDate: String = ""
 
+    @Published var dailyHistory: [DailyHydration] = []
+
     private init() { }
 
     // MARK: - Public API
-    /// Adds a given amount (in liters) to daily progress and logs it to HealthKit.
     func addWater(amount liters: Double) {
         resetIfNewDay()
         dailyProgress += liters
@@ -42,8 +49,9 @@ final class HydrationManager: ObservableObject {
         guard HKHealthStore.isHealthDataAvailable() else { return }
 
         let waterType = HKObjectType.quantityType(forIdentifier: .dietaryWater)!
-        let quantity = HKQuantity(unit: HKUnit.liter(), doubleValue: amountLiters)
-        let sample = HKQuantitySample(type: waterType, quantity: quantity, start: Date(), end: Date())
+        let quantity = HKQuantity(unit: .liter(), doubleValue: amountLiters)
+        let now = Date()
+        let sample = HKQuantitySample(type: waterType, quantity: quantity, start: now, end: now)
 
         healthStore.requestAuthorization(toShare: [waterType], read: [waterType]) { success, error in
             guard success else { return }
@@ -54,5 +62,48 @@ final class HydrationManager: ObservableObject {
                 }
             }
         }
+    }
+}
+
+// MARK: - HealthKit read (History)
+extension HydrationManager {
+    /// Fetches hydration samples from HealthKit for the last X days
+    func fetchHydrationHistory(daysBack: Int = 14) {
+        guard HKHealthStore.isHealthDataAvailable() else { return }
+        let waterType = HKObjectType.quantityType(forIdentifier: .dietaryWater)!
+
+        let startDate = Calendar.current.date(byAdding: .day, value: -daysBack, to: Date())!
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: Date(), options: [])
+
+        let query = HKSampleQuery(
+            sampleType: waterType,
+            predicate: predicate,
+            limit: HKObjectQueryNoLimit,
+            sortDescriptors: nil
+        ) { _, samples, error in
+            guard let samples = samples as? [HKQuantitySample], error == nil else { return }
+
+            DispatchQueue.main.async {
+                self.dailyHistory = self.aggregateSamples(samples)
+            }
+        }
+
+        healthStore.execute(query)
+    }
+
+    /// Reduces all individual samples into daily totals
+    private func aggregateSamples(_ samples: [HKQuantitySample]) -> [DailyHydration] {
+        let grouped = Dictionary(grouping: samples) { sample -> Date in
+            Calendar.current.startOfDay(for: sample.startDate)
+        }
+
+        let daily = grouped.map { (date, samples) -> DailyHydration in
+            let totalLiters = samples.reduce(0.0) { sum, sample in
+                sum + sample.quantity.doubleValue(for: .liter())
+            }
+            return DailyHydration(date: date, totalLiters: totalLiters)
+        }
+
+        return daily.sorted(by: { $0.date > $1.date })
     }
 }
