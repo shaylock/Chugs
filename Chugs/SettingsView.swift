@@ -94,27 +94,25 @@ struct SettingsView: View {
 
     private var notificationTimesSection: some View {
         Section(header: Text(LocalizedStringKey("settings.notificationTimes.header"))) {
-            VStack(alignment: .leading, spacing: 0) {
-                DatePicker(LocalizedStringKey("settings.startHour"),
-                           selection: Binding(
-                               get: { TimeUtilities.minutesToDate(startMinutes) },
-                               set: { newValue in
-                                   let newMinutes = TimeUtilities.dateToMinutes(newValue)
-                                   startMinutes = newMinutes
-                                   if startMinutes > endMinutes { endMinutes = startMinutes }
-                               }),
-                           displayedComponents: .hourAndMinute)
+            DatePicker(LocalizedStringKey("settings.startHour"),
+                       selection: Binding(
+                           get: { TimeUtilities.minutesToDate(startMinutes) },
+                           set: { newValue in
+                               let newMinutes = TimeUtilities.dateToMinutes(newValue)
+                               startMinutes = newMinutes
+                               if startMinutes > endMinutes { endMinutes = startMinutes }
+                           }),
+                       displayedComponents: .hourAndMinute)
 
-                DatePicker(LocalizedStringKey("settings.endHour"),
-                           selection: Binding(
-                               get: { TimeUtilities.minutesToDate(endMinutes) },
-                               set: { newValue in
-                                   let newMinutes = TimeUtilities.dateToMinutes(newValue)
-                                   endMinutes = newMinutes
-                                   if endMinutes < startMinutes { startMinutes = endMinutes }
-                               }),
-                           displayedComponents: .hourAndMinute)
-            }
+            DatePicker(LocalizedStringKey("settings.endHour"),
+                       selection: Binding(
+                           get: { TimeUtilities.minutesToDate(endMinutes) },
+                           set: { newValue in
+                               let newMinutes = TimeUtilities.dateToMinutes(newValue)
+                               endMinutes = newMinutes
+                               if endMinutes < startMinutes { startMinutes = endMinutes }
+                           }),
+                       displayedComponents: .hourAndMinute)
         }
     }
 
