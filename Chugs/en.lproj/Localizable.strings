@@ -89,3 +89,7 @@
 "onboarding.smartVsInterval.title" = "Smart vs Interval";
 "onboarding.smartVsInterval.subtitle" = "Smart mode adapts to your habits. Interval mode reminds you every X minutes.";
 "onboarding.smartVsInterval.button" = "Continue";
+
+"tooltip.progressRing.text" = "This ring shows your progress towards your daily goal!";
+"tooltip.chugButton.text" = "Tap this button to log a gulp!";
+"tooltip.slider.text" = "Use this slider to select the number of gulps.";

@@ -89,3 +89,7 @@
 "onboarding.smartVsInterval.title" = "חכם מול מרווחים";
 "onboarding.smartVsInterval.subtitle" = "מצב חכם מסתגל להרגלים שלך. מצב מרווחים מזכיר כל X דקות.";
 "onboarding.smartVsInterval.button" = "המשך";
+
+"tooltip.progressRing.text" = "הטבעת הזו מציגה את ההתקדמות שלך לקראת היעד היומי!";
+"tooltip.chugButton.text" = "הקש על הכפתור הזה כדי לרשום לגימה!";
+"tooltip.slider.text" = "השתמש במחוון כדי לבחור את מספר השלוקים.";

@@ -68,17 +68,27 @@ struct DrinkTrackView: View {
                 Group {
                     switch tooltipIndex {
                     case 0:
-                        TooltipView(text: "This ring shows your progress towards your daily goal!", target: .circle)
+                        TooltipView(
+                            text: LocalizedStringKey("tooltip.progressRing.text"),
+                            target: .circle
+                        )
                     case 1:
-                        TooltipView(text: "Tap this button to log a gulp!", target: .chugButton)
+                        TooltipView(
+                            text: LocalizedStringKey("tooltip.chugButton.text"),
+                            target: .chugButton
+                        )
                     case 2:
-                        TooltipView(text: "Use this slider to select the number of gulps.", target: .slider)
+                        TooltipView(
+                            text: LocalizedStringKey("tooltip.slider.text"),
+                            target: .slider
+                        )
                     default:
                         EmptyView()
                     }
                 }
             )
     }
+
     
     // MARK: - Progress view
     private var progressView: some View {
@@ -156,7 +166,7 @@ struct DrinkTrackView: View {
 struct TooltipView: View {
     enum Target { case circle, chugButton, slider }
     
-    let text: String
+    let text: LocalizedStringKey
     let target: Target
     
     var body: some View {
