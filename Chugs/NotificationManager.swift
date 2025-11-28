@@ -20,17 +20,14 @@ class NotificationManager {
         center.getNotificationSettings { settings in
             switch settings.authorizationStatus {
             case .notDetermined:
-                // Request permission if not asked before
                 center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
                     if !granted {
                         self.promptToOpenSettings()
                     }
                 }
             case .denied:
-                // Already denied, prompt to open settings
                 self.promptToOpenSettings()
             case .authorized, .provisional, .ephemeral:
-                // Permission granted, nothing to do
                 break
             @unknown default:
                 break
@@ -44,13 +41,20 @@ class NotificationManager {
                   let rootVC = windowScene.windows.first?.rootViewController else { return }
             
             let alert = UIAlertController(
-                title: "Notifications Disabled",
-                message: "To receive chug reminders, please enable notifications in Settings.",
+                title: NSLocalizedString("notification.alert.disabled.title", comment: ""),
+                message: NSLocalizedString("notification.alert.disabled.message", comment: ""),
                 preferredStyle: .alert
             )
             
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-            alert.addAction(UIAlertAction(title: "Open Settings", style: .default) { _ in
+            alert.addAction(UIAlertAction(
+                title: NSLocalizedString("notification.button.cancel", comment: ""),
+                style: .cancel
+            ))
+            
+            alert.addAction(UIAlertAction(
+                title: NSLocalizedString("notification.button.openSettings", comment: ""),
+                style: .default
+            ) { _ in
                 if let url = URL(string: UIApplication.openSettingsURLString) {
                     UIApplication.shared.open(url)
                 }
@@ -62,12 +66,12 @@ class NotificationManager {
     
     // MARK: - Set up action buttons
     private func makeChugsCategory() -> UNNotificationCategory {
-        let gulp1 = UNNotificationAction(identifier: "CHUG_1", title: "1 gulp", options: [])
-        let gulp2 = UNNotificationAction(identifier: "CHUG_2", title: "2 gulps", options: [])
-        let gulp3 = UNNotificationAction(identifier: "CHUG_3", title: "3 gulps", options: [])
-        let gulp4 = UNNotificationAction(identifier: "CHUG_4", title: "4 gulps", options: [])
-        let more = UNNotificationAction(identifier: "CHUG_MORE", title: "More…", options: [.foreground])
-        let notNow = UNNotificationAction(identifier: "NOT_NOW", title: "Not now", options: [])
+        let gulp1 = UNNotificationAction(identifier: "CHUG_1", title: NSLocalizedString("notification.button.1gulp", comment: ""), options: [])
+        let gulp2 = UNNotificationAction(identifier: "CHUG_2", title: NSLocalizedString("notification.button.2gulps", comment: ""), options: [])
+        let gulp3 = UNNotificationAction(identifier: "CHUG_3", title: NSLocalizedString("notification.button.3gulps", comment: ""), options: [])
+        let gulp4 = UNNotificationAction(identifier: "CHUG_4", title: NSLocalizedString("notification.button.4gulps", comment: ""), options: [])
+        let more = UNNotificationAction(identifier: "CHUG_MORE", title: NSLocalizedString("notification.button.more", comment: ""), options: [.foreground])
+        let notNow = UNNotificationAction(identifier: "NOT_NOW", title: NSLocalizedString("notification.button.notnow", comment: ""), options: [])
 
         return UNNotificationCategory(
             identifier: "CHUGS_CATEGORY",
@@ -77,13 +81,10 @@ class NotificationManager {
         )
     }
 
-    /// Ensures the CHUGS_CATEGORY exists by merging it with any existing categories.
-    /// Safe to call every launch (won't remove categories registered by other code).
     func ensureChugsCategoryExists() {
         let category = makeChugsCategory()
         let center = UNUserNotificationCenter.current()
         center.getNotificationCategories { existingCategories in
-            // If the category does not exist, merge and set; otherwise do nothing.
             if !existingCategories.contains(where: { $0.identifier == category.identifier }) {
                 var merged = existingCategories
                 merged.insert(category)

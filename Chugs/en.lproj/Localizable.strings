@@ -5,7 +5,6 @@
 "track.button.chug" = "Chug!";
 "track.slider.gulps" = "Gulps:";
 
-/* Settings screen */
 "settings.title" = "Settings";
 "settings.resetReplay.header" = "Reset / Replay";
 "settings.resetDailyProgress" = "Reset Daily Progress";
@@ -45,3 +44,17 @@
 "history.chart.empty.trend" = "Not enough data for trend yet.";
 "history.trend.title" = "Hydration Trend";
 "history.trend.subtitle" = "Last 7 days vs previous week";
+
+"notification.alert.disabled.title" = "Notifications Disabled";
+"notification.alert.disabled.message" = "To receive chug reminders, please enable notifications in Settings.";
+"notification.button.cancel" = "Cancel";
+"notification.button.openSettings" = "Open Settings";
+"notification.button.1gulp" = "1 gulp";
+"notification.button.2gulps" = "2 gulps";
+"notification.button.3gulps" = "3 gulps";
+"notification.button.4gulps" = "4 gulps";
+"notification.button.more" = "More…";
+"notification.button.notnow" = "Not now";
+
+"intervalScheduler.notification.title" = "Time for a drink!";
+"intervalScheduler.notification.body" = "Stay hydrated 💧";

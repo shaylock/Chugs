@@ -14,14 +14,11 @@ struct IntervalNotificationScheduler {
     @AppStorage("interval") private var interval: Int = 30               // Minutes
     private let logger = LoggerUtilities.makeLogger(for: Self.self)
     static var shared: IntervalNotificationScheduler = .init()
-       
-//    // ⚙️ Testing Mode
-//        print("🔧 Scheduling TEST notifications every 10 seconds...")
 
     func scheduleDailyNotifications() async {
         let center = UNUserNotificationCenter.current()
-        center.removeAllPendingNotificationRequests() // Clear old notifications first
-//        let intervalSeconds: Int = BuildUtilities.isDebugBuild ? interval : interval * 60
+        center.removeAllPendingNotificationRequests()
+
         let intervalSeconds: Int = interval * 60
         let startSeconds: Int = startMinutes * 60
         let endSeconds: Int = endMinutes * 60
@@ -33,11 +30,10 @@ struct IntervalNotificationScheduler {
         let currentSeconds = (currentComponents.hour ?? 0) * 3600 +
                              (currentComponents.minute ?? 0) * 60 +
                              (currentComponents.second ?? 0)
-//        let effectiveStartSeconds = min(max(startSeconds, currentSeconds), endSeconds)
+
         let effectiveStartSeconds = startSeconds
-        
+
         var notificationsScheduled = 0
-//        let maxNotificationCount = BuildUtilities.isDebugBuild ? 10 : 64
         let maxNotificationCount = 64
 
         for currentSeconds in stride(from: effectiveStartSeconds, through: endSeconds, by: intervalSeconds) {
@@ -45,8 +41,7 @@ struct IntervalNotificationScheduler {
                 logger.warning("Reached 64 notifications. Stopping scheduling.")
                 break
             }
-            
-            // Compute hour, minute, second explicitly from seconds
+
             let hour: Int = currentSeconds / 3600
             let minute: Int = (currentSeconds % 3600) / 60
             let second: Int = currentSeconds % 60
@@ -57,19 +52,16 @@ struct IntervalNotificationScheduler {
             dateComponents.minute = minute
             dateComponents.second = second
 
-            // Create content
             let content = UNMutableNotificationContent()
-            content.title = "Time for a drink!"
-            content.body = "Stay hydrated 💧"
+            content.title = NSLocalizedString("intervalScheduler.notification.title", comment: "")
+            content.body  = NSLocalizedString("intervalScheduler.notification.body", comment: "")
             content.categoryIdentifier = "CHUGS_CATEGORY"
             content.sound = .default
 
-            // Create request
             let identifier = "drinkReminder_\(hour)_\(minute)_\(second)"
             let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
             let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
 
-            // Schedule notification
             do {
                 try await center.add(request)
             } catch {

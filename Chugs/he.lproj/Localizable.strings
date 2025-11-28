@@ -5,7 +5,6 @@
 "track.button.chug" = "שתיתי!";
 "track.slider.gulps" = "שלוקים:";
 
-/* Settings screen */
 "settings.title" = "הגדרות";
 "settings.resetReplay.header" = "אפס / הפעל";
 "settings.resetDailyProgress" = "אפס את ההתקדמות היומית";
@@ -45,3 +44,17 @@
 "history.chart.empty.trend" = "אין מספיק נתונים להצגת מגמה.";
 "history.trend.title" = "מגמת שתייה";
 "history.trend.subtitle" = "7 הימים האחרונים מול השבוע הקודם";
+
+"notification.alert.disabled.title" = "התראות כבויות";
+"notification.alert.disabled.message" = "כדי לקבל תזכורות שתייה, אנא אפשר התראות בהגדרות.";
+"notification.button.cancel" = "ביטול";
+"notification.button.openSettings" = "פתח הגדרות";
+"notification.button.1gulp" = "לגימה 1";
+"notification.button.2gulps" = "2 לגימות";
+"notification.button.3gulps" = "3 לגימות";
+"notification.button.4gulps" = "4 לגימות";
+"notification.button.more" = "עוד…";
+"notification.button.notnow" = "לא עכשיו";
+
+"intervalScheduler.notification.title" = "זמן לשתות!";
+"intervalScheduler.notification.body" = "תישארו רווים 💧";
