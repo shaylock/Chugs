@@ -100,31 +100,28 @@ struct MainTabView: View {
         TabView {
             DrinkTrackView()
                 .tabItem {
-                    Label("tab_drink", systemImage: "drop.fill")
+                    Label("tab.drink", systemImage: "drop.fill")
                 }
 
             HistoryView() // ← New tab
                 .tabItem {
-                    Label("History", systemImage: "clock.arrow.circlepath")
+                    Label("tab.stats", systemImage: "chart.bar")
                 }
 
             NotificationSettingView()
                 .tabItem {
-                    Label("tab_reminders", systemImage: "alarm")
+                    Label("tab.reminders", systemImage: "alarm")
                 }
 
             SettingsView()
                 .tabItem {
-                    Label("tab_settings", systemImage: "gearshape")
+                    Label("tab.settings", systemImage: "gearshape")
                 }
         }
     }
 }
 
 
-// preview
-struct ChugsApp_Previews: PreviewProvider {
-    static var previews: some View {
-        MainTabView()
-    }
+#Preview {
+    MainTabView()
 }

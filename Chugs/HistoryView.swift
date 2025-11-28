@@ -385,13 +385,11 @@ struct HistoryView: View {
     }
 }
 
-struct HistoryView_Previews: PreviewProvider {
-    static var previews: some View {
-        HistoryView()
-            .appTheme(AppTheme(
-                label: Color("Label"),
-                background: Color("SystemBackground"),
-                accent: Color("AccentColor")
-            ))
-    }
+#Preview {
+    HistoryView()
+        .appTheme(AppTheme(
+            label: Color("Label"),
+            background: Color("SystemBackground"),
+            accent: Color("AccentColor")
+        ))
 }

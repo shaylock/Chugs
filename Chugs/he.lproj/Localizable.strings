@@ -1,6 +1,7 @@
-"tab_drink" = "שתייה";
-"tab_reminders" = "תזכורות";
-"tab_settings" = "הגדרות";
+"tab.drink" = "שתייה";
+"tab.reminders" = "תזכורות";
+"tab.settings" = "הגדרות";
+"tab.stats" = "סטטיסטיקה";
 "track.button.chug" = "שתיתי!";
 "track.slider.gulps" = "שלוקים:";
 

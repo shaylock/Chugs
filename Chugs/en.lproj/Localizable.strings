@@ -1,6 +1,7 @@
-"tab_drink" = "Drink";
-"tab_reminders" = "Reminders";
-"tab_settings" = "Settingsss";
+"tab.drink" = "Drink";
+"tab.reminders" = "Reminders";
+"tab.settings" = "Settings";
+"tab.stats" = "Stats";
 "track.button.chug" = "Chug!";
 "track.slider.gulps" = "Gulps:";
 
