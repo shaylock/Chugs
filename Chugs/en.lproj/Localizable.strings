@@ -31,3 +31,17 @@
 "settings.notifications.intervalPicker.minutes" = "%d minutes";
 "settings.notifications.interval.description" = "Notifications will repeat at this interval.";
 "settings.notifications.confirmButton" = "Confirm";
+
+"history.view.title" = "Hydration History";
+"history.period.label" = "Time Period";
+"history.period.daily" = "Daily";
+"history.period.weekly" = "Weekly";
+"history.intake.title" = "Water Intake";
+"history.intake.subtitle.today" = "Today";
+"history.intake.subtitle.last7" = "Last 7 days";
+"history.intake.value.cups" = "%d cups";
+"history.chart.empty.today" = "No data logged yet today.";
+"history.chart.empty.last7" = "No data for last 7 days.";
+"history.chart.empty.trend" = "Not enough data for trend yet.";
+"history.trend.title" = "Hydration Trend";
+"history.trend.subtitle" = "Last 7 days vs previous week";

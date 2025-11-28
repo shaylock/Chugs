@@ -24,10 +24,24 @@
 
 "settings.notifications.title" = "התראות";
 "settings.notifications.typePicker.title" = "סוג התראה";
-"settings.notifications.type.smart" = "חכם";
+"settings.notifications.type.smart" = "התראות חכמות";
 "settings.notifications.type.interval" = "מרווח זמן קבוע";
 "settings.notifications.smart.description" = "התראות חכמות יישלחו בהתאם להרגלי השתייה והיעדים היומיים שלך.";
 "settings.notifications.intervalPicker.title" = "מרווח התראות";
 "settings.notifications.intervalPicker.minutes" = "%d דקות";
 "settings.notifications.interval.description" = "התראות יישלחו במרווח קבוע.";
 "settings.notifications.confirmButton" = "אישור";
+
+"history.view.title" = "היסטוריית שתייה";
+"history.period.label" = "תקופת זמן";
+"history.period.daily" = "יומי";
+"history.period.weekly" = "שבועי";
+"history.intake.title" = "צריכת מים";
+"history.intake.subtitle.today" = "היום";
+"history.intake.subtitle.last7" = "7 הימים האחרונים";
+"history.intake.value.cups" = "%d כוסות";
+"history.chart.empty.today" = "אין נתונים שנרשמו היום.";
+"history.chart.empty.last7" = "אין נתונים ל־7 הימים האחרונים.";
+"history.chart.empty.trend" = "אין מספיק נתונים להצגת מגמה.";
+"history.trend.title" = "מגמת שתייה";
+"history.trend.subtitle" = "7 הימים האחרונים מול השבוע הקודם";

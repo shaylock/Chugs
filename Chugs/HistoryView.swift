@@ -7,8 +7,8 @@ import SwiftUI
 import Charts
 
 enum HistoryTimePeriod: String, CaseIterable, Identifiable {
-    case daily = "Daily"
-    case weekly = "Weekly"
+    case daily = "history.period.daily"
+    case weekly = "history.period.weekly"
 
     var id: String { rawValue }
 }
@@ -20,28 +20,22 @@ struct HistoryView: View {
     @Environment(\.colorScheme) private var colorScheme
     private var colorSchemeIsDark: Bool { colorScheme == .dark }
 
-
     private let litersPerCup: Double = 0.24   // ~240ml
 
     var body: some View {
         NavigationStack {
             ZStack {
-                theme.background
-                    .ignoresSafeArea()
-
                 ScrollView {
                     VStack(spacing: 16) {
                         timePeriodToggle
-
                         waterIntakeCard
-
                         hydrationTrendCard
                     }
                     .padding(.horizontal, 16)
                     .padding(.vertical, 12)
                 }
             }
-            .navigationTitle("Hydration History")
+            .navigationTitle(LocalizedStringKey("history.view.title"))
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 manager.fetchHydrationHistory()
@@ -52,9 +46,9 @@ struct HistoryView: View {
     // MARK: - Time period toggle
 
     private var timePeriodToggle: some View {
-        Picker("Time Period", selection: $selectedPeriod) {
+        Picker(LocalizedStringKey("history.period.label"), selection: $selectedPeriod) {
             ForEach(HistoryTimePeriod.allCases) { period in
-                Text(period.rawValue)
+                Text(LocalizedStringKey(period.rawValue))
                     .tag(period)
             }
         }
@@ -65,7 +59,7 @@ struct HistoryView: View {
 
     private var waterIntakeCard: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Water Intake")
+            Text(LocalizedStringKey("history.intake.title"))
                 .font(.headline)
                 .foregroundColor(theme.label.opacity(0.7))
 
@@ -81,7 +75,7 @@ struct HistoryView: View {
                 }
             }
 
-            Text(intakeSubtitle)
+            Text(LocalizedStringKey(intakeSubtitleKey))
                 .font(.subheadline)
                 .foregroundColor(theme.label.opacity(0.5))
 
@@ -105,21 +99,21 @@ struct HistoryView: View {
         switch selectedPeriod {
         case .daily:
             let cups = manager.todayTotalLiters / litersPerCup
-            return "\(Int(round(cups))) cups"
+            return String(format: NSLocalizedString("history.intake.value.cups", comment: ""), Int(round(cups)))
         case .weekly:
             let last7 = last7Days()
             let totalLiters = last7.reduce(0.0) { $0 + $1.totalLiters }
             let cups = totalLiters / litersPerCup
-            return "\(Int(round(cups))) cups"
+            return String(format: NSLocalizedString("history.intake.value.cups", comment: ""), Int(round(cups)))
         }
     }
 
-    private var intakeSubtitle: String {
+    private var intakeSubtitleKey: String {
         switch selectedPeriod {
         case .daily:
-            return "Today"
+            return "history.intake.subtitle.today"
         case .weekly:
-            return "Last 7 days"
+            return "history.intake.subtitle.last7"
         }
     }
 
@@ -160,7 +154,7 @@ struct HistoryView: View {
         AnyView(
             Group {
                 if manager.todayHourly.allSatisfy({ $0.totalLiters == 0 }) {
-                    emptyChartPlaceholder(text: "No data logged yet today.")
+                    emptyChartPlaceholder(textKey: "history.chart.empty.today")
                 } else {
                     Chart(manager.todayHourly) { bucket in
                         if bucket.totalLiters > 0 {
@@ -190,7 +184,7 @@ struct HistoryView: View {
     private var weeklyBarsChart: some View {
         let last7 = last7Days()
         if last7.isEmpty {
-            return AnyView(emptyChartPlaceholder(text: "No data for last 7 days."))
+            return AnyView(emptyChartPlaceholder(textKey: "history.chart.empty.last7"))
         }
 
         let sorted = last7.sorted(by: { $0.date < $1.date })
@@ -210,11 +204,11 @@ struct HistoryView: View {
         )
     }
 
-    // MARK: - Hydration Trend Card (7-day line + area)
+    // MARK: - Hydration Trend Card
 
     private var hydrationTrendCard: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Hydration Trend")
+            Text(LocalizedStringKey("history.trend.title"))
                 .font(.headline)
                 .foregroundColor(theme.label.opacity(0.7))
 
@@ -230,7 +224,7 @@ struct HistoryView: View {
                 }
             }
 
-            Text("Last 7 days vs previous week")
+            Text(LocalizedStringKey("history.trend.subtitle"))
                 .font(.subheadline)
                 .foregroundColor(theme.label.opacity(0.5))
 
@@ -249,7 +243,7 @@ struct HistoryView: View {
     private var trendChart: some View {
         let last7 = last7Days()
         if last7.isEmpty || manager.goalLiters <= 0 {
-            return AnyView(emptyChartPlaceholder(text: "Not enough data for trend yet."))
+            return AnyView(emptyChartPlaceholder(textKey: "history.chart.empty.trend"))
         }
 
         let sorted = last7.sorted(by: { $0.date < $1.date })
@@ -338,19 +332,19 @@ struct HistoryView: View {
         var comps = DateComponents()
         comps.hour = hour
         let date = Calendar.current.date(from: comps) ?? Date()
-        return formatter.string(from: date).lowercased()   // "8am", "4pm"
+        return formatter.string(from: date).lowercased()
     }
 
     private func weekdayShort(for date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "EEE"  // Mon, Tue, ...
+        formatter.dateFormat = "EEE"
         return formatter.string(from: date)
     }
 
-    private func emptyChartPlaceholder(text: String) -> some View {
+    private func emptyChartPlaceholder(textKey: String) -> some View {
         VStack {
             Spacer()
-            Text(text)
+            Text(LocalizedStringKey(textKey))
                 .font(.subheadline)
                 .foregroundColor(theme.label.opacity(0.5))
             Spacer()
@@ -362,7 +356,6 @@ struct HistoryView: View {
         ZStack {
             theme.background
 
-            // Subtle "wave" style using radial gradients
             RadialGradient(
                 gradient: Gradient(colors: [
                     theme.accent.opacity(0.08),
