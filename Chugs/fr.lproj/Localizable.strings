@@ -1,0 +1,95 @@
+"tab.drink" = "Boire";
+"tab.reminders" = "Rappels";
+"tab.settings" = "Réglages";
+"tab.stats" = "Statistiques";
+"track.button.chug" = "Gorgée !";
+"track.slider.gulps" = "Gorgées :";
+
+"settings.title" = "Réglages";
+"settings.resetReplay.header" = "Réinitialiser / Rejouer";
+"settings.resetDailyProgress" = "Réinitialiser la progression quotidienne";
+"settings.resetDailyProgress.confirmation" = "Êtes-vous sûr de vouloir réinitialiser votre progression quotidienne ? Cette action est irréversible.";
+"settings.reset" = "Réinitialiser";
+"settings.cancel" = "Annuler";
+"settings.replayOnboarding" = "Rejouer l’onboarding";
+"settings.replayTooltips" = "Rejouer les info-bulles";
+"settings.goals.header" = "Objectifs";
+"settings.goals.dailyWaterConsumption" = "Consommation d’eau quotidienne";
+"settings.notificationTimes.header" = "Heures de notification";
+"settings.startHour" = "Heure de début";
+"settings.endHour" = "Heure de fin";
+"settings.gulpSize.header" = "Taille de gorgée";
+"settings.gulpSize.picker" = "Taille de gorgée en ml";
+
+"settings.notifications.title" = "Notifications";
+"settings.notifications.typePicker.title" = "Type de notification";
+"settings.notifications.type.smart" = "Intelligent";
+"settings.notifications.type.interval" = "Intervalle";
+"settings.notifications.smart.description" = "Les notifications intelligentes se déclenchent selon vos habitudes d’hydratation et vos objectifs quotidiens.";
+"settings.notifications.intervalPicker.title" = "Intervalle de notification";
+"settings.notifications.intervalPicker.minutes" = "%d minutes";
+"settings.notifications.interval.description" = "Les notifications se répéteront à cet intervalle.";
+"settings.notifications.confirmButton" = "Confirmer";
+
+"history.view.title" = "Historique d’hydratation";
+"history.period.label" = "Période";
+"history.period.daily" = "Quotidien";
+"history.period.weekly" = "Hebdomadaire";
+"history.intake.title" = "Consommation d’eau";
+"history.intake.subtitle.today" = "Aujourd’hui";
+"history.intake.subtitle.last7" = "7 derniers jours";
+"history.intake.value.cups" = "%d verres";
+"history.chart.empty.today" = "Aucune donnée enregistrée aujourd’hui.";
+"history.chart.empty.last7" = "Aucune donnée pour les 7 derniers jours.";
+"history.chart.empty.trend" = "Pas assez de données pour afficher une tendance.";
+"history.trend.title" = "Tendance d’hydratation";
+"history.trend.subtitle" = "7 derniers jours vs semaine précédente";
+
+"notification.alert.disabled.title" = "Notifications désactivées";
+"notification.alert.disabled.message" = "Pour recevoir des rappels de gorgée, veuillez activer les notifications dans les Réglages.";
+"notification.button.cancel" = "Annuler";
+"notification.button.openSettings" = "Ouvrir les Réglages";
+"notification.button.1gulp" = "1 gorgée";
+"notification.button.2gulps" = "2 gorgées";
+"notification.button.3gulps" = "3 gorgées";
+"notification.button.4gulps" = "4 gorgées";
+"notification.button.more" = "Plus…";
+"notification.button.notnow" = "Pas maintenant";
+
+"intervalScheduler.notification.title" = "Il est temps de boire !";
+"intervalScheduler.notification.body" = "Restez hydraté 💧";
+
+/* Welcome Page */
+"onboarding.skip" = "Passer";
+"onboarding.pageWelcome.title" = "Bienvenue sur Chugs 💧";
+"onboarding.pageWelcome.subtitle" = "Votre compagnon intelligent pour boire de l’eau.";
+"onboarding.pageWelcome.button" = "Continuer";
+
+/* Enable Notifications */
+"onboarding.enableNotifications.title" = "Activer les notifications";
+"onboarding.enableNotifications.subtitle" = "Nous vous rappellerons de boire.";
+"onboarding.enableNotifications.button" = "Activer";
+
+/* Notification Video */
+"onboarding.notificationVideo.title" = "Suivi depuis les notifications 🚀";
+"onboarding.notificationVideo.subtitle" = "Faites un appui long sur un rappel pour enregistrer une gorgée instantanément — pas besoin d’ouvrir l’application !";
+"onboarding.notificationVideo.button" = "Continuer";
+
+/* Lock Screen Setup */
+"onboarding.lockScreen.title" = "Suivi depuis l’écran verrouillé";
+"onboarding.lockScreen.subtitle" = "Dans Réglages → Apps → Chugs\nOuvrez Notifications → Afficher l’aperçu\nChoisissez « Toujours ».";
+"onboarding.lockScreen.button" = "Ouvrir les réglages de l’app";
+
+/* Enable Health */
+"onboarding.enableHealth.title" = "Activer Santé";
+"onboarding.enableHealth.subtitle" = "Nous mettrons à jour Apple Health avec vos progrès.";
+"onboarding.enableHealth.button" = "Activer";
+
+/* Smart vs Interval */
+"onboarding.smartVsInterval.title" = "Intelligent vs Intervalle";
+"onboarding.smartVsInterval.subtitle" = "Le mode intelligent s’adapte à vos habitudes. Le mode intervalle vous rappelle toutes les X minutes.";
+"onboarding.smartVsInterval.button" = "Continuer";
+
+"tooltip.progressRing.text" = "Cet anneau affiche votre progression vers votre objectif quotidien !";
+"tooltip.chugButton.text" = "Touchez ce bouton pour enregistrer une gorgée !";
+"tooltip.slider.text" = "Utilisez ce curseur pour sélectionner le nombre de gorgées.";
