@@ -58,3 +58,34 @@
 
 "intervalScheduler.notification.title" = "Time for a drink!";
 "intervalScheduler.notification.body" = "Stay hydrated 💧";
+
+/* Welcome Page */
+"onboarding.skip" = "Skip";
+"onboarding.pageWelcome.title" = "Welcome to Chugs 💧";
+"onboarding.pageWelcome.subtitle" = "Your smart water drinking buddy.";
+"onboarding.pageWelcome.button" = "Continue";
+
+/* Enable Notifications */
+"onboarding.enableNotifications.title" = "Enable Notifications";
+"onboarding.enableNotifications.subtitle" = "We’ll remind you to drink.";
+"onboarding.enableNotifications.button" = "Enable";
+
+/* Notification Video */
+"onboarding.notificationVideo.title" = "Track from Notifications 🚀";
+"onboarding.notificationVideo.subtitle" = "Long-press a reminder to log a drink instantly — no need to open the app!";
+"onboarding.notificationVideo.button" = "Continue";
+
+/* Lock Screen Setup */
+"onboarding.lockScreen.title" = "Track From Lock Screen";
+"onboarding.lockScreen.subtitle" = "In Settings → Apps → Chugs\nOpen Notifications → Show Preview\nClick 'Always'.";
+"onboarding.lockScreen.button" = "Open App Settings";
+
+/* Enable Health */
+"onboarding.enableHealth.title" = "Enable Health";
+"onboarding.enableHealth.subtitle" = "We’ll update Apple Health with your progress.";
+"onboarding.enableHealth.button" = "Enable";
+
+/* Smart vs Interval */
+"onboarding.smartVsInterval.title" = "Smart vs Interval";
+"onboarding.smartVsInterval.subtitle" = "Smart mode adapts to your habits. Interval mode reminds you every X minutes.";
+"onboarding.smartVsInterval.button" = "Continue";

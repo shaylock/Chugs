@@ -58,3 +58,34 @@
 
 "intervalScheduler.notification.title" = "זמן לשתות!";
 "intervalScheduler.notification.body" = "תישארו רווים 💧";
+
+/* Welcome Page */
+"onboarding.skip" = "דלג";
+"onboarding.pageWelcome.title" = "ברוכים הבאים ל-Chugs 💧";
+"onboarding.pageWelcome.subtitle" = "החבר החכם לשתיית מים.";
+"onboarding.pageWelcome.button" = "המשך";
+
+/* Enable Notifications */
+"onboarding.enableNotifications.title" = "הפעילו התראות";
+"onboarding.enableNotifications.subtitle" = "נזכיר לך לשתות.";
+"onboarding.enableNotifications.button" = "הפעל";
+
+/* Notification Video */
+"onboarding.notificationVideo.title" = "עידכון מההתראות 🚀";
+"onboarding.notificationVideo.subtitle" = "לחיצה ארוכה על תזכורת מאפשרת לרשום שתייה מיד — בלי לפתוח את האפליקציה!";
+"onboarding.notificationVideo.button" = "המשך";
+
+/* Lock Screen Setup */
+"onboarding.lockScreen.title" = "עידכון גם ממסך נעול";
+"onboarding.lockScreen.subtitle" = "הגדרות ← אפליקציות ← Chugs\nהתראות ← הצג תצוגה מקדימה\nבחרו 'תמיד'.";
+"onboarding.lockScreen.button" = "פתח הגדרות אפליקציה";
+
+/* Enable Health */
+"onboarding.enableHealth.title" = "חיבור ל-Apple Health";
+"onboarding.enableHealth.subtitle" = "נעדכן את Apple Health בהתקדמות שלך.";
+"onboarding.enableHealth.button" = "הפעל";
+
+/* Smart vs Interval */
+"onboarding.smartVsInterval.title" = "חכם מול מרווחים";
+"onboarding.smartVsInterval.subtitle" = "מצב חכם מסתגל להרגלים שלך. מצב מרווחים מזכיר כל X דקות.";
+"onboarding.smartVsInterval.button" = "המשך";

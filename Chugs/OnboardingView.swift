@@ -8,13 +8,11 @@
 import SwiftUI
 import AVKit
 
-
 enum OnboardingStep: Int, CaseIterable {
     case welcome
     case enableNotifications
     case notificationVideo
     case lockScreen
-//    case tapToTrack
     case enableHealth
     case smartVsInterval
 }
@@ -33,8 +31,7 @@ struct OnboardingView: View {
             }
             .tabViewStyle(PageTabViewStyle())
 
-            // Skip button
-            Button("Skip") {
+            Button(LocalizedStringKey("onboarding.skip")) {
                 hasCompletedOnboarding = true
             }
             .padding(.top, 16)
@@ -52,17 +49,17 @@ struct OnboardingView: View {
         case .welcome:
             OnboardingPage<EmptyView>(
                 image: "drop.fill",
-                title: "Welcome to Chugs 💧",
-                subtitle: "Your smart water drinking buddy.",
-                buttonTitle: "Continue",
+                title: LocalizedStringKey("onboarding.pageWelcome.title"),
+                subtitle: LocalizedStringKey("onboarding.pageWelcome.subtitle"),
+                buttonTitle: LocalizedStringKey("onboarding.pageWelcome.button"),
                 action: goToNext
             )
 
         case .notificationVideo:
             VideoOnboardingPage(
-                title: "Track from Notifications 🚀",
-                subtitle: "Long-press a reminder to log a drink instantly — no need to open the app!",
-                buttonTitle: "Continue",
+                title: LocalizedStringKey("onboarding.notificationVideo.title"),
+                subtitle: LocalizedStringKey("onboarding.notificationVideo.subtitle"),
+                buttonTitle: LocalizedStringKey("onboarding.notificationVideo.button"),
                 videoName: "NotificationDemo",
                 fileExtension: "mp4",
                 action: goToNext
@@ -71,33 +68,21 @@ struct OnboardingView: View {
         case .lockScreen:
             OnboardingPage<EmptyView>(
                 image: "lock.fill",
-                title: "Track From Lock Screen",
-                subtitle: """
-                In Settings → Apps → Chugs
-                Open Notifications → Show Preview
-                Click ’Always’.
-                """,
-                buttonTitle: "Open App Settings",
+                title: LocalizedStringKey("onboarding.lockScreen.title"),
+                subtitle: LocalizedStringKey("onboarding.lockScreen.subtitle"),
+                buttonTitle: LocalizedStringKey("onboarding.lockScreen.button"),
                 action: {
                     openAppNotificationSettings()
                     goToNext()
                 }
             )
 
-//        case .tapToTrack:
-//            OnboardingPage<EmptyView>(
-//                title: "Tap to Track 💧",
-//                subtitle: "Try it! Tap below to see how easy it is to log a drink.",
-//                buttonTitle: "Continue",
-//                action: goToNext
-//            )
-
         case .enableNotifications:
             OnboardingPage<EmptyView>(
                 image: "bell.badge.fill",
-                title: "Enable Notifications",
-                subtitle: "We’ll remind you to drink.",
-                buttonTitle: "Enable",
+                title: LocalizedStringKey("onboarding.enableNotifications.title"),
+                subtitle: LocalizedStringKey("onboarding.enableNotifications.subtitle"),
+                buttonTitle: LocalizedStringKey("onboarding.enableNotifications.button"),
                 action: {
                     NotificationManager.shared.requestNotificationPermission()
                     NotificationManager.shared.ensureChugsCategoryExists()
@@ -108,14 +93,12 @@ struct OnboardingView: View {
         case .enableHealth:
             OnboardingPage<EmptyView>(
                 image: "heart.fill",
-                title: "Enable Health",
-                subtitle: "We’ll update apple health with your progress.",
-                buttonTitle: "Enable",
+                title: LocalizedStringKey("onboarding.enableHealth.title"),
+                subtitle: LocalizedStringKey("onboarding.enableHealth.subtitle"),
+                buttonTitle: LocalizedStringKey("onboarding.enableHealth.button"),
                 action: {
                     let healthStore = HealthStore()
-                    healthStore.requestAuthorization { success, error in
-                        print("HealthKit authorization: \(success), error: \(String(describing: error))")
-                    }
+                    healthStore.requestAuthorization { _, _ in }
                     goToNext()
                 }
             )
@@ -123,9 +106,9 @@ struct OnboardingView: View {
         case .smartVsInterval:
             OnboardingPage<EmptyView>(
                 image: "gearshape.fill",
-                title: "Smart vs Interval",
-                subtitle: "Smart mode adapts to your habits. Interval mode reminds you every X minutes.",
-                buttonTitle: "Continue",
+                title: LocalizedStringKey("onboarding.smartVsInterval.title"),
+                subtitle: LocalizedStringKey("onboarding.smartVsInterval.subtitle"),
+                buttonTitle: LocalizedStringKey("onboarding.smartVsInterval.button"),
                 action: finishOnboarding
             )
         }
@@ -159,17 +142,17 @@ struct OnboardingPageConstants {
 
 struct OnboardingPage<Content: View>: View {
     let image: String?
-    let title: String
-    let subtitle: String
-    let buttonTitle: String
+    let title: LocalizedStringKey
+    let subtitle: LocalizedStringKey
+    let buttonTitle: LocalizedStringKey
     let action: () -> Void
     let content: Content?
 
     init(
         image: String? = nil,
-        title: String,
-        subtitle: String,
-        buttonTitle: String,
+        title: LocalizedStringKey,
+        subtitle: LocalizedStringKey,
+        buttonTitle: LocalizedStringKey,
         @ViewBuilder content: () -> Content? = { nil },
         action: @escaping () -> Void
     ) {
@@ -212,16 +195,16 @@ struct OnboardingPage<Content: View>: View {
                 .buttonStyle(.borderedProminent)
                 .padding(.top, 10)
                 .padding(.bottom, 40)
-            
+
             Spacer()
         }
     }
 }
 
 struct VideoOnboardingPage: View {
-    let title: String
-    let subtitle: String
-    let buttonTitle: String
+    let title: LocalizedStringKey
+    let subtitle: LocalizedStringKey
+    let buttonTitle: LocalizedStringKey
     let videoName: String
     let fileExtension: String
     let action: () -> Void
@@ -258,7 +241,6 @@ struct VideoOnboardingPage: View {
                     .onDisappear {
                         player.pause()
                     }
-//                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height * 0.7)
                     .cornerRadius(20)
                     .shadow(radius: 10)
@@ -271,7 +253,8 @@ struct VideoOnboardingPage: View {
         }
         .padding(.top, 30)
         .onAppear {
-            if player == nil, let url = Bundle.main.url(forResource: videoName, withExtension: fileExtension) {
+            if player == nil,
+               let url = Bundle.main.url(forResource: videoName, withExtension: fileExtension) {
                 player = AVPlayer(url: url)
                 player?.isMuted = true
             }
