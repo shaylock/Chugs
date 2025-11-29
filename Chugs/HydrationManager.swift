@@ -21,6 +21,62 @@ struct HourlyHydration: Identifiable {
     let totalLiters: Double
 }
 
+struct HydrationEntry {
+    let date: Date
+    let volumeML: Double
+}
+
+//extension Calendar {
+//    /// Returns the localized weekend range (set of weekday numbers)
+//    func weekendRange(using locale: Locale) -> Set<Int> {
+//        
+//        let weekend = self.weekendRange
+//        // weekendRange gives a start+end; convert to weekday ints:
+//        var set: Set<Int> = []
+//        if let weekend = weekend {
+//            for offset in weekend.start ..< weekend.end {
+//                let normalized = ((offset - 1) % 7) + 1  // ensure 1–7
+//                set.insert(normalized)
+//            }
+//        }
+//        return set
+//    }
+//    
+//}
+
+extension Calendar {
+    /// Returns the localized weekend days as a Set of weekday numbers (1 = Sunday … 7 = Saturday)
+    func weekendDays(using locale: Locale) -> Set<Int> {
+        var result: Set<Int> = []
+
+        // WeekendRange(for:) expects a date – we use "today"
+        let today = Date()
+
+        if let interval = self.dateIntervalOfWeekend(containing: today) {
+            // interval.start gives us the first weekend day
+            let startWeekday = self.component(.weekday, from: interval.start)
+
+            // Weekend is typically 2 days, but we derive it dynamically
+            let endDate = interval.end.addingTimeInterval(-60) // end is exclusive → step back 1 minute
+            let endWeekday = self.component(.weekday, from: endDate)
+
+            // Handle cases where weekend spans across week boundaries
+            if startWeekday <= endWeekday {
+                for day in startWeekday...endWeekday {
+                    result.insert(day)
+                }
+            } else {
+                // Weekend wraps (e.g., Friday night → Sunday morning)
+                for day in startWeekday...7 { result.insert(day) }
+                for day in 1...endWeekday { result.insert(day) }
+            }
+        }
+
+        return result
+    }
+}
+
+
 final class HydrationManager: ObservableObject {
     static let shared = HydrationManager()
 
@@ -79,6 +135,38 @@ final class HydrationManager: ObservableObject {
                 }
             }
         }
+    }
+    
+    /// Returns the hydration history for N full weeks PRIOR to the current one
+    func getFullWeeksHistory(weeks: Int) async -> [HydrationEntry] {
+
+        let calendar = Calendar.current
+        let now = Date()
+
+        // Determine first day of the current week (localized)
+        let weekStart = calendar.dateInterval(of: .weekOfYear, for: now)!.start
+
+        // Starting point for "full week N"
+        var startDate = calendar.date(byAdding: .weekOfYear, value: -weeks, to: weekStart)!
+        let endDate = weekStart  // up to start of current week
+
+        // Actually pull samples from HealthKit
+        let samples = await fetchHydration(from: startDate, to: endDate)
+
+        return samples
+    }
+    
+    /// Query Apple Health (replace with real HKSampleQuery)
+    private func fetchHydration(from start: Date, to end: Date) async -> [HydrationEntry] {
+        // PSEUDO CODE — implement using HKSampleQuery
+        /*
+        let type = HKObjectType.quantityType(forIdentifier: .dietaryWater)!
+        let predicate = HKQuery.predicateForSamples(withStart: start, end: end)
+        let query = HKSampleQuery(...)
+        */
+
+        // Replace this stub once integrated
+        return []
     }
 }
 
