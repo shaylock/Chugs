@@ -17,7 +17,7 @@ struct DailyHydration: Identifiable {
 
 struct HourlyHydration: Identifiable {
     let id = UUID()
-    let hour: Int      // 0–23
+    let hour: Int
     let totalLiters: Double
 }
 
@@ -45,28 +45,20 @@ struct HydrationEntry {
 //}
 
 extension Calendar {
-    /// Returns the localized weekend days as a Set of weekday numbers (1 = Sunday … 7 = Saturday)
     func weekendDays(using locale: Locale) -> Set<Int> {
         var result: Set<Int> = []
-
-        // WeekendRange(for:) expects a date – we use "today"
         let today = Date()
 
         if let interval = self.dateIntervalOfWeekend(containing: today) {
-            // interval.start gives us the first weekend day
             let startWeekday = self.component(.weekday, from: interval.start)
-
-            // Weekend is typically 2 days, but we derive it dynamically
-            let endDate = interval.end.addingTimeInterval(-60) // end is exclusive → step back 1 minute
+            let endDate = interval.end.addingTimeInterval(-60)
             let endWeekday = self.component(.weekday, from: endDate)
 
-            // Handle cases where weekend spans across week boundaries
             if startWeekday <= endWeekday {
                 for day in startWeekday...endWeekday {
                     result.insert(day)
                 }
             } else {
-                // Weekend wraps (e.g., Friday night → Sunday morning)
                 for day in startWeekday...7 { result.insert(day) }
                 for day in 1...endWeekday { result.insert(day) }
             }
@@ -78,52 +70,59 @@ extension Calendar {
 
 
 final class HydrationManager: ObservableObject {
+    private static let logger = LoggerUtilities.makeLogger(for: HydrationManager.self)
     static let shared = HydrationManager()
 
     private let healthStore = HKHealthStore()
 
     @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
-    @AppStorage("dailyProgress") private var dailyProgress: Double = 0.0
-    @AppStorage("lastProgressDate") private var lastProgressDate: String = ""
+    @AppStorage("storedDailyProgress") private var storedDailyProgress: Double = 0.0
 
-    // MARK: - Published for UI
-    @Published var dailyHistory: [DailyHydration] = []         // last N days
-    @Published var todayHourly: [HourlyHydration] = []         // 0–23 hours
+    @AppStorage("lastProgressDate") private var lastProgressDate: String = ""
+//    var dailyProgress: Double { storedDailyProgress }
+
+    // MARK: - Published Values for UI
+    @Published var dailyHistory: [DailyHydration] = []
+    @Published var todayHourly: [HourlyHydration] = []
     @Published var todayTotalLiters: Double = 0.0
 
-    @Published var last7DayCompletionPercent: Double = 0.0     // 0–100
-    @Published var last7DayChangePercent: Double? = nil        // vs previous 7 days
+    @Published var last7DayCompletionPercent: Double = 0.0
+    @Published var last7DayChangePercent: Double? = nil
 
-    private init() { }
+    private init() {}
 
-    // Expose goal for views (needed to calculate per-day completion)
+    // Expose goal to UI
     var goalLiters: Double { dailyGoal }
+}
 
-    // MARK: - Public API (Write)
+// MARK: - Public Write API
+extension HydrationManager {
+
+    /// Add water to HealthKit & internal fallback
     func addWater(amount liters: Double) {
-        resetIfNewDay()
-        dailyProgress += liters
+//        resetIfNewDay()
+        storedDailyProgress += liters
         saveToHealthKit(amountLiters: liters)
     }
 
-    // MARK: - Day reset logic
-    func resetIfNewDay() {
-        let today = DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none)
-        if lastProgressDate != today {
-            dailyProgress = 0.0
-            lastProgressDate = today
-        }
+    /// Reset internal daily progress when day changes
+    func resetInternalData() {
+        fetchDailyProgress()
+//        let today = DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none)
+//        if lastProgressDate != today {
+//            fetchDailyProgress()
+////            storedDailyProgress = 0.0
+//            lastProgressDate = today
+//        }
     }
 
-    // MARK: - HealthKit Write
+    /// Write hydration sample to Apple Health
     private func saveToHealthKit(amountLiters: Double) {
         guard HKHealthStore.isHealthDataAvailable() else { return }
-
         guard let waterType = HKObjectType.quantityType(forIdentifier: .dietaryWater) else { return }
 
         let quantity = HKQuantity(unit: .liter(), doubleValue: amountLiters)
         let now = Date()
-
         let sample = HKQuantitySample(type: waterType, quantity: quantity, start: now, end: now)
 
         healthStore.requestAuthorization(toShare: [waterType], read: [waterType]) { success, error in
@@ -172,6 +171,74 @@ final class HydrationManager: ObservableObject {
 
 // MARK: - HealthKit Read (History + Today details)
 extension HydrationManager {
+    /// Requests authorization to read hydration data.
+    /// Returns true/false depending on success.
+    func requestHydrationReadAuthorization() async -> Bool {
+        guard HKHealthStore.isHealthDataAvailable() else { return false }
+        guard let waterType = HKObjectType.quantityType(forIdentifier: .dietaryWater) else { return false }
+
+        return await withCheckedContinuation { continuation in
+            healthStore.requestAuthorization(toShare: [], read: [waterType]) { success, error in
+                if let error = error {
+                    print("HealthKit auth error:", error.localizedDescription)
+                }
+                continuation.resume(returning: success)
+            }
+        }
+    }
+
+    
+    /// Fetches hydration samples in a given time interval and returns the summed total in liters.
+    func fetchHydrationTotal(from start: Date, to end: Date) async -> Double {
+        guard let waterType = HKObjectType.quantityType(forIdentifier: .dietaryWater) else { return 0 }
+
+        let predicate = HKQuery.predicateForSamples(withStart: start, end: end)
+
+        return await withCheckedContinuation { continuation in
+            let query = HKSampleQuery(
+                sampleType: waterType,
+                predicate: predicate,
+                limit: HKObjectQueryNoLimit,
+                sortDescriptors: nil
+            ) { _, samples, error in
+                
+                if let error = error {
+                    print("HealthKit sample fetch error:", error.localizedDescription)
+                    continuation.resume(returning: 0)
+                    return
+                }
+
+                let total = (samples as? [HKQuantitySample])?
+                    .reduce(0.0) { sum, sample in
+                        sum + sample.quantity.doubleValue(for: .liter())
+                    } ?? 0
+
+                continuation.resume(returning: total)
+            }
+
+            self.healthStore.execute(query)
+        }
+    }
+    
+    func fetchDailyProgress() {
+        Task {
+            let authorized = await requestHydrationReadAuthorization()
+            guard authorized else { return }
+
+            let calendar = Calendar.current
+            let startOfDay = calendar.startOfDay(for: Date())
+            let now = Date()
+
+            let total = await fetchHydrationTotal(from: startOfDay, to: now)
+
+            await MainActor.run {
+//                self.todayTotalLiters = total
+                self.storedDailyProgress = total  // sync fallback
+                HydrationManager.logger.debug("Fetched daily progress from HealthKit: \(total) liters")
+            }
+        }
+    }
+    
     /// Fetches hydration samples from HealthKit for the last `daysBack` days,
     /// computes daily totals, today's hourly buckets, and 7-day trends.
     func fetchHydrationHistory(daysBack: Int = 14) {

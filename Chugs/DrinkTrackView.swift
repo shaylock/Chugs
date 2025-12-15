@@ -10,7 +10,7 @@ import SwiftUI
 
 struct DrinkTrackView: View {
     @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
-    @AppStorage("dailyProgress") private var dailyProgress: Double = 0.0
+    @AppStorage("storedDailyProgress") private var storedDailyProgress: Double = 0.0
     @AppStorage("gulpSize") private var gulpSize: Double = 10.0 / 1000.0 // 10 ml
     @AppStorage("tooltipsShown") private var tooltipsShown: Bool = false
 
@@ -21,16 +21,18 @@ struct DrinkTrackView: View {
     var body: some View {
         ZStack {
             mainContent
-                .disabled(showingTooltip) // disable interactions when tooltip is active
-            
+                .disabled(showingTooltip)
+
             if showingTooltip {
                 tooltipOverlay
             }
         }
-        .onAppear { HydrationManager.shared.resetIfNewDay() }
+        .onAppear {
+            HydrationManager.shared.fetchDailyProgress()
+        }
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase == .active {
-                HydrationManager.shared.resetIfNewDay()
+                HydrationManager.shared.fetchDailyProgress()
             }
         }
 
@@ -96,11 +98,11 @@ struct DrinkTrackView: View {
             RingView(progress: 1.0)
                 .frame(width: 220, height: 220)
                 .opacity(0.12)
-            RingView(progress: min(dailyProgress / dailyGoal, 1.0))
+            RingView(progress: min(storedDailyProgress / dailyGoal, 1.0))
                 .frame(width: 220, height: 220)
             
             VStack(spacing: 6) {
-                Text(String(format: "%.2fL", dailyProgress))
+                Text(String(format: "%.2fL", storedDailyProgress))
                     .font(.system(size: 36, weight: .bold))
                 Text(String(format: "/ %.1fL", dailyGoal))
                     .font(.system(size: 14))
@@ -178,7 +180,7 @@ struct TooltipView: View {
             Text(text)
                 .font(.headline)
                 .padding()
-                .background(.regularMaterial)   // beautiful translucent tooltip bubble
+                .background(.regularMaterial)
                 .cornerRadius(14)
                 .foregroundStyle(.primary)
                 .shadow(radius: 4)
@@ -192,15 +194,19 @@ struct TooltipView: View {
 
 // MARK: - RingView
 struct RingView: View {
-    // Settings for daily goal
-    @AppStorage("dailyProgress") private var dailyProgress: Double = 3.0
-    var progress: Double // 0.0 - 1.0
+    var progress: Double
 
     var body: some View {
         Circle()
             .trim(from: 0, to: CGFloat(progress))
             .stroke(
-                AngularGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.0, green: 0.7843137389, blue: 1.0, alpha: 1.0)), Color(#colorLiteral(red: 0.0, green: 0.4470588267, blue: 0.9764705896, alpha: 1.0))]), center: .center),
+                AngularGradient(
+                    gradient: Gradient(colors: [
+                        Color(#colorLiteral(red: 0.0, green: 0.7843137389, blue: 1.0, alpha: 1.0)),
+                        Color(#colorLiteral(red: 0.0, green: 0.4470588267, blue: 0.9764705896, alpha: 1.0))
+                    ]),
+                    center: .center
+                ),
                 style: StrokeStyle(lineWidth: 8, lineCap: .round)
             )
             .rotationEffect(.degrees(-90))
@@ -220,7 +226,6 @@ struct DrinkTrackView_Previews: PreviewProvider {
     }
 }
 
-// A SwiftUI preview.
 #Preview {
     DrinkTrackView()
 }
