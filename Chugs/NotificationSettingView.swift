@@ -78,6 +78,10 @@ private struct notificationTypePickerView: View {
         logger.debug("Notification type changed to \(notificationType.rawValue)")
         switch notificationType {
         case .smart:
+            guard HealthStore.shared.hasReadAccess() else {
+                logger.debug("Smart notifications blocked – no Health read access")
+                return
+            }
             SmartNotificationScheduler().scheduleNext(gulpsConsumed: 0)
         case .interval:
             Task {
@@ -90,12 +94,12 @@ private struct notificationTypePickerView: View {
 private struct notificationSettingsSectionView: View {
     @Binding var notificationType: NotificationType
     @Binding var interval: Int
-    
+
     var body: some View {
         Group {
             switch notificationType {
             case .smart:
-                SmartSettings()
+                SmartSettingsContainer()
             case .interval:
                 IntervalSettingsView()
             }
@@ -108,10 +112,86 @@ private struct notificationSettingsSectionView: View {
     }
 }
 
+struct SmartSettingsContainer: View {
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var hasHealthAccess = false
+
+    var body: some View {
+        Group {
+            if hasHealthAccess {
+                SmartSettings()
+            } else {
+                SmartHealthPermissionView()
+            }
+        }
+        .onAppear(perform: refreshAccess)
+        .onChange(of: scenePhase) {
+            refreshAccess()
+        }
+    }
+
+    private func refreshAccess() {
+        hasHealthAccess = HealthStore.shared.hasReadAccess()
+    }
+}
+
+
 struct SmartSettings: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
             Text("settings.notifications.smart.description")
+        }
+    }
+}
+
+struct SmartHealthPermissionView: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            
+            Text("settings.notifications.smart.health.description")
+
+            VStack(alignment: .leading, spacing: 8) {
+                Label(
+                    "settings.notifications.smart.health.step.settings",
+                    systemImage: "chevron.forward"
+                )
+                Label(
+                    "settings.notifications.smart.health.step.health",
+                    systemImage: "chevron.forward"
+                )
+                Label(
+                    "settings.notifications.smart.health.step.enable",
+                    systemImage: "chevron.forward"
+                )
+            }
+            .font(.footnote)
+            .foregroundColor(.secondary)
+
+            Button(action: openAppSettings) {
+                Text("settings.notifications.smart.health.enableButton")
+                    .font(.system(size: 16, weight: .bold))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 14)
+                    .foregroundColor(.white)
+                    .background(
+                        LinearGradient(
+                            gradient: Gradient(colors: [
+                                Color(#colorLiteral(red: 0.0, green: 0.7843137389, blue: 1.0, alpha: 1.0)),
+                                Color(#colorLiteral(red: 0.0, green: 0.4470588267, blue: 0.9764705896, alpha: 1.0))
+                            ]),
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .cornerRadius(999)
+                    .frame(maxWidth: 320)
+            }
+        }
+    }
+
+    private func openAppSettings() {
+        if let url = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(url)
         }
     }
 }

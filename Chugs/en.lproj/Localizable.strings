@@ -31,6 +31,13 @@
 "settings.notifications.interval.description" = "Notifications will repeat at this interval.";
 "settings.notifications.confirmButton" = "Confirm";
 
+/* Smart notifications – Health permission */
+"settings.notifications.smart.health.description" = "Smart notifications require access to your Apple Health water intake data.";
+"settings.notifications.smart.health.step.settings" = "Open Settings → Apps";
+"settings.notifications.smart.health.step.health" = "Tap Health → Data Access & Devices";
+"settings.notifications.smart.health.step.enable" = "Click Chugs → Turn On All";
+"settings.notifications.smart.health.enableButton" = "Enable Health";
+
 "history.view.title" = "Hydration History";
 "history.period.label" = "Time Period";
 "history.period.daily" = "Daily";

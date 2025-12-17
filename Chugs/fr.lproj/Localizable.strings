@@ -31,6 +31,13 @@
 "settings.notifications.interval.description" = "Les notifications se répéteront à cet intervalle.";
 "settings.notifications.confirmButton" = "Confirmer";
 
+/* Smart notifications – Health permission */
+"settings.notifications.smart.health.description" = "Les notifications intelligentes nécessitent l’accès aux données de consommation d’eau d’Apple Santé.";
+"settings.notifications.smart.health.step.settings" = "Ouvrez Réglages → Apps";
+"settings.notifications.smart.health.step.health" = "Appuyez sur Santé → Accès aux données et appareils";
+"settings.notifications.smart.health.step.enable" = "Sélectionnez Chugs → Tout activer";
+"settings.notifications.smart.health.enableButton" = "Activer Santé";
+
 "history.view.title" = "Historique d’hydratation";
 "history.period.label" = "Période";
 "history.period.daily" = "Quotidien";

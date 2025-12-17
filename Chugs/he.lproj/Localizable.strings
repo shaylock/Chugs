@@ -31,6 +31,13 @@
 "settings.notifications.interval.description" = "התראות יישלחו במרווח קבוע.";
 "settings.notifications.confirmButton" = "אישור";
 
+/* Smart notifications – Health permission */
+"settings.notifications.smart.health.description" = "התראות חכמות דורשות גישה לנתוני צריכת המים שלך מ־Apple Health.";
+"settings.notifications.smart.health.step.settings" = "פתח את ההגדרות ← יישומים";
+"settings.notifications.smart.health.step.health" = "הקש על בריאות ← גישה לנתונים ומכשירים";
+"settings.notifications.smart.health.step.enable" = "לחץ על Chugs ← הפעל הכל";
+"settings.notifications.smart.health.enableButton" = "אפשר בריאות";
+
 "history.view.title" = "היסטוריית שתייה";
 "history.period.label" = "תקופת זמן";
 "history.period.daily" = "יומי";
