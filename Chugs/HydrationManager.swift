@@ -171,23 +171,6 @@ extension HydrationManager {
 
 // MARK: - HealthKit Read (History + Today details)
 extension HydrationManager {
-    /// Requests authorization to read hydration data.
-    /// Returns true/false depending on success.
-    func requestHydrationReadAuthorization() async -> Bool {
-        guard HKHealthStore.isHealthDataAvailable() else { return false }
-        guard let waterType = HKObjectType.quantityType(forIdentifier: .dietaryWater) else { return false }
-
-        return await withCheckedContinuation { continuation in
-            healthStore.requestAuthorization(toShare: [], read: [waterType]) { success, error in
-                if let error = error {
-                    print("HealthKit auth error:", error.localizedDescription)
-                }
-                continuation.resume(returning: success)
-            }
-        }
-    }
-
-    
     /// Fetches hydration samples in a given time interval and returns the summed total in liters.
     func fetchHydrationTotal(from start: Date, to end: Date) async -> Double {
         guard let waterType = HKObjectType.quantityType(forIdentifier: .dietaryWater) else { return 0 }
@@ -222,8 +205,7 @@ extension HydrationManager {
     
     func fetchDailyProgress() {
         Task {
-            let authorized = await requestHydrationReadAuthorization()
-            guard authorized else { return }
+            guard HealthStore.shared.hasReadAccess() else { return }
 
             let calendar = Calendar.current
             let startOfDay = calendar.startOfDay(for: Date())

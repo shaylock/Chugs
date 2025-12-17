@@ -8,6 +8,7 @@
 import HealthKit
 
 class HealthStore {
+    static let shared = HealthStore()
     let healthStore = HKHealthStore()
 
     func requestAuthorization(completion: @escaping (Bool, Error?) -> Void) {
@@ -26,5 +27,14 @@ class HealthStore {
         let typesToRead: Set = [waterType]
 
         healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead, completion: completion)
+    }
+}
+
+extension HealthStore {
+    func hasReadAccess() -> Bool {
+        guard let waterType = HKObjectType.quantityType(forIdentifier: .dietaryWater) else {
+            return false
+        }
+        return healthStore.authorizationStatus(for: waterType) != .sharingDenied
     }
 }
