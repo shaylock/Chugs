@@ -59,11 +59,8 @@ final class HydrationManager: ObservableObject {
 
     @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
     @AppStorage("storedDailyProgress") private var storedDailyProgress: Double = 0.0
-
     @AppStorage("lastProgressDate") private var lastProgressDate: String = ""
-//    var dailyProgress: Double { storedDailyProgress }
 
-    // MARK: - Published Values for UI
     @Published var dailyHistory: [DailyHydration] = []
     @Published var todayHourly: [HourlyHydration] = []
     @Published var todayTotalLiters: Double = 0.0
@@ -79,21 +76,11 @@ final class HydrationManager: ObservableObject {
 
 // MARK: - Public Write API
 extension HydrationManager {
-
+    
+    // USED
     func addWater(amount liters: Double) {
         storedDailyProgress += liters
         saveToHealthKit(amountLiters: liters)
-    }
-
-    /// Reset internal daily progress when day changes
-    func resetInternalData() {
-        fetchDailyProgress()
-//        let today = DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none)
-//        if lastProgressDate != today {
-//            fetchDailyProgress()
-////            storedDailyProgress = 0.0
-//            lastProgressDate = today
-//        }
     }
 
     /// Write hydration sample to Apple Health
@@ -151,7 +138,7 @@ extension HydrationManager {
 
 // MARK: - HealthKit Read (History + Today details)
 extension HydrationManager {
-    /// Fetches hydration samples in a given time interval and returns the summed total in liters.
+    // USED
     func fetchHydrationTotal(from start: Date, to end: Date) async -> Double {
         guard let waterType = HKObjectType.quantityType(forIdentifier: .dietaryWater) else { return 0 }
 
@@ -183,6 +170,7 @@ extension HydrationManager {
         }
     }
     
+    // USED
     func fetchDailyProgress() {
         Task {
             guard HealthStore.shared.hasReadAccess() else { return }
@@ -194,8 +182,7 @@ extension HydrationManager {
             let total = await fetchHydrationTotal(from: startOfDay, to: now)
 
             await MainActor.run {
-//                self.todayTotalLiters = total
-                self.storedDailyProgress = total  // sync fallback
+                self.storedDailyProgress = total
                 HydrationManager.logger.debug("Fetched daily progress from HealthKit: \(total) liters")
             }
         }
