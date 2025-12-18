@@ -6,6 +6,7 @@
 //
 
 import HealthKit
+import SwiftUI
 
 class HealthStore {
     static let shared = HealthStore()
@@ -38,3 +39,57 @@ extension HealthStore {
         return healthStore.authorizationStatus(for: waterType) != .sharingDenied
     }
 }
+
+class NotificationPermission {
+    static let shared = NotificationPermission()
+    
+    public func requestNotificationPermission() {
+        let center = UNUserNotificationCenter.current()
+        center.getNotificationSettings { settings in
+            switch settings.authorizationStatus {
+            case .notDetermined:
+                center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+                    if !granted {
+                        self.promptToOpenSettings()
+                    }
+                }
+            case .denied:
+                self.promptToOpenSettings()
+            case .authorized, .provisional, .ephemeral:
+                break
+            @unknown default:
+                break
+            }
+        }
+    }
+    
+    private func promptToOpenSettings() {
+        DispatchQueue.main.async {
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                  let rootVC = windowScene.windows.first?.rootViewController else { return }
+            
+            let alert = UIAlertController(
+                title: NSLocalizedString("notification.alert.disabled.title", comment: ""),
+                message: NSLocalizedString("notification.alert.disabled.message", comment: ""),
+                preferredStyle: .alert
+            )
+            
+            alert.addAction(UIAlertAction(
+                title: NSLocalizedString("notification.button.cancel", comment: ""),
+                style: .cancel
+            ))
+            
+            alert.addAction(UIAlertAction(
+                title: NSLocalizedString("notification.button.openSettings", comment: ""),
+                style: .default
+            ) { _ in
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url)
+                }
+            })
+            
+            rootVC.present(alert, animated: true)
+        }
+    }
+}
+    

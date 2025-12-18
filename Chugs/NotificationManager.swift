@@ -5,64 +5,13 @@
 //  Created by Shay Blum on 04/09/2025.
 //
 
-import UserNotifications
+//import UserNotifications
 import SwiftUI
 
 class NotificationManager {
     static let shared = NotificationManager()
     
-    private let userDefaults = UserDefaults.standard
-    
-    private init() {}
-    
-    public func requestNotificationPermission() {
-        let center = UNUserNotificationCenter.current()
-        center.getNotificationSettings { settings in
-            switch settings.authorizationStatus {
-            case .notDetermined:
-                center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-                    if !granted {
-                        self.promptToOpenSettings()
-                    }
-                }
-            case .denied:
-                self.promptToOpenSettings()
-            case .authorized, .provisional, .ephemeral:
-                break
-            @unknown default:
-                break
-            }
-        }
-    }
-    
-    private func promptToOpenSettings() {
-        DispatchQueue.main.async {
-            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                  let rootVC = windowScene.windows.first?.rootViewController else { return }
-            
-            let alert = UIAlertController(
-                title: NSLocalizedString("notification.alert.disabled.title", comment: ""),
-                message: NSLocalizedString("notification.alert.disabled.message", comment: ""),
-                preferredStyle: .alert
-            )
-            
-            alert.addAction(UIAlertAction(
-                title: NSLocalizedString("notification.button.cancel", comment: ""),
-                style: .cancel
-            ))
-            
-            alert.addAction(UIAlertAction(
-                title: NSLocalizedString("notification.button.openSettings", comment: ""),
-                style: .default
-            ) { _ in
-                if let url = URL(string: UIApplication.openSettingsURLString) {
-                    UIApplication.shared.open(url)
-                }
-            })
-            
-            rootVC.present(alert, animated: true)
-        }
-    }
+//    private let userDefaults = UserDefaults.standard
     
     // MARK: - Set up action buttons
     private func makeChugsCategory() -> UNNotificationCategory {

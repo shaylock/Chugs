@@ -84,7 +84,7 @@ struct OnboardingView: View {
                 subtitle: LocalizedStringKey("onboarding.enableNotifications.subtitle"),
                 buttonTitle: LocalizedStringKey("onboarding.enableNotifications.button"),
                 action: {
-                    NotificationManager.shared.requestNotificationPermission()
+                    NotificationPermission.shared.requestNotificationPermission()
                     NotificationManager.shared.ensureChugsCategoryExists()
                     goToNext()
                 }

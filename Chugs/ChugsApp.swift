@@ -68,7 +68,7 @@ struct ChugsApp: App {
         
         // Request notification permission and ensure our category exists.
         if hasCompletedOnboarding {
-            NotificationManager.shared.requestNotificationPermission()
+            NotificationPermission.shared.requestNotificationPermission()
             NotificationManager.shared.ensureChugsCategoryExists()
         }
         
