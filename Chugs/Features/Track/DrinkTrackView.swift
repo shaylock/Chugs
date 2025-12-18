@@ -213,19 +213,6 @@ struct RingView: View {
     }
 }
 
-// MARK: - Preview
-struct DrinkTrackView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            DrinkTrackView()
-                .environment(\.colorScheme, .light)
-
-            DrinkTrackView()
-                .environment(\.colorScheme, .dark)
-        }
-    }
-}
-
 #Preview {
     DrinkTrackView()
 }

@@ -53,7 +53,7 @@
 "history.trend.subtitle" = "Last 7 days vs previous week";
 
 "notification.alert.disabled.title" = "Notifications Disabled";
-"notification.alert.disabled.message" = "To receive chug reminders, please enable notifications in Settings.";
+"notification.alert.disabled.message" = "To receive chug reminders, please enable notifications in Settings → Chugs → Notifications.";
 "notification.button.cancel" = "Cancel";
 "notification.button.openSettings" = "Open Settings";
 "notification.button.1gulp" = "1 gulp";

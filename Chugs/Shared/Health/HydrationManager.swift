@@ -26,24 +26,6 @@ struct HydrationEntry {
     let volumeML: Double
 }
 
-//extension Calendar {
-//    /// Returns the localized weekend range (set of weekday numbers)
-//    func weekendRange(using locale: Locale) -> Set<Int> {
-//        
-//        let weekend = self.weekendRange
-//        // weekendRange gives a start+end; convert to weekday ints:
-//        var set: Set<Int> = []
-//        if let weekend = weekend {
-//            for offset in weekend.start ..< weekend.end {
-//                let normalized = ((offset - 1) % 7) + 1  // ensure 1–7
-//                set.insert(normalized)
-//            }
-//        }
-//        return set
-//    }
-//    
-//}
-
 extension Calendar {
     func weekendDays(using locale: Locale) -> Set<Int> {
         var result: Set<Int> = []
@@ -98,9 +80,7 @@ final class HydrationManager: ObservableObject {
 // MARK: - Public Write API
 extension HydrationManager {
 
-    /// Add water to HealthKit & internal fallback
     func addWater(amount liters: Double) {
-//        resetIfNewDay()
         storedDailyProgress += liters
         saveToHealthKit(amountLiters: liters)
     }

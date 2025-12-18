@@ -53,7 +53,7 @@
 "history.trend.subtitle" = "7 הימים האחרונים מול השבוע הקודם";
 
 "notification.alert.disabled.title" = "התראות כבויות";
-"notification.alert.disabled.message" = "כדי לקבל תזכורות שתייה, אנא אפשר התראות בהגדרות.";
+"notification.alert.disabled.message" = "כדי לקבל תזכורות שתייה, אנא אפשר התראות בהגדרות ← Chugs ← עידכונים.";
 "notification.button.cancel" = "ביטול";
 "notification.button.openSettings" = "פתח הגדרות";
 "notification.button.1gulp" = "לגימה 1";

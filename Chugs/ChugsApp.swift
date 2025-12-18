@@ -60,7 +60,9 @@ struct ThemedText: View {
 @main
 struct ChugsApp: App {
     private let notificationDelegate: NotificationDelegate
-    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false // 🆕 persistent onboarding flag
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
+    
+    private let logger = LoggerUtilities.makeLogger(for: Self.self)
     
     init() {
         notificationDelegate = NotificationDelegate()
@@ -79,7 +81,6 @@ struct ChugsApp: App {
     var body: some Scene {
         WindowGroup {
             if hasCompletedOnboarding {
-                // Normal app flow
                 MainTabView()
                     .appTheme(AppTheme(
                         label: Color("Label"),
@@ -87,14 +88,12 @@ struct ChugsApp: App {
                         accent: Color("AccentColor")
                     ))
             } else {
-                // 🆕 Show onboarding until completed
                 OnboardingView(hasCompletedOnboarding: $hasCompletedOnboarding)
             }
         }
     }
 }
 
-// 🆕 Extracted your TabView into a reusable view for clarity
 struct MainTabView: View {
     var body: some View {
         TabView {

@@ -53,7 +53,7 @@
 "history.trend.subtitle" = "7 derniers jours vs semaine précédente";
 
 "notification.alert.disabled.title" = "Notifications désactivées";
-"notification.alert.disabled.message" = "Pour recevoir des rappels de gorgée, veuillez activer les notifications dans les Réglages.";
+"notification.alert.disabled.message" = "Pour recevoir des rappels de chug, veuillez activer les notifications dans Réglages → Chugs → Notifications.";
 "notification.button.cancel" = "Annuler";
 "notification.button.openSettings" = "Ouvrir les Réglages";
 "notification.button.1gulp" = "1 gorgée";
