@@ -13,6 +13,12 @@ struct DrinkTrackView: View {
     @AppStorage("storedDailyProgress") private var storedDailyProgress: Double = 0.0
     @AppStorage("gulpSize") private var gulpSize: Double = 10.0 / 1000.0 // 10 ml
     @AppStorage("tooltipsShown") private var tooltipsShown: Bool = false
+    @AppStorage("volumeUnit") private var volumeUnitRaw: String = VolumeUnit.localeDefault.rawValue
+
+    private var volumeUnit: VolumeUnit {
+        get { VolumeUnit(rawValue: volumeUnitRaw) ?? .liters }
+        set { volumeUnitRaw = newValue.rawValue }
+    }
 
     @State private var numberOfGulps: Double = 1.0
     @State private var tooltipIndex: Int = 0
@@ -102,9 +108,11 @@ struct DrinkTrackView: View {
                 .frame(width: 220, height: 220)
             
             VStack(spacing: 6) {
-                Text(String(format: "%.2fL", storedDailyProgress))
+                Text(storedDailyProgress.formattedVolume(unit: volumeUnit))
+//                Text(String(format: "%.2fL", storedDailyProgress))
                     .font(.system(size: 36, weight: .bold))
-                Text(String(format: "/ %.1fL", dailyGoal))
+                Text("/ \(dailyGoal.formattedVolume(unit: volumeUnit, fractionDigits: 1))")
+//                Text(String(format: "/ %.1fL", dailyGoal))
                     .font(.system(size: 14))
                     .foregroundColor(.secondary)
             }

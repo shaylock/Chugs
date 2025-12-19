@@ -182,7 +182,7 @@ extension HydrationManager {
             let total = await fetchHydrationTotal(from: startOfDay, to: now)
 
             await MainActor.run {
-                self.storedDailyProgress = total
+                storedDailyProgress = total
                 HydrationManager.logger.debug("Fetched daily progress from HealthKit: \(total) liters")
             }
         }

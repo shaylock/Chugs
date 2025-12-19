@@ -15,14 +15,55 @@ struct SettingsView: View {
     @AppStorage("gulpSize") private var gulpSize: Double = 10.0 / 1000.0 // 10 ml
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
     @AppStorage("tooltipsShown") private var tooltipsShown: Bool = false
+    @AppStorage("volumeUnit") private var volumeUnitRaw: String = VolumeUnit.localeDefault.rawValue
+
+    private var volumeUnit: VolumeUnit {
+        get { VolumeUnit(rawValue: volumeUnitRaw) ?? .liters }
+        set { volumeUnitRaw = newValue.rawValue }
+    }
+    private var gulpDisplayUnit: GulpDisplayUnit {
+        switch volumeUnit {
+        case .liters:
+            return .milliliters
+        case .ounces, .gallons:
+            return .ounces
+        }
+    }
+    private var gulpRange: ClosedRange<Int> {
+        switch gulpDisplayUnit {
+        case .milliliters:
+            return 10...50
+        case .ounces:
+            return 1...6
+        }
+    }
 
     @State private var tempGulpSizeInt: Int = 10
     @State private var showResetConfirmation = false
+    
+    private var displayedGulpValue: Int {
+        let value = Int(volumeUnit.convert(fromLiters: gulpSize))
+        return max(1, min(value, 100))
+    }
+
+    private func setGulp(fromDisplayedValue value: Int) {
+        let safeValue = max(1, value)
+
+        switch volumeUnit {
+        case .liters:
+            gulpSize = Double(safeValue)
+        case .ounces:
+            gulpSize = Double(safeValue) / 33.814
+        case .gallons:
+            gulpSize = Double(safeValue) / 0.264172
+        }
+    }
 
     var body: some View {
         NavigationView {
             Form {
                 goalsSection
+                unitsSection
                 notificationTimesSection
                 gulpSizeSection
                 resetReplaySection
@@ -73,7 +114,8 @@ struct SettingsView: View {
                 HStack {
                     Text(LocalizedStringKey("settings.goals.dailyWaterConsumption"))
                     Spacer()
-                    Text(String(format: "%.1fL", dailyGoal))
+                    Text(dailyGoal.formattedVolume(unit: volumeUnit, fractionDigits: 1))
+//                    Text(String(format: "%.1fL", dailyGoal))
                 }
 
                 PillSlider(value: $dailyGoal,
@@ -115,17 +157,39 @@ struct SettingsView: View {
                        displayedComponents: .hourAndMinute)
         }
     }
-
+    
     private var gulpSizeSection: some View {
         Section(header: Text(LocalizedStringKey("settings.gulpSize.header"))) {
-            Picker(LocalizedStringKey("settings.gulpSize.picker"), selection: $tempGulpSizeInt) {
-                ForEach(1..<101, id: \.self) { value in
-                    Text("\(value) ml").tag(value)
+            Picker(
+                LocalizedStringKey("settings.gulpSize.picker"),
+                selection: $tempGulpSizeInt
+            ) {
+                ForEach(gulpRange, id: \.self) { value in
+                    Text("\(value) \(gulpDisplayUnit.symbol)")
+                        .tag(value)
                 }
             }
-            .onChange(of: tempGulpSizeInt) {
-                gulpSize = Double(tempGulpSizeInt) / 1000.0
+            .onAppear {
+                tempGulpSizeInt = gulpDisplayUnit.fromLiters(gulpSize)
             }
+            .onChange(of: tempGulpSizeInt) {
+                gulpSize = gulpDisplayUnit.toLiters(tempGulpSizeInt)
+            }
+            .onChange(of: volumeUnitRaw) {
+                tempGulpSizeInt = gulpDisplayUnit.fromLiters(gulpSize)
+            }
+        }
+    }
+    
+    private var unitsSection: some View {
+        Section(header: Text(LocalizedStringKey("settings.units.header"))) {
+            Picker(LocalizedStringKey("settings.units.picker"), selection: $volumeUnitRaw) {
+                ForEach(VolumeUnit.allCases, id: \.rawValue) { unit in
+                    Text(unit.symbol)
+                        .tag(unit.rawValue)
+                }
+            }
+            .pickerStyle(.segmented)
         }
     }
 }

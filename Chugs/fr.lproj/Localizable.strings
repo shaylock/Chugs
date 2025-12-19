@@ -18,8 +18,12 @@
 "settings.notificationTimes.header" = "Heures de notification";
 "settings.startHour" = "Heure de début";
 "settings.endHour" = "Heure de fin";
-"settings.gulpSize.header" = "Taille de gorgée";
-"settings.gulpSize.picker" = "Taille de gorgée en ml";
+"settings.gulpSize.header" = "Paramètres de boisson";
+"settings.gulpSize.picker" = "Taille de la gorgée";
+"settings.units.header" = "Unités";
+"settings.units.picker" = "Unités de volume";
+"unit.volume.milliliters" = "mL";
+"unit.volume.ounces" = "oz";
 
 "settings.notifications.title" = "Notifications";
 "settings.notifications.typePicker.title" = "Type de notification";
@@ -100,3 +104,7 @@
 "tooltip.progressRing.text" = "Cet anneau affiche votre progression vers votre objectif quotidien !";
 "tooltip.chugButton.text" = "Touchez ce bouton pour enregistrer une gorgée !";
 "tooltip.slider.text" = "Utilisez ce curseur pour sélectionner le nombre de gorgées.";
+
+"unit.volume.liters" = "L";
+"unit.volume.ounces" = "oz";
+"unit.volume.gallons" = "gal";

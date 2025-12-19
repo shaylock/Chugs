@@ -18,8 +18,12 @@
 "settings.notificationTimes.header" = "Notification times";
 "settings.startHour" = "Start hour";
 "settings.endHour" = "End hour";
-"settings.gulpSize.header" = "Gulp size";
-"settings.gulpSize.picker" = "Gulp size in ml";
+"settings.gulpSize.header" = "Drink Settings";
+"settings.gulpSize.picker" = "Gulp size";
+"settings.units.header" = "Units";
+"settings.units.picker" = "Volume units";
+"unit.volume.milliliters" = "mL";
+"unit.volume.ounces" = "oz";
 
 "settings.notifications.title" = "Notifications";
 "settings.notifications.typePicker.title" = "Notification Type";
@@ -100,3 +104,7 @@
 "tooltip.progressRing.text" = "This ring shows your progress towards your daily goal!";
 "tooltip.chugButton.text" = "Tap this button to log a gulp!";
 "tooltip.slider.text" = "Use this slider to select the number of gulps.";
+
+"unit.volume.liters" = "L";
+"unit.volume.ounces" = "oz";
+"unit.volume.gallons" = "gal";

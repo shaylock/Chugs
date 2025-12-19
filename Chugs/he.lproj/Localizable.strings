@@ -18,8 +18,12 @@
 "settings.notificationTimes.header" = "זמני ההתראות";
 "settings.startHour" = "שעת התחלה";
 "settings.endHour" = "שעת סיום";
-"settings.gulpSize.header" = "גודל לגימה";
-"settings.gulpSize.picker" = "גודל לגימה (מל)";
+"settings.gulpSize.header" = "הגדרות שתייה";
+"settings.gulpSize.picker" = "גודל לגימה";
+"settings.units.header" = "יחידות";
+"settings.units.picker" = "יחידות נפח";
+"unit.volume.milliliters" = "מ״ל";
+"unit.volume.ounces" = "אונ׳";
 
 "settings.notifications.title" = "התראות";
 "settings.notifications.typePicker.title" = "סוג התראה";
@@ -100,3 +104,7 @@
 "tooltip.progressRing.text" = "הטבעת הזו מציגה את ההתקדמות שלך לקראת היעד היומי!";
 "tooltip.chugButton.text" = "הקש על הכפתור הזה כדי לרשום לגימה!";
 "tooltip.slider.text" = "השתמש במחוון כדי לבחור את מספר השלוקים.";
+
+"unit.volume.liters" = "ל׳";
+"unit.volume.ounces" = "אונ׳";
+"unit.volume.gallons" = "גל׳";
