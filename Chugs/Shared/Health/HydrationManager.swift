@@ -52,7 +52,7 @@ extension Calendar {
 
 
 final class HydrationManager: ObservableObject {
-    private static let logger = LoggerUtilities.makeLogger(for: HydrationManager.self)
+    private let logger = LoggerUtilities.makeLogger(for: HydrationManager.self)
     static let shared = HydrationManager()
 
     private let healthStore = HKHealthStore()
@@ -60,6 +60,7 @@ final class HydrationManager: ObservableObject {
     @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
     @AppStorage("storedDailyProgress") private var storedDailyProgress: Double = 0.0
     @AppStorage("lastProgressDate") private var lastProgressDate: String = ""
+    @AppStorage("nextWeeklyUpdateAt") private var nextWeeklyUpdateAt: Double = 0
 
     @Published var dailyHistory: [DailyHydration] = []
     @Published var todayHourly: [HourlyHydration] = []
@@ -67,11 +68,51 @@ final class HydrationManager: ObservableObject {
 
     @Published var last7DayCompletionPercent: Double = 0.0
     @Published var last7DayChangePercent: Double? = nil
-
-    private init() {}
-
+    
     // Expose goal to UI
     var goalLiters: Double { dailyGoal }
+
+    private init() {}
+    
+    private func storedNextUpdateDate() -> Date {
+        if nextWeeklyUpdateAt > 0 {
+            return Date(timeIntervalSince1970: nextWeeklyUpdateAt)
+        } else {
+            // Initialize schedule (don’t run immediately)
+            let initial = TimeUtilities.upcomingSundayMidnight(from: Date())
+            nextWeeklyUpdateAt = initial.timeIntervalSince1970
+            return initial
+        }
+    }
+    
+    func runAppResumeLogic() {
+        let now = Date()
+        let next = storedNextUpdateDate()
+
+        if BuildUtilities.isDebugEnabled || now >= next {
+            logger.info("App resume — performing weekly update")
+            Task {
+                do {
+                    let healthStore = HKHealthStore()
+
+                    let entries = try await getFullWeeksHistory(
+                        healthStore: healthStore,
+                        weeks: 4
+                    )
+
+                    print("\(entries)")
+                    print("Fetched \(entries.count) hydration entries")
+
+                } catch {
+                    print("HealthKit error:", error)
+                }
+            }
+
+            // Schedule the next one for the upcoming Sunday at 00:00
+            let newNext = TimeUtilities.upcomingSundayMidnight(from: now)
+            nextWeeklyUpdateAt = newNext.timeIntervalSince1970
+        }
+    }
 }
 
 // MARK: - Public Write API
@@ -139,6 +180,56 @@ extension HydrationManager {
 // MARK: - HealthKit Read (History + Today details)
 extension HydrationManager {
     // USED
+    func fetchHydrationData(
+        healthStore: HKHealthStore,
+        startDate: Date,
+        endDate: Date
+    ) async throws -> [HydrationEntry] {
+
+        guard let waterType = HKQuantityType.quantityType(forIdentifier: .dietaryWater) else {
+            return []
+        }
+
+        let predicate = HKQuery.predicateForSamples(
+            withStart: startDate,
+            end: endDate,
+            options: .strictStartDate
+        )
+
+        let sortDescriptor = NSSortDescriptor(
+            key: HKSampleSortIdentifierStartDate,
+            ascending: true
+        )
+
+        return try await withCheckedThrowingContinuation { continuation in
+            let query = HKSampleQuery(
+                sampleType: waterType,
+                predicate: predicate,
+                limit: HKObjectQueryNoLimit,
+                sortDescriptors: [sortDescriptor]
+            ) { _, samples, error in
+
+                if let error = error {
+                    continuation.resume(throwing: error)
+                    return
+                }
+
+                let entries: [HydrationEntry] = (samples as? [HKQuantitySample])?.map {
+                    HydrationEntry(
+                        date: $0.startDate,
+                        volumeML: $0.quantity.doubleValue(for: .literUnit(with: .milli))
+                    )
+                } ?? []
+
+                continuation.resume(returning: entries)
+            }
+
+            healthStore.execute(query)
+        }
+    }
+
+
+    // USED - ??
     func fetchHydrationTotal(from start: Date, to end: Date) async -> Double {
         guard let waterType = HKObjectType.quantityType(forIdentifier: .dietaryWater) else { return 0 }
 
@@ -183,9 +274,49 @@ extension HydrationManager {
 
             await MainActor.run {
                 self.storedDailyProgress = total
-                HydrationManager.logger.debug("Fetched daily progress from HealthKit: \(total) liters")
+                logger.debug("Fetched daily progress from HealthKit: \(total) liters")
             }
         }
+    }
+    
+    // USED
+    func getFullWeeksHistory(
+        healthStore: HKHealthStore,
+        weeks: Int
+    ) async throws -> [HydrationEntry] {
+
+        guard weeks > 0 else { return [] }
+
+        var calendar = Calendar.current
+        calendar.firstWeekday = 1 // Sunday
+        calendar.timeZone = .current
+
+        let now = Date()
+
+        // Start of current week (Sunday 00:00)
+        let startOfCurrentWeek = calendar.date(
+            from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now)
+        )!
+
+        // End of last full week (Saturday 23:59:59)
+        let endDate = calendar.date(
+            byAdding: .second,
+            value: -1,
+            to: startOfCurrentWeek
+        )!
+
+        // Start of earliest full week requested
+        let startDate = calendar.date(
+            byAdding: .weekOfYear,
+            value: -weeks,
+            to: startOfCurrentWeek
+        )!
+
+        return try await fetchHydrationData(
+            healthStore: healthStore,
+            startDate: startDate,
+            endDate: endDate
+        )
     }
     
     /// Fetches hydration samples from HealthKit for the last `daysBack` days,

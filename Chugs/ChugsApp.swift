@@ -59,8 +59,10 @@ struct ThemedText: View {
 
 @main
 struct ChugsApp: App {
+    @Environment(\.scenePhase) private var scenePhase
     private let notificationDelegate: NotificationDelegate
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
+    @AppStorage("lastAppActivationTime") private var lastAppActivationTime: Double = 0
     
     private let logger = LoggerUtilities.makeLogger(for: Self.self)
     
@@ -80,17 +82,54 @@ struct ChugsApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if hasCompletedOnboarding {
-                MainTabView()
-                    .appTheme(AppTheme(
-                        label: Color("Label"),
-                        background: Color("SystemBackground"),
-                        accent: Color("AccentColor")
-                    ))
-            } else {
-                OnboardingView(hasCompletedOnboarding: $hasCompletedOnboarding)
+            Group {
+                if hasCompletedOnboarding {
+                    MainTabView()
+                        .appTheme(AppTheme(
+                            label: Color("Label"),
+                            background: Color("SystemBackground"),
+                            accent: Color("AccentColor")
+                        ))
+                } else {
+                    OnboardingView(hasCompletedOnboarding: $hasCompletedOnboarding)
+                }
+            }
+            .onChange(of: scenePhase) { oldPhase, newPhase in
+                handleScenePhaseChange(from: oldPhase, to: newPhase)
             }
         }
+    }
+    
+    private func handleScenePhaseChange(from oldPhase: ScenePhase, to newPhase: ScenePhase) {
+        switch newPhase {
+        case .active:
+            logger.info("Scene became active (from \(String(describing: oldPhase)))")
+            runAppResumeLogic()
+
+        case .background:
+            logger.info("Scene moved to background")
+
+        case .inactive:
+            break
+
+        @unknown default:
+            break
+        }
+    }
+    
+    private func runAppResumeLogic() {
+        let now = Date()
+
+//        let elapsedSinceLastActivation: TimeInterval =
+//            lastAppActivationTime == 0
+//            ? 0
+//            : now.timeIntervalSince1970 - lastAppActivationTime
+
+        // Fan-out lifecycle event
+        HydrationManager.shared.runAppResumeLogic()
+
+        // Persist new activation time
+        lastAppActivationTime = now.timeIntervalSince1970
     }
 }
 

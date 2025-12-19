@@ -18,4 +18,25 @@ struct TimeUtilities {
         let comps = Calendar.current.dateComponents([.hour, .minute], from: date)
         return (comps.hour ?? 0) * 60 + (comps.minute ?? 0)
     }
+    
+    public static func upcomingSundayMidnight(from date: Date, calendar: Calendar = .current) -> Date {
+        var cal = calendar
+        // Force a stable week definition: Monday=2 ... Sunday=1 (ISO-like).
+        cal.firstWeekday = 2
+
+        let startOfToday = cal.startOfDay(for: date)
+
+        // In Gregorian Calendar: Sunday = 1, Monday = 2, ... Saturday = 7
+        let weekday = cal.component(.weekday, from: startOfToday)
+        let daysUntilSunday = (1 - weekday + 7) % 7
+
+        var candidate = cal.date(byAdding: .day, value: daysUntilSunday, to: startOfToday)!
+        // candidate is "this week's Sunday 00:00" if daysUntilSunday == 0, otherwise upcoming Sunday.
+
+        // Ensure it's strictly in the future relative to `date`
+        if candidate <= date {
+            candidate = cal.date(byAdding: .day, value: 7, to: candidate)!
+        }
+        return candidate
+    }
 }
