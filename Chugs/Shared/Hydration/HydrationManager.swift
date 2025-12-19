@@ -21,6 +21,7 @@ struct HourlyHydration: Identifiable {
     let totalLiters: Double
 }
 
+// USED
 struct HydrationEntry {
     let date: Date
     let volumeML: Double
@@ -95,16 +96,15 @@ final class HydrationManager: ObservableObject {
                 do {
                     let healthStore = HKHealthStore()
 
-                    let entries = try await getFullWeeksHistory(
-                        healthStore: healthStore,
-                        weeks: 4
+                    let habits = try await collectHydrationHabits(
+                        healthStore: healthStore
                     )
 
-                    print("\(entries)")
-                    print("Fetched \(entries.count) hydration entries")
+                    logger.info("Hydration Habits (4-week average):")
+                    logger.info("\(habits)")
 
                 } catch {
-                    print("HealthKit error:", error)
+                    logger.error("Error collecting hydration habits: \(error.localizedDescription)")
                 }
             }
 
@@ -228,6 +228,57 @@ extension HydrationManager {
         }
     }
 
+    func collectHydrationHabits(
+        healthStore: HKHealthStore
+    ) async throws -> HydrationHabits {
+
+        let entries = try await getFullWeeksHistory(
+            healthStore: healthStore,
+            weeks: 4
+        )
+
+        var habits = HydrationHabits()
+        let calendar = Calendar.current
+
+        // Group entries by calendar day
+        let groupedByDay = Dictionary(grouping: entries) {
+            calendar.startOfDay(for: $0.date)
+        }
+
+        for (dayDate, dayEntries) in groupedByDay {
+
+            // 1. Total water for the day
+            let dailyTotal = dayEntries.reduce(0) { $0 + $1.volumeML }
+            guard dailyTotal > 0 else { continue }
+
+            // 2. Day index (Sunday = 0)
+            let dayIndex = calendar.component(.weekday, from: dayDate) - 1
+
+            // 3. Bucket sums
+            var bucketTotals = Array(repeating: 0.0, count: 8)
+
+            for entry in dayEntries {
+                let hour = calendar.component(.hour, from: entry.date)
+                let bucketIndex = hour / 3
+                bucketTotals[bucketIndex] += entry.volumeML
+            }
+
+            // 4. Compute ratios and update habits
+            for bucketIndex in 0..<8 {
+                let bucketVolume = bucketTotals[bucketIndex]
+
+                let ratio = bucketVolume / dailyTotal
+
+                habits.updateRatio(
+                    dayIndex: dayIndex,
+                    bucketIndex: bucketIndex,
+                    newRatio: ratio
+                )
+            }
+        }
+
+        return habits
+    }
 
     // USED - ??
     func fetchHydrationTotal(from start: Date, to end: Date) async -> Double {
