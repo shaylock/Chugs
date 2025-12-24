@@ -21,7 +21,7 @@ struct SettingsView: View {
         NavigationView {
             Form {
                 goalsSection
-                notificationTimesSection()
+                NotificationTimesSection()
                 gulpSizeSection
                 resetReplaySection	
             }
@@ -104,20 +104,14 @@ struct SettingsView: View {
     }
 }
 
-private struct notificationTimesSection: View {
+struct NotificationTimesSection: View {
     @AppStorage("startMinutes") private var startMinutes: Int = 8 * 60   // 08:00
     @AppStorage("endMinutes") private var endMinutes: Int = 22 * 60      // 22:00
-    @State private var draftStartMinutes: Int
-    @State private var draftEndMinutes: Int
+    @State private var draftStartMinutes: Int = 8 * 60
+    @State private var draftEndMinutes: Int = 22 * 60
     private let logger = LoggerUtilities.makeLogger(for: Self.self)
     
-    init() {
-        let start = UserDefaults.standard.integer(forKey: "startMinutes")
-        let end = UserDefaults.standard.integer(forKey: "endMinutes")
-
-        _draftStartMinutes = State(initialValue: start == 0 ? 8 * 60 : start)
-        _draftEndMinutes = State(initialValue: end == 0 ? 22 * 60 : end)
-    }
+    init() {}
     
     private var hasChanges: Bool {
         draftStartMinutes != startMinutes ||
@@ -195,6 +189,10 @@ private struct notificationTimesSection: View {
                     .animation(.easeInOut(duration: 0.2), value: hasChanges)
             }
             .disabled(!hasChanges)
+        }
+        .onAppear {
+            draftStartMinutes = startMinutes
+            draftEndMinutes = endMinutes
         }
     }
 }
