@@ -246,6 +246,7 @@ struct IntervalSettingsView: View {
                     .cornerRadius(999)
                     .shadow(color: Color.primary.opacity(0.2), radius: 10, x: 0, y: 6)
                     .frame(maxWidth: 320)
+                    .animation(.easeInOut(duration: 0.2), value: tempInterval != interval)
             }
             .disabled(tempInterval == interval)
         }

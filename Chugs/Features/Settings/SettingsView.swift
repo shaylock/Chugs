@@ -10,8 +10,6 @@ import SwiftUI
 struct SettingsView: View {
     @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
     @AppStorage("dailyProgress") private var dailyProgress: Double = 0.0
-    @AppStorage("startMinutes") private var startMinutes: Int = 8 * 60   // 08:00
-    @AppStorage("endMinutes") private var endMinutes: Int = 22 * 60      // 22:00
     @AppStorage("gulpSize") private var gulpSize: Double = 10.0 / 1000.0 // 10 ml
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
     @AppStorage("tooltipsShown") private var tooltipsShown: Bool = false
@@ -23,9 +21,9 @@ struct SettingsView: View {
         NavigationView {
             Form {
                 goalsSection
-                notificationTimesSection
+                notificationTimesSection()
                 gulpSizeSection
-                resetReplaySection
+                resetReplaySection	
             }
             .navigationTitle(LocalizedStringKey("settings.title"))
         }
@@ -92,30 +90,6 @@ struct SettingsView: View {
         }
     }
 
-    private var notificationTimesSection: some View {
-        Section(header: Text(LocalizedStringKey("settings.notificationTimes.header"))) {
-            DatePicker(LocalizedStringKey("settings.startHour"),
-                       selection: Binding(
-                           get: { TimeUtilities.minutesToDate(startMinutes) },
-                           set: { newValue in
-                               let newMinutes = TimeUtilities.dateToMinutes(newValue)
-                               startMinutes = newMinutes
-                               if startMinutes > endMinutes { endMinutes = startMinutes }
-                           }),
-                       displayedComponents: .hourAndMinute)
-
-            DatePicker(LocalizedStringKey("settings.endHour"),
-                       selection: Binding(
-                           get: { TimeUtilities.minutesToDate(endMinutes) },
-                           set: { newValue in
-                               let newMinutes = TimeUtilities.dateToMinutes(newValue)
-                               endMinutes = newMinutes
-                               if endMinutes < startMinutes { startMinutes = endMinutes }
-                           }),
-                       displayedComponents: .hourAndMinute)
-        }
-    }
-
     private var gulpSizeSection: some View {
         Section(header: Text(LocalizedStringKey("settings.gulpSize.header"))) {
             Picker(LocalizedStringKey("settings.gulpSize.picker"), selection: $tempGulpSizeInt) {
@@ -126,6 +100,101 @@ struct SettingsView: View {
             .onChange(of: tempGulpSizeInt) {
                 gulpSize = Double(tempGulpSizeInt) / 1000.0
             }
+        }
+    }
+}
+
+private struct notificationTimesSection: View {
+    @AppStorage("startMinutes") private var startMinutes: Int = 8 * 60   // 08:00
+    @AppStorage("endMinutes") private var endMinutes: Int = 22 * 60      // 22:00
+    @State private var draftStartMinutes: Int
+    @State private var draftEndMinutes: Int
+    private let logger = LoggerUtilities.makeLogger(for: Self.self)
+    
+    init() {
+        let start = UserDefaults.standard.integer(forKey: "startMinutes")
+        let end = UserDefaults.standard.integer(forKey: "endMinutes")
+
+        _draftStartMinutes = State(initialValue: start == 0 ? 8 * 60 : start)
+        _draftEndMinutes = State(initialValue: end == 0 ? 22 * 60 : end)
+    }
+    
+    private var hasChanges: Bool {
+        draftStartMinutes != startMinutes ||
+        draftEndMinutes != endMinutes
+    }
+    
+    var body: some View {
+        Section(header: Text(LocalizedStringKey("settings.notificationTimes.header"))) {
+            DatePicker(
+                LocalizedStringKey("settings.startHour"),
+                selection: Binding(
+                    get: { TimeUtilities.minutesToDate(draftStartMinutes) },
+                    set: { newValue in
+                        let newMinutes = TimeUtilities.dateToMinutes(newValue)
+                        draftStartMinutes = newMinutes
+                        if draftStartMinutes > draftEndMinutes {
+                            draftEndMinutes = draftStartMinutes
+                        }
+                    }
+                ),
+                displayedComponents: .hourAndMinute
+            )
+
+            DatePicker(
+                LocalizedStringKey("settings.endHour"),
+                selection: Binding(
+                    get: { TimeUtilities.minutesToDate(draftEndMinutes) },
+                    set: { newValue in
+                        let newMinutes = TimeUtilities.dateToMinutes(newValue)
+                        draftEndMinutes = newMinutes
+                        if draftEndMinutes < draftStartMinutes {
+                            draftStartMinutes = draftEndMinutes
+                        }
+                    }
+                ),
+                displayedComponents: .hourAndMinute
+            )
+            
+            Button(action: {
+                startMinutes = draftStartMinutes
+                endMinutes = draftEndMinutes
+                Task {
+                    await IntervalNotificationScheduler.shared.scheduleDailyNotifications()
+                }
+            }) {
+                Text("settings.notifications.confirmButton")
+                    .font(.system(size: 16, weight: .bold))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 14)
+                    .foregroundColor(.white)
+                    .background(
+                        Group {
+                            if hasChanges {
+                                LinearGradient(
+                                    gradient: Gradient(colors: [
+                                        Color(#colorLiteral(red: 0.0, green: 0.7843137389, blue: 1.0, alpha: 1.0)),
+                                        Color(#colorLiteral(red: 0.0, green: 0.4470588267, blue: 0.9764705896, alpha: 1.0))
+                                    ]),
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            } else {
+                                Color(.systemGray4)
+                            }
+                        }
+                    )
+                    .cornerRadius(999)
+                    .shadow(
+                        color: hasChanges ? Color.primary.opacity(0.2) : .clear,
+                        radius: 10,
+                        x: 0,
+                        y: 6
+                    )
+                    .frame(maxWidth: 320)
+                    .animation(.easeInOut(duration: 0.2), value: hasChanges)
+            }
+            .disabled(!hasChanges)
         }
     }
 }

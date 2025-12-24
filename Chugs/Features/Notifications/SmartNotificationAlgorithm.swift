@@ -30,6 +30,13 @@ final class SmartNotificationAlgorithm: ObservableObject {
         self.hydrationManager = hydrationManager
         loadBucketsFromStorage()
     }
+    
+    // USED ??
+    func getReminderFactor() -> Double {
+        // get habit for current time and day
+        // calculate urgency factor based on today's progress and goal
+        return 1.0
+    }
 
     // MARK: - Public Function
     /// Calculates and stores HS buckets (run once a week)
