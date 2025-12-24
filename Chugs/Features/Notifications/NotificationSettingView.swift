@@ -7,13 +7,6 @@
 
 import SwiftUI
 
-enum NotificationType: String, CaseIterable, Identifiable {
-    case smart = "settings.notifications.type.smart"
-    case interval = "settings.notifications.type.interval"
-    
-    var id: String { rawValue }
-}
-
 struct NotificationSettingView: View {
     // Global settings
     @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
@@ -68,26 +61,10 @@ private struct notificationTypePickerView: View {
             }
         }
         .onChange(of: notificationType) {
-            setNotificationType()
+            notificationType.makeScheduler().scheduleNotifications()
         }
         .pickerStyle(SegmentedPickerStyle())
         .padding()
-    }
-    
-    private func setNotificationType() {
-        logger.debug("Notification type changed to \(notificationType.rawValue)")
-        switch notificationType {
-        case .smart:
-            guard HealthStore.shared.hasReadAccess() else {
-                logger.debug("Smart notifications blocked – no Health read access")
-                return
-            }
-            SmartNotificationScheduler().scheduleNext(gulpsConsumed: 0)
-        case .interval:
-            Task {
-                await IntervalNotificationScheduler.shared.scheduleDailyNotifications()
-            }
-        }
     }
 }
 
@@ -197,6 +174,7 @@ struct SmartHealthPermissionView: View {
 }
 
 struct IntervalSettingsView: View {
+    @AppStorage("notificationType") private var notificationType: NotificationType = .smart
     @AppStorage("interval") private var interval: Int = 30
     @State private var tempInterval: Int = 30
     
@@ -218,9 +196,8 @@ struct IntervalSettingsView: View {
             
             Button(action: {
                 interval = tempInterval
-                Task {
-                    await IntervalNotificationScheduler.shared.scheduleDailyNotifications()
-                }
+                guard notificationType == .interval else { return }
+                notificationType.makeScheduler().scheduleNotifications()
             }) {
                 Text("settings.notifications.confirmButton")
                     .font(.system(size: 16, weight: .bold))

@@ -105,6 +105,7 @@ struct SettingsView: View {
 }
 
 struct NotificationTimesSection: View {
+    @AppStorage("notificationType") private var notificationType: NotificationType = .smart
     @AppStorage("startMinutes") private var startMinutes: Int = 8 * 60   // 08:00
     @AppStorage("endMinutes") private var endMinutes: Int = 22 * 60      // 22:00
     @State private var draftStartMinutes: Int = 8 * 60
@@ -153,9 +154,7 @@ struct NotificationTimesSection: View {
             Button(action: {
                 startMinutes = draftStartMinutes
                 endMinutes = draftEndMinutes
-                Task {
-                    await IntervalNotificationScheduler.shared.scheduleDailyNotifications()
-                }
+                notificationType.makeScheduler().scheduleNotifications()
             }) {
                 Text("settings.notifications.confirmButton")
                     .font(.system(size: 16, weight: .bold))

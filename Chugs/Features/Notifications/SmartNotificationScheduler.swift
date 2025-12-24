@@ -9,11 +9,19 @@ import Foundation
 import UserNotifications
 import SwiftUI
 
-struct SmartNotificationScheduler {
+struct SmartNotificationScheduler: NotificationScheduling {
     // AppStorage values
     @AppStorage("smartInterval") private var smartInterval: Double = 10.0  // in minutes
     @AppStorage("startMinutes") private var startMinutes: Int = 8 * 60     // 08:00
     @AppStorage("endMinutes") private var endMinutes: Int = 22 * 60        // 22:00
+    
+    func scheduleNotifications() {
+        Task {
+            await NotificationUtilities.scheduleDailyNotifications(
+                interval: 60, startMinutes: startMinutes, endMinutes: endMinutes
+            )
+        }
+    }
 
     func scheduleNext(gulpsConsumed: Int) {
         // 1. Cancel all pending notifications
