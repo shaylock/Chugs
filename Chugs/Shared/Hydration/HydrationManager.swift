@@ -56,8 +56,9 @@ final class HydrationManager: ObservableObject {
     private let logger = LoggerUtilities.makeLogger(for: HydrationManager.self)
     static let shared = HydrationManager()
 
-    private let healthStore = HKHealthStore()
-
+    @AppStorage("hydrationHabits") private var hydrationHabitsData: Data = Data()
+    @Published private(set) var hydrationHabits: HydrationHabits = HydrationHabits()
+    
     @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
     @AppStorage("storedDailyProgress") private var storedDailyProgress: Double = 0.0
     @AppStorage("lastProgressDate") private var lastProgressDate: String = ""
@@ -70,10 +71,16 @@ final class HydrationManager: ObservableObject {
     @Published var last7DayCompletionPercent: Double = 0.0
     @Published var last7DayChangePercent: Double? = nil
     
+    private let healthStore = HKHealthStore()
+    private let habitsEncoder = JSONEncoder()
+    private let habitsDecoder = JSONDecoder()
+    
     // Expose goal to UI
     var goalLiters: Double { dailyGoal }
 
-    private init() {}
+    private init() {
+        loadHydrationHabits()
+    }
     
     private func storedNextUpdateDate() -> Date {
         if nextWeeklyUpdateAt > 0 {
@@ -86,11 +93,45 @@ final class HydrationManager: ObservableObject {
         }
     }
     
+    // UNUSED
+    func hydrationRatio(for date: Date) -> Double {
+        hydrationHabits.fetchRatio(for: date)
+    }
+    
+    // UNUSED
+    func hydrationHabitsSnapshot() -> HydrationHabits {
+        hydrationHabits
+    }
+
+
+    private func loadHydrationHabits() {
+        guard !hydrationHabitsData.isEmpty else {
+            hydrationHabits = HydrationHabits()
+            return
+        }
+
+        if let decoded = try? habitsDecoder.decode(
+            HydrationHabits.self,
+            from: hydrationHabitsData
+        ) {
+            hydrationHabits = decoded
+        } else {
+            hydrationHabits = HydrationHabits()
+        }
+    }
+
+    private func saveHydrationHabits(_ habits: HydrationHabits) {
+        if let data = try? habitsEncoder.encode(habits) {
+            hydrationHabitsData = data
+        }
+    }
+    
     func runAppResumeLogic() {
         let now = Date()
         let next = storedNextUpdateDate()
 
-        if BuildUtilities.isDebugEnabled || now >= next {
+//        if BuildUtilities.isDebugEnabled || now >= next {
+        if now >= next {
             logger.info("App resume — performing weekly update")
             Task {
                 do {
@@ -100,18 +141,20 @@ final class HydrationManager: ObservableObject {
                         healthStore: healthStore
                     )
 
-                    logger.info("Hydration Habits (4-week average):")
-                    logger.info("\(habits)")
-
+                    await MainActor.run {
+                        self.hydrationHabits = habits
+                        self.saveHydrationHabits(habits)
+                    }
                 } catch {
                     logger.error("Error collecting hydration habits: \(error.localizedDescription)")
                 }
             }
-
             // Schedule the next one for the upcoming Sunday at 00:00
             let newNext = TimeUtilities.upcomingSundayMidnight(from: now)
             nextWeeklyUpdateAt = newNext.timeIntervalSince1970
         }
+        logger.info("Hydration Habits (4-week average):")
+        logger.info("\(self.hydrationHabits)")
     }
 }
 

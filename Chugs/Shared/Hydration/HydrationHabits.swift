@@ -7,14 +7,12 @@
 
 import SwiftUI
 
-struct HydrationAverageBucket {
+struct HydrationAverageBucket: Codable {
     var averageRatio: Double
     var samplesCount: Int
 }
 
-struct HydrationHabits {
-    private let logger = LoggerUtilities.makeLogger(for: HydrationHabits.self)
-
+struct HydrationHabits: Codable {
     // [day][bucket]
     private var data: [[HydrationAverageBucket]]
 
