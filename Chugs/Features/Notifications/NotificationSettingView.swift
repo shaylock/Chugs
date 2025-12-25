@@ -11,11 +11,7 @@ struct NotificationSettingView: View {
     @AppStorage("startMinutes") private var startMinutes: Int = 8 * 60   // 08:00
     @AppStorage("endMinutes") private var endMinutes: Int = 22 * 60      // 22:00
     @AppStorage("gulpSize") private var gulpSize: Int = 10
-    
-    // Notification settings
     @AppStorage("notificationType") private var notificationType: NotificationType = .smart
-    @AppStorage("interval") private var interval: Int = 30
-    @AppStorage("smartInterval") private var smartInterval: Double = 10
     
     @State private var useAI = true
     @State private var dailyLimit = 5
@@ -26,7 +22,7 @@ struct NotificationSettingView: View {
         NavigationView {
             VStack(spacing: 20) {
                 notificationTypePickerView(notificationType: $notificationType)
-                notificationSettingsSectionView(notificationType: $notificationType, interval: $interval)
+                notificationSettingsSectionView(notificationType: $notificationType)
                 Spacer()
             }
             .navigationTitle("settings.notifications.title")
@@ -54,7 +50,6 @@ private struct notificationTypePickerView: View {
 
 private struct notificationSettingsSectionView: View {
     @Binding var notificationType: NotificationType
-    @Binding var interval: Int
 
     var body: some View {
         Group {
@@ -98,9 +93,23 @@ struct SmartSettingsContainer: View {
 
 
 struct SmartSettings: View {
+    @AppStorage("notificationType") private var notificationType: NotificationType = .smart
+    @AppStorage("smartInterval") private var smartInterval: SmartInterval = .normal
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
             Text("settings.notifications.smart.description")
+            
+            Picker("settings.notifications.smart.typePicker.title", selection: $smartInterval) {
+                ForEach(SmartInterval.allCases) { type in
+                    Text(LocalizedStringKey(type.rawValue)).tag(type)
+                }
+            }
+            .onChange(of: smartInterval) {
+                notificationType.makeScheduler().scheduleNotifications()
+            }
+            .pickerStyle(.inline)
+            .padding()
         }
     }
 }

@@ -30,6 +30,12 @@
 "settings.notifications.intervalPicker.minutes" = "%d דקות";
 "settings.notifications.interval.description" = "התראות יישלחו במרווח קבוע.";
 "settings.notifications.confirmButton" = "אישור";
+"settings.notifications.smart.typePicker.title" = "תדירות התראות חכמות";
+"settings.notifications.type.smart.veryOften" = "לעיתים קרובות מאוד";
+"settings.notifications.type.smart.often" = "לעיתים קרובות";
+"settings.notifications.type.smart.normal" = "לפעמים";
+"settings.notifications.type.smart.rarely" = "לעיתים רחוקות";
+"settings.notifications.type.smart.veryRarely" = "לעיתים רחוקות מאוד";
 
 /* Smart notifications – Health permission */
 "settings.notifications.smart.health.description" = "התראות חכמות דורשות גישה לנתוני צריכת המים שלך מ־Apple Health.";

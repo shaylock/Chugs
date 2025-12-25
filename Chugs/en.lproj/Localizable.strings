@@ -30,6 +30,12 @@
 "settings.notifications.intervalPicker.minutes" = "%d minutes";
 "settings.notifications.interval.description" = "Notifications will repeat at this interval.";
 "settings.notifications.confirmButton" = "Confirm";
+"settings.notifications.smart.typePicker.title" = "Smart Notification Frequency";
+"settings.notifications.type.smart.veryOften" = "Very Often";
+"settings.notifications.type.smart.often" = "Often";
+"settings.notifications.type.smart.normal" = "Normal";
+"settings.notifications.type.smart.rarely" = "Rarely";
+"settings.notifications.type.smart.veryRarely" = "Very Rarely";
 
 /* Smart notifications – Health permission */
 "settings.notifications.smart.health.description" = "Smart notifications require access to your Apple Health water intake data.";
