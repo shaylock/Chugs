@@ -31,7 +31,7 @@ final class SmartNotificationAlgorithm: ObservableObject {
         loadBucketsFromStorage()
     }
     
-    // USED ??
+    // UNUSED
     func getReminderFactor() -> Double {
         // get habit for current time and day
         // calculate urgency factor based on today's progress and goal
@@ -40,6 +40,7 @@ final class SmartNotificationAlgorithm: ObservableObject {
 
     // MARK: - Public Function
     /// Calculates and stores HS buckets (run once a week)
+    // UNUSED
     func calculateHydrationBuckets() async {
 
         // Fetch 4 full weeks excluding the current week
@@ -105,6 +106,7 @@ final class SmartNotificationAlgorithm: ObservableObject {
     }
 
     // MARK: - Access HS for any time
+    // UNUSED
     func getHsForTime(date: Date) -> Double {
         let calendar = Calendar.current
         let locale = Locale.current

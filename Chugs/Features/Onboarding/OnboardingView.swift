@@ -122,6 +122,7 @@ struct OnboardingView: View {
 
     private func finishOnboarding() {
         hasCompletedOnboarding = true
+        HydrationManager.shared.runAppResumeLogic()
     }
 
     func openAppNotificationSettings() {

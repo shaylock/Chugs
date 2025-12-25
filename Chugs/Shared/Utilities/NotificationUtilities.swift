@@ -28,6 +28,46 @@ final class NotificationUtilities {
         }
     }
     
+    public static func scheduleSingleNotificationIn(minutes: Double) async {
+        guard minutes > 0 else {
+            logger.warning("scheduleSingleNotificationIn called with non-positive minutes: \(minutes)")
+            return
+        }
+
+        let center = UNUserNotificationCenter.current()
+        let timeInterval = minutes * 60
+
+        let content = UNMutableNotificationContent()
+        content.title = NSLocalizedString("intervalScheduler.notification.title", comment: "")
+        content.body  = NSLocalizedString("intervalScheduler.notification.body", comment: "")
+        content.categoryIdentifier = "CHUGS_CATEGORY"
+//        content.sound = .default
+        content.sound = UNNotificationSound(
+            named: UNNotificationSoundName("water_drop.caf")
+        )
+
+
+        let identifier = "singleDrinkReminder_\(UUID().uuidString)"
+        let trigger = UNTimeIntervalNotificationTrigger(
+            timeInterval: timeInterval,
+            repeats: false
+        )
+
+        let request = UNNotificationRequest(
+            identifier: identifier,
+            content: content,
+            trigger: trigger
+        )
+
+        do {
+            try await center.add(request)
+            logger.debug("✅ Scheduled single notification in \(timeInterval) seconds.")
+        } catch {
+            logger.error("Error scheduling single notification: \(error.localizedDescription)")
+        }
+    }
+
+    
     public static func scheduleDailyNotifications(interval: Int, startMinutes: Int, endMinutes: Int) async {
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests()

@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct NotificationSettingView: View {
-    // Global settings
-    @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
     @AppStorage("startMinutes") private var startMinutes: Int = 8 * 60   // 08:00
     @AppStorage("endMinutes") private var endMinutes: Int = 22 * 60      // 22:00
     @AppStorage("gulpSize") private var gulpSize: Int = 10
@@ -33,20 +31,6 @@ struct NotificationSettingView: View {
             }
             .navigationTitle("settings.notifications.title")
         }
-    }
-    
-    // todo: is this used?
-    private func calculateSmartInterval() {
-        let totalMl = dailyGoal * 1000.0
-        guard gulpSize > 0 else { return }
-        let gulpsNeeded = totalMl / Double(gulpSize)
-        let totalMinutes = Double(endMinutes - startMinutes)
-        
-        guard gulpsNeeded > 0 else { return }
-        let interval = totalMinutes / gulpsNeeded
-        
-        // Store in AppStorage
-        smartInterval = interval
     }
 }
 

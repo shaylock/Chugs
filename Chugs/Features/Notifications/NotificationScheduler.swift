@@ -10,6 +10,7 @@ import UserNotifications
 
 protocol NotificationScheduling {
     func scheduleNotifications()
+    func scheduleNextDynamicNotification()
 }
 
 enum NotificationType: String, CaseIterable, Identifiable {

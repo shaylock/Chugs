@@ -14,6 +14,10 @@ struct SmartNotificationScheduler: NotificationScheduling {
     @AppStorage("smartInterval") private var smartInterval: Double = 10.0  // in minutes
     @AppStorage("startMinutes") private var startMinutes: Int = 8 * 60     // 08:00
     @AppStorage("endMinutes") private var endMinutes: Int = 22 * 60        // 22:00
+    @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
+    @AppStorage("storedDailyProgress") private var storedDailyProgress: Double = 0.0
+    
+    private let logger = LoggerUtilities.makeLogger(for: SmartNotificationScheduler.self)
     
     func scheduleNotifications() {
         Task {
@@ -21,64 +25,22 @@ struct SmartNotificationScheduler: NotificationScheduling {
                 interval: 60, startMinutes: startMinutes, endMinutes: endMinutes
             )
         }
+        scheduleNextDynamicNotification()
     }
-
-    func scheduleNext(gulpsConsumed: Int) {
-        // 1. Cancel all pending notifications
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        
-        // todo: drinking 0 means smaller interval to keep up with the daily goal
-        // 2. Normalize gulps count
-        let normalizedGulps = max(gulpsConsumed, 1)
-        
-        // 3. Compute delay (minutes → seconds)
-        let delayMinutes = smartInterval * Double(normalizedGulps)
-        let delaySeconds = delayMinutes * 60.0
-        
-        // 4. Determine when the notification should fire
-        let now = Date()
-        let scheduledTime = now.addingTimeInterval(delaySeconds)
-        
-        // Get today's start and end times
-        let calendar = Calendar.current
-        let startOfDay = calendar.startOfDay(for: now)
-        let startTime = startOfDay.addingTimeInterval(TimeInterval(startMinutes * 60))
-        let endTime = startOfDay.addingTimeInterval(TimeInterval(endMinutes * 60))
-        
-        var triggerTime: Date
-        
-        // 5. If the scheduled time is *after end time*, push to next day start time
-        if scheduledTime > endTime {
-            triggerTime = calendar.date(byAdding: .day, value: 1, to: startTime)!
-            print("⏰ Next reminder postponed to tomorrow at start hour.")
-        } else {
-            triggerTime = scheduledTime
-        }
-        
-        // 6. Calculate interval from now to trigger time
-        let interval = triggerTime.timeIntervalSince(now)
-        guard interval > 0 else { return } // safety guard
-        
-        // 7. Build notification content
-        let content = UNMutableNotificationContent()
-        content.title = "Time to Chug 💧"
-        content.body = "Stay hydrated! How many gulps did you take?"
-        content.categoryIdentifier = "CHUGS_CATEGORY"
-        content.sound = .default
-        
-        // 8. Trigger & request
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
-        let request = UNNotificationRequest(identifier: "next_gulp_reminder", content: content, trigger: trigger)
-        
-        // 9. Schedule
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                print("❌ Failed to schedule next gulp notification: \(error)")
-            } else {
-                let formatter = DateFormatter()
-                formatter.timeStyle = .short
-                print("✅ Next gulp notification scheduled for \(formatter.string(from: triggerTime)) (\(normalizedGulps) gulps consumed).")
-            }
+    
+    func scheduleNextDynamicNotification() {
+        let hoursPassed: Double = (Double)(Calendar.current.component(.hour, from: Date()))
+        let goalUntilNow = (dailyGoal / 24) * hoursPassed
+        let urgency: Double = max(1, 1 - (storedDailyProgress / goalUntilNow))
+        let habit: Double = HydrationManager.shared.hydrationHabits.fetchRatio(for: Date())
+        let habitFactor: Double = HydrationManager.shared.hydrationHabits.fetchActivity(for: Date())
+        let urgencyFactor: Double = 1 - habitFactor
+        logger.debug("habit: \(habit), habitFactor: \(habitFactor), urgency: \(urgency), urgencyFactor: \(urgencyFactor)")
+        let reminder = 1 - ((urgency * urgencyFactor) + (habit * habitFactor))
+        let minutesUntilNext = BuildUtilities.isDebugEnabled ? 0.1 : max(smartInterval * reminder, 2.0) // Minimum 2 minutes
+        logger.debug("reminder: \(reminder), scheduling next smart notification in \(minutesUntilNext) minutes.")
+        Task {
+            await NotificationUtilities.scheduleSingleNotificationIn(minutes: minutesUntilNext)
         }
     }
 }

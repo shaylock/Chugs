@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D62B6402EFD49D7005743E5 /* water_drop.caf in Resources */ = {isa = PBXBuildFile; fileRef = 9D62B63F2EFD49D7005743E5 /* water_drop.caf */; };
+		9D62B6412EFD49D7005743E5 /* water_drop.caf in Resources */ = {isa = PBXBuildFile; fileRef = 9D62B63F2EFD49D7005743E5 /* water_drop.caf */; };
 		9DF10C502E98FE9D00F451FC /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DF10C4F2E98FE9D00F451FC /* UserNotifications.framework */; };
 		9DF10C522E98FE9D00F451FC /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DF10C512E98FE9D00F451FC /* UserNotificationsUI.framework */; };
 		9DF10C5C2E98FE9D00F451FC /* ChugsNotificationExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9DF10C4D2E98FE9D00F451FC /* ChugsNotificationExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -54,6 +56,7 @@
 		9D0AFF272E69C0490079E900 /* Chugs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chugs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D0AFF342E69C04A0079E900 /* ChugsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChugsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D0AFF3E2E69C04A0079E900 /* ChugsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChugsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D62B63F2EFD49D7005743E5 /* water_drop.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = water_drop.caf; sourceTree = "<group>"; };
 		9DF10C4D2E98FE9D00F451FC /* ChugsNotificationExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ChugsNotificationExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DF10C4F2E98FE9D00F451FC /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		9DF10C512E98FE9D00F451FC /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
@@ -142,6 +145,7 @@
 		9D0AFF1E2E69C0490079E900 = {
 			isa = PBXGroup;
 			children = (
+				9D62B63A2EFD47D0005743E5 /* Resources */,
 				9D0AFF292E69C0490079E900 /* Chugs */,
 				9D0AFF372E69C04A0079E900 /* ChugsTests */,
 				9D0AFF412E69C04A0079E900 /* ChugsUITests */,
@@ -160,6 +164,22 @@
 				9DF10C4D2E98FE9D00F451FC /* ChugsNotificationExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		9D62B63A2EFD47D0005743E5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9D62B63B2EFD4841005743E5 /* Sounds */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		9D62B63B2EFD4841005743E5 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				9D62B63F2EFD49D7005743E5 /* water_drop.caf */,
+			);
+			path = Sounds;
 			sourceTree = "<group>";
 		};
 		9DF10C4E2E98FE9D00F451FC /* Frameworks */ = {
@@ -321,6 +341,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D62B6402EFD49D7005743E5 /* water_drop.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,6 +363,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D62B6412EFD49D7005743E5 /* water_drop.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

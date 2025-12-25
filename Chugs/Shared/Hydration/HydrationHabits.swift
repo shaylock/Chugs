@@ -15,6 +15,8 @@ struct HydrationAverageBucket: Codable {
 struct HydrationHabits: Codable {
     // [day][bucket]
     private var data: [[HydrationAverageBucket]]
+    private var sums: [Double]
+    private var initialized: Bool = false
 
     init() {
         self.data = Array(
@@ -24,39 +26,56 @@ struct HydrationHabits: Codable {
             ),
             count: 7
         )
+        self.sums = Array(repeating: 0.0, count: 7)
+    }
+    
+    func isInitialized() -> Bool {
+        return initialized
     }
 
-    // MARK: - Fetch ratio
-
     func fetchRatio(for date: Date) -> Double {
+        guard initialized else {
+            return 0.0
+        }
         let calendar = Calendar.current
-
         let dayIndex = calendar.component(.weekday, from: date) - 1 // Sunday = 0
         let hour = calendar.component(.hour, from: date)
         let bucketIndex = hour / 3
-
         return data[dayIndex][bucketIndex].averageRatio
     }
-
-    // MARK: - Update ratio with proper averaging
+    
+    func fetchActivity(for date: Date) -> Double {
+        guard initialized else {
+            return 0.0
+        }
+        let calendar = Calendar.current
+        let dayIndex = calendar.component(.weekday, from: date) - 1 // Sunday = 0
+        guard sums[dayIndex] > 0 else {
+            return 0.0
+        }
+        // todo: adjust activity calculation based on quantity of health records
+        return 0.6
+    }
 
     mutating func updateRatio(
         dayIndex: Int,
         bucketIndex: Int,
         newRatio: Double
     ) {
+        initialized = true
         var bucket = data[dayIndex][bucketIndex]
+        sums[dayIndex] -= bucket.averageRatio
 
         let total = bucket.averageRatio * Double(bucket.samplesCount)
         bucket.samplesCount += 1
         bucket.averageRatio = (total + newRatio) / Double(bucket.samplesCount)
 
         data[dayIndex][bucketIndex] = bucket
+        sums[dayIndex] += bucket.averageRatio
     }
 }
 
 extension HydrationHabits: CustomStringConvertible {
-
     var description: String {
         let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
         let buckets = [
@@ -67,7 +86,7 @@ extension HydrationHabits: CustomStringConvertible {
         var lines: [String] = []
 
         // Header
-        let header = ["Day"] + buckets
+        let header = ["Day"] + buckets + ["Sum"]
         lines.append(header.joined(separator: "\t"))
 
         // Rows
@@ -78,6 +97,7 @@ extension HydrationHabits: CustomStringConvertible {
                 let ratio = data[dayIndex][bucketIndex].averageRatio
                 row.append(String(format: "%.2f", ratio))
             }
+            row.append(String(format: "%.2f", sums[dayIndex]))
 
             lines.append(row.joined(separator: "\t"))
         }

@@ -94,11 +94,6 @@ final class HydrationManager: ObservableObject {
     }
     
     // UNUSED
-    func hydrationRatio(for date: Date) -> Double {
-        hydrationHabits.fetchRatio(for: date)
-    }
-    
-    // UNUSED
     func hydrationHabitsSnapshot() -> HydrationHabits {
         hydrationHabits
     }
@@ -131,7 +126,7 @@ final class HydrationManager: ObservableObject {
         let next = storedNextUpdateDate()
 
 //        if BuildUtilities.isDebugEnabled || now >= next {
-        if now >= next {
+        if now >= next || !hydrationHabits.isInitialized() {
             logger.info("App resume — performing weekly update")
             Task {
                 do {
@@ -153,8 +148,10 @@ final class HydrationManager: ObservableObject {
             let newNext = TimeUtilities.upcomingSundayMidnight(from: now)
             nextWeeklyUpdateAt = newNext.timeIntervalSince1970
         }
-        logger.info("Hydration Habits (4-week average):")
-        logger.info("\(self.hydrationHabits)")
+        if (hydrationHabits.isInitialized()) {
+            logger.info("Hydration Habits (4-week average):")
+            logger.info("\(self.hydrationHabits)")
+        }
     }
 }
 
