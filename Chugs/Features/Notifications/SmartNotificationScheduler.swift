@@ -47,6 +47,7 @@ struct SmartNotificationScheduler: NotificationScheduling {
     func scheduleNotifications() {
         Task {
             await NotificationUtilities.scheduleDailyNotifications(
+                // todo: if fixed interval is not 60 this will break
                 interval: 60, startMinutes: startMinutes, endMinutes: endMinutes
             )
             scheduleNextDynamicNotification()
@@ -65,8 +66,11 @@ struct SmartNotificationScheduler: NotificationScheduling {
 //        let minutesUntilNext = BuildUtilities.isDebugEnabled ? 0.1 : max(smartInterval.value * reminder, 0.5) // Minimum of 30 seconds
         let minutesUntilNext = max(smartInterval.value * reminder, 0.5) // Minimum of 30 seconds
         logger.debug("reminder: \(reminder), scheduling next smart notification in \(minutesUntilNext) minutes.")
-        Task {
-            await NotificationUtilities.scheduleSingleNotificationIn(minutes: minutesUntilNext)
+        // todo: if fixed interval is not 60 this will break
+        if minutesUntilNext < Calendar.current.minutesLeftInHour {
+            Task {
+                await NotificationUtilities.scheduleSingleNotificationIn(minutes: minutesUntilNext)
+            }
         }
     }
 }

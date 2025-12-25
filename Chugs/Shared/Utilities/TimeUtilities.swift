@@ -7,6 +7,18 @@
 
 import SwiftUI
 
+// todo: if fixed interval is not 60 this will break
+extension Calendar {
+    /// Remaining minutes until the next round hour (includes seconds)
+    var minutesLeftInHour: Double {
+        let now = Date()
+        let minute = component(.minute, from: now)
+        let second = component(.second, from: now)
+
+        return Double(60 - minute) - Double(second) / 60
+    }
+}
+
 struct TimeUtilities {
     public static func minutesToDate(_ minutes: Int) -> Date {
         let h = minutes / 60
