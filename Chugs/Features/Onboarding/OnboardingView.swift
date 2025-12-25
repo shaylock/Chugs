@@ -32,7 +32,7 @@ struct OnboardingView: View {
             .tabViewStyle(PageTabViewStyle())
 
             Button(LocalizedStringKey("onboarding.skip")) {
-                hasCompletedOnboarding = true
+                finishOnboarding()
             }
             .padding(.top, 16)
             .padding(.trailing, 20)
