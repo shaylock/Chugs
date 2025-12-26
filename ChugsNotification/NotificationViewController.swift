@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 import UserNotifications
 import UserNotificationsUI
 
@@ -16,23 +17,26 @@ final class NotificationViewController: UIViewController, UNNotificationContentE
 
         print("🚰 ChugsNotification viewDidLoad")
 
-        view.backgroundColor = .systemYellow
+        let swiftUIView = TrackingButtonsNotificationView()
+        let hostingController = UIHostingController(rootView: swiftUIView)
 
-        let label = UILabel()
-        label.text = "CHUGS EXTENSION LOADED !!"
-        label.font = .boldSystemFont(ofSize: 18)
-        label.translatesAutoresizingMaskIntoConstraints = false
-
-        view.addSubview(label)
+        addChild(hostingController)
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(hostingController.view)
 
         NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            hostingController.view.topAnchor.constraint(equalTo: view.topAnchor),
+            hostingController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            hostingController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            hostingController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+
+        hostingController.didMove(toParent: self)
     }
 
     func didReceive(_ notification: UNNotification) {
-        print("🚰 didReceive notification")
+        // No-op for now
     }
 }
+
 
