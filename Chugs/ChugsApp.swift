@@ -143,11 +143,6 @@ struct MainTabView: View {
                     Label("tab.drink", systemImage: "drop.fill")
                 }
 
-            HistoryView() // ← New tab
-                .tabItem {
-                    Label("tab.stats", systemImage: "chart.bar")
-                }
-
             NotificationSettingView()
                 .tabItem {
                     Label("tab.reminders", systemImage: "alarm")
