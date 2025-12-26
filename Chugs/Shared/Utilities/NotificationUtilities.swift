@@ -54,7 +54,7 @@ final class NotificationUtilities {
         content.body  = NSLocalizedString("intervalScheduler.notification.body", comment: "")
         content.categoryIdentifier = "CHUGS_CATEGORY"
         content.sound = UNNotificationSound(
-            named: UNNotificationSoundName("water_drop.caf")
+            named: UNNotificationSoundName("water_poured.caf")
         )
 
         let identifier = "singleDrinkReminder_\(UUID().uuidString)"
