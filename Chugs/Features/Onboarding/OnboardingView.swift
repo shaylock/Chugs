@@ -124,6 +124,9 @@ struct OnboardingView: View {
     private func finishOnboarding() {
         hasCompletedOnboarding = true
         Task {
+            // TODO: REVERT
+//            NotificationManager.shared.ensureChugsCategoryExists()
+            NotificationManager.shared.registerChugsCategory()
             await HydrationManager.shared.runAppResumeLogic()
             notificationType.makeScheduler().scheduleNotifications()
         }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "2610"
+   LastUpgradeVersion = "2620"
    wasCreatedForAppExtension = "YES"
    version = "2.0">
    <BuildAction
@@ -16,9 +16,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9DF10C4C2E98FE9C00F451FC"
-               BuildableName = "ChugsNotificationExtension.appex"
-               BlueprintName = "ChugsNotificationExtension"
+               BlueprintIdentifier = "9D62B6522EFEB4E6005743E5"
+               BuildableName = "ChugsNotification.appex"
+               BlueprintName = "ChugsNotification"
                ReferencedContainer = "container:Chugs.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -60,7 +60,7 @@
       <RemoteRunnable
          runnableDebuggingMode = "1"
          BundleIdentifier = "com.shayblum.Chugs"
-         RemotePath = "/Users/shayblum/Library/Developer/CoreSimulator/Devices/B3092B84-F0ED-434B-892E-5747519FD9F8/data/Containers/Bundle/Application/2CDA3858-8E0C-4DE8-8057-0C8E48E8D59E/Chugs.app">
+         RemotePath = "/Users/shayblum/Library/Developer/CoreSimulator/Devices/B3092B84-F0ED-434B-892E-5747519FD9F8/data/Containers/Bundle/Application/0313B16B-AD0C-4509-89EC-FA837BE40419/Chugs.app">
       </RemoteRunnable>
       <MacroExpansion>
          <BuildableReference

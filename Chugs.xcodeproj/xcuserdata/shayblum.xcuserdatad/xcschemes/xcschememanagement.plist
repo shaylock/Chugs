@@ -9,15 +9,30 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
-		<key>ChugsNotificationExtension.xcscheme_^#shared#^_</key>
+		<key>ChugsNotification.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>2</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>9D0AFF262E69C0490079E900</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9D0AFF332E69C04A0079E900</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9D0AFF3D2E69C04A0079E900</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9D62B6522EFEB4E6005743E5</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -116,6 +116,12 @@ struct DrinkTrackView: View {
     private var trackingButtonsView: some View {
         VStack(spacing: 16) {
             Button(action: {
+                // TODO: REVERT
+                UNUserNotificationCenter.current().getNotificationCategories { categories in
+                    print("📦 Registered categories:")
+                    categories.forEach { print("•", $0.identifier) }
+                }
+                NotificationManager.shared.testNotification()
                 HydrationManager.shared.addWater(amount: gulpSize * numberOfGulps)
                 notificationType.makeScheduler().rescheduleNextDynamicNotification()
             }) {

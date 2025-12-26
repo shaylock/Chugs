@@ -8,12 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		9D62B6402EFD49D7005743E5 /* water_drop.caf in Resources */ = {isa = PBXBuildFile; fileRef = 9D62B63F2EFD49D7005743E5 /* water_drop.caf */; };
-		9D62B6412EFD49D7005743E5 /* water_drop.caf in Resources */ = {isa = PBXBuildFile; fileRef = 9D62B63F2EFD49D7005743E5 /* water_drop.caf */; };
 		9D62B64C2EFE9650005743E5 /* water_poured.caf in Resources */ = {isa = PBXBuildFile; fileRef = 9D62B64B2EFE9650005743E5 /* water_poured.caf */; };
-		9D62B64D2EFE9650005743E5 /* water_poured.caf in Resources */ = {isa = PBXBuildFile; fileRef = 9D62B64B2EFE9650005743E5 /* water_poured.caf */; };
-		9DF10C502E98FE9D00F451FC /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DF10C4F2E98FE9D00F451FC /* UserNotifications.framework */; };
-		9DF10C522E98FE9D00F451FC /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DF10C512E98FE9D00F451FC /* UserNotificationsUI.framework */; };
-		9DF10C5C2E98FE9D00F451FC /* ChugsNotificationExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9DF10C4D2E98FE9D00F451FC /* ChugsNotificationExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9D62B6542EFEB4E6005743E5 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DF10C4F2E98FE9D00F451FC /* UserNotifications.framework */; };
+		9D62B6552EFEB4E6005743E5 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DF10C512E98FE9D00F451FC /* UserNotificationsUI.framework */; };
+		9D62B65F2EFEB4E6005743E5 /* ChugsNotification.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9D62B6532EFEB4E6005743E5 /* ChugsNotification.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,12 +29,19 @@
 			remoteGlobalIDString = 9D0AFF262E69C0490079E900;
 			remoteInfo = Chugs;
 		};
-		9DF10C5A2E98FE9D00F451FC /* PBXContainerItemProxy */ = {
+		9D62B65D2EFEB4E6005743E5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9D0AFF1F2E69C0490079E900 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 9DF10C4C2E98FE9C00F451FC;
-			remoteInfo = ChugsNotificationExtension;
+			remoteGlobalIDString = 9D62B6522EFEB4E6005743E5;
+			remoteInfo = ChugsNotification;
+		};
+		9D62B6642EFEBA95005743E5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D0AFF1F2E69C0490079E900 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9D62B6522EFEB4E6005743E5;
+			remoteInfo = ChugsNotification;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -47,7 +52,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				9DF10C5C2E98FE9D00F451FC /* ChugsNotificationExtension.appex in Embed Foundation Extensions */,
+				9D62B65F2EFEB4E6005743E5 /* ChugsNotification.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -60,7 +65,7 @@
 		9D0AFF3E2E69C04A0079E900 /* ChugsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChugsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D62B63F2EFD49D7005743E5 /* water_drop.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = water_drop.caf; sourceTree = "<group>"; };
 		9D62B64B2EFE9650005743E5 /* water_poured.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = water_poured.caf; sourceTree = "<group>"; };
-		9DF10C4D2E98FE9D00F451FC /* ChugsNotificationExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ChugsNotificationExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D62B6532EFEB4E6005743E5 /* ChugsNotification.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ChugsNotification.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DF10C4F2E98FE9D00F451FC /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		9DF10C512E98FE9D00F451FC /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -73,12 +78,12 @@
 			);
 			target = 9D0AFF262E69C0490079E900 /* Chugs */;
 		};
-		9DF10C602E98FE9D00F451FC /* Exceptions for "ChugsNotificationExtension" folder in "ChugsNotificationExtension" target */ = {
+		9D62B6632EFEB4E6005743E5 /* Exceptions for "ChugsNotification" folder in "ChugsNotification" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 9DF10C4C2E98FE9C00F451FC /* ChugsNotificationExtension */;
+			target = 9D62B6522EFEB4E6005743E5 /* ChugsNotification */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -101,12 +106,12 @@
 			path = ChugsUITests;
 			sourceTree = "<group>";
 		};
-		9DF10C532E98FE9D00F451FC /* ChugsNotificationExtension */ = {
+		9D62B6562EFEB4E6005743E5 /* ChugsNotification */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				9DF10C602E98FE9D00F451FC /* Exceptions for "ChugsNotificationExtension" folder in "ChugsNotificationExtension" target */,
+				9D62B6632EFEB4E6005743E5 /* Exceptions for "ChugsNotification" folder in "ChugsNotification" target */,
 			);
-			path = ChugsNotificationExtension;
+			path = ChugsNotification;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -133,12 +138,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9DF10C4A2E98FE9C00F451FC /* Frameworks */ = {
+		9D62B6502EFEB4E6005743E5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9DF10C522E98FE9D00F451FC /* UserNotificationsUI.framework in Frameworks */,
-				9DF10C502E98FE9D00F451FC /* UserNotifications.framework in Frameworks */,
+				9D62B6552EFEB4E6005743E5 /* UserNotificationsUI.framework in Frameworks */,
+				9D62B6542EFEB4E6005743E5 /* UserNotifications.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,7 +157,7 @@
 				9D0AFF292E69C0490079E900 /* Chugs */,
 				9D0AFF372E69C04A0079E900 /* ChugsTests */,
 				9D0AFF412E69C04A0079E900 /* ChugsUITests */,
-				9DF10C532E98FE9D00F451FC /* ChugsNotificationExtension */,
+				9D62B6562EFEB4E6005743E5 /* ChugsNotification */,
 				9DF10C4E2E98FE9D00F451FC /* Frameworks */,
 				9D0AFF282E69C0490079E900 /* Products */,
 			);
@@ -164,7 +169,7 @@
 				9D0AFF272E69C0490079E900 /* Chugs.app */,
 				9D0AFF342E69C04A0079E900 /* ChugsTests.xctest */,
 				9D0AFF3E2E69C04A0079E900 /* ChugsUITests.xctest */,
-				9DF10C4D2E98FE9D00F451FC /* ChugsNotificationExtension.appex */,
+				9D62B6532EFEB4E6005743E5 /* ChugsNotification.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -210,7 +215,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				9DF10C5B2E98FE9D00F451FC /* PBXTargetDependency */,
+				9D62B65E2EFEB4E6005743E5 /* PBXTargetDependency */,
+				9D62B6652EFEBA95005743E5 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				9D0AFF292E69C0490079E900 /* Chugs */,
@@ -268,26 +274,26 @@
 			productReference = 9D0AFF3E2E69C04A0079E900 /* ChugsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		9DF10C4C2E98FE9C00F451FC /* ChugsNotificationExtension */ = {
+		9D62B6522EFEB4E6005743E5 /* ChugsNotification */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9DF10C5D2E98FE9D00F451FC /* Build configuration list for PBXNativeTarget "ChugsNotificationExtension" */;
+			buildConfigurationList = 9D62B6602EFEB4E6005743E5 /* Build configuration list for PBXNativeTarget "ChugsNotification" */;
 			buildPhases = (
-				9DF10C492E98FE9C00F451FC /* Sources */,
-				9DF10C4A2E98FE9C00F451FC /* Frameworks */,
-				9DF10C4B2E98FE9C00F451FC /* Resources */,
+				9D62B64F2EFEB4E6005743E5 /* Sources */,
+				9D62B6502EFEB4E6005743E5 /* Frameworks */,
+				9D62B6512EFEB4E6005743E5 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				9DF10C532E98FE9D00F451FC /* ChugsNotificationExtension */,
+				9D62B6562EFEB4E6005743E5 /* ChugsNotification */,
 			);
-			name = ChugsNotificationExtension;
+			name = ChugsNotification;
 			packageProductDependencies = (
 			);
-			productName = ChugsNotificationExtension;
-			productReference = 9DF10C4D2E98FE9D00F451FC /* ChugsNotificationExtension.appex */;
+			productName = ChugsNotification;
+			productReference = 9D62B6532EFEB4E6005743E5 /* ChugsNotification.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -297,7 +303,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2600;
+				LastSwiftUpdateCheck = 2620;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					9D0AFF262E69C0490079E900 = {
@@ -311,8 +317,8 @@
 						CreatedOnToolsVersion = 16.4;
 						TestTargetID = 9D0AFF262E69C0490079E900;
 					};
-					9DF10C4C2E98FE9C00F451FC = {
-						CreatedOnToolsVersion = 26.0.1;
+					9D62B6522EFEB4E6005743E5 = {
+						CreatedOnToolsVersion = 26.2;
 					};
 				};
 			};
@@ -335,7 +341,7 @@
 				9D0AFF262E69C0490079E900 /* Chugs */,
 				9D0AFF332E69C04A0079E900 /* ChugsTests */,
 				9D0AFF3D2E69C04A0079E900 /* ChugsUITests */,
-				9DF10C4C2E98FE9C00F451FC /* ChugsNotificationExtension */,
+				9D62B6522EFEB4E6005743E5 /* ChugsNotification */,
 			);
 		};
 /* End PBXProject section */
@@ -364,12 +370,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9DF10C4B2E98FE9C00F451FC /* Resources */ = {
+		9D62B6512EFEB4E6005743E5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D62B64D2EFE9650005743E5 /* water_poured.caf in Resources */,
-				9D62B6412EFD49D7005743E5 /* water_drop.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,7 +401,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9DF10C492E98FE9C00F451FC /* Sources */ = {
+		9D62B64F2EFEB4E6005743E5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -417,10 +421,15 @@
 			target = 9D0AFF262E69C0490079E900 /* Chugs */;
 			targetProxy = 9D0AFF3F2E69C04A0079E900 /* PBXContainerItemProxy */;
 		};
-		9DF10C5B2E98FE9D00F451FC /* PBXTargetDependency */ = {
+		9D62B65E2EFEB4E6005743E5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9DF10C4C2E98FE9C00F451FC /* ChugsNotificationExtension */;
-			targetProxy = 9DF10C5A2E98FE9D00F451FC /* PBXContainerItemProxy */;
+			target = 9D62B6522EFEB4E6005743E5 /* ChugsNotification */;
+			targetProxy = 9D62B65D2EFEB4E6005743E5 /* PBXContainerItemProxy */;
+		};
+		9D62B6652EFEBA95005743E5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9D62B6522EFEB4E6005743E5 /* ChugsNotification */;
+			targetProxy = 9D62B6642EFEBA95005743E5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -558,11 +567,13 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Chugs/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -588,11 +599,13 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Chugs/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -674,24 +687,24 @@
 			};
 			name = Release;
 		};
-		9DF10C5E2E98FE9D00F451FC /* Debug */ = {
+		9D62B6612EFEB4E6005743E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MB8WUDQ572;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ChugsNotificationExtension/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = ChugsNotificationExtension;
+				INFOPLIST_FILE = ChugsNotification/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ChugsNotification;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.shayblum.Chugs.ChugsNotificationExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shayblum.Chugs.ChugsNotification;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -703,24 +716,24 @@
 			};
 			name = Debug;
 		};
-		9DF10C5F2E98FE9D00F451FC /* Release */ = {
+		9D62B6622EFEB4E6005743E5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MB8WUDQ572;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ChugsNotificationExtension/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = ChugsNotificationExtension;
+				INFOPLIST_FILE = ChugsNotification/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ChugsNotification;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.shayblum.Chugs.ChugsNotificationExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shayblum.Chugs.ChugsNotification;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -771,11 +784,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9DF10C5D2E98FE9D00F451FC /* Build configuration list for PBXNativeTarget "ChugsNotificationExtension" */ = {
+		9D62B6602EFEB4E6005743E5 /* Build configuration list for PBXNativeTarget "ChugsNotification" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9DF10C5E2E98FE9D00F451FC /* Debug */,
-				9DF10C5F2E98FE9D00F451FC /* Release */,
+				9D62B6612EFEB4E6005743E5 /* Debug */,
+				9D62B6622EFEB4E6005743E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

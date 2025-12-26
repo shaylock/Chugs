@@ -73,7 +73,9 @@ struct ChugsApp: App {
         // Request notification permission and ensure our category exists.
         if hasCompletedOnboarding {
             NotificationPermission.shared.requestNotificationPermission()
-            NotificationManager.shared.ensureChugsCategoryExists()
+            // TODO: REVERT
+//            NotificationManager.shared.ensureChugsCategoryExists()
+            NotificationManager.shared.registerChugsCategory()
         }
         
         OnboardingPageConstants.subtitleFont = .system(size: 18)

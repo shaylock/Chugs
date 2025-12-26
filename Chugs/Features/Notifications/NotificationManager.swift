@@ -41,4 +41,37 @@ class NotificationManager {
             }
         }
     }
+    
+    // TODO: REVERT - make better
+    func registerChugsCategory() {
+        let category = UNNotificationCategory(
+            identifier: "CHUGS_TRACK",
+            actions: [],               // extension handles UI
+            intentIdentifiers: [],
+            options: []
+        )
+
+        UNUserNotificationCenter.current()
+            .setNotificationCategories([category])
+    }
+
+    func testNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "Time to chug chug chug 💧"
+        content.body = "Track your water intake"
+        content.categoryIdentifier = "CHUGS_TRACK"
+
+        let trigger = UNTimeIntervalNotificationTrigger(
+            timeInterval: 5,
+            repeats: false
+        )
+
+        let request = UNNotificationRequest(
+            identifier: "chugs_test",
+            content: content,
+            trigger: trigger
+        )
+
+        UNUserNotificationCenter.current().add(request)
+    }
 }
