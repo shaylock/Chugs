@@ -67,7 +67,8 @@ struct SmartNotificationScheduler: NotificationScheduling {
         let minutesUntilNext = max(smartInterval.value * reminder, 0.5) // Minimum of 30 seconds
         logger.debug("reminder: \(reminder), scheduling next smart notification in \(minutesUntilNext) minutes.")
         // todo: if fixed interval is not 60 this will break
-        if minutesUntilNext < Calendar.current.minutesLeftInHour {
+        if minutesUntilNext < Calendar.current.minutesLeftInHour &&
+            minutesUntilNext < Calendar.current.minutesLeftUntil(endMinutes) {
             Task {
                 await NotificationUtilities.scheduleSingleNotificationIn(minutes: minutesUntilNext)
             }

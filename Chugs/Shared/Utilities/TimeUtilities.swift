@@ -17,6 +17,29 @@ extension Calendar {
 
         return Double(60 - minute) - Double(second) / 60
     }
+    
+    func minutesLeftUntil(_ minutes: Int) -> Double {
+        guard minutes > 0 else { return 0 }
+
+        let normalizedMinutes = minutes >= 1440 ? minutes % 1440 : minutes
+        let targetHour = normalizedMinutes / 60
+        let targetMinute = normalizedMinutes % 60
+
+        let now = Date()
+
+        // Build today's target date efficiently
+        var components = dateComponents([.year, .month, .day], from: now)
+        components.hour = targetHour
+        components.minute = targetMinute
+        components.second = 0
+
+        guard let targetDate = date(from: components), targetDate > now
+        else {
+            return 0
+        }
+
+        return targetDate.timeIntervalSince(now) / 60.0
+    }
 }
 
 struct TimeUtilities {
