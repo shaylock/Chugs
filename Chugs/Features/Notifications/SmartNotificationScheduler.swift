@@ -73,4 +73,11 @@ struct SmartNotificationScheduler: NotificationScheduling {
             }
         }
     }
+    
+    func rescheduleNextDynamicNotification() {
+        Task {
+            await NotificationUtilities.removeLastSingleNotification()
+            scheduleNextDynamicNotification()
+        }
+    }
 }

@@ -8,6 +8,8 @@
 import SwiftUI
 
 final class NotificationUtilities {
+    @AppStorage("NotificationUtilities.lastSingleNotificationIdentifier")
+    private static var lastSingleNotificationIdentifier: String?
     private static let logger = LoggerUtilities.makeLogger(for: NotificationUtilities.self)
     
     public static func checkPermission() async -> Bool {
@@ -18,7 +20,6 @@ final class NotificationUtilities {
         case .authorized, .provisional, .ephemeral:
             return true
         default:
-            // Request authorization if not already granted
             do {
                 return try await center.requestAuthorization(options: [.alert, .sound, .badge])
             } catch {
@@ -26,6 +27,17 @@ final class NotificationUtilities {
                 return false
             }
         }
+    }
+    
+    public static func removeLastSingleNotification() async {
+        let center = UNUserNotificationCenter.current()
+        guard let identifier = lastSingleNotificationIdentifier else {
+            logger.debug("No last single notification identifier found.")
+            return
+        }
+        center.removePendingNotificationRequests(withIdentifiers: [identifier])
+        lastSingleNotificationIdentifier = nil
+        logger.debug("🗑️ Removed last single notification with identifier: \(identifier)")
     }
     
     public static func scheduleSingleNotificationIn(minutes: Double) async {
@@ -41,13 +53,12 @@ final class NotificationUtilities {
         content.title = NSLocalizedString("intervalScheduler.notification.title", comment: "")
         content.body  = NSLocalizedString("intervalScheduler.notification.body", comment: "")
         content.categoryIdentifier = "CHUGS_CATEGORY"
-//        content.sound = .default
         content.sound = UNNotificationSound(
             named: UNNotificationSoundName("water_drop.caf")
         )
 
-
         let identifier = "singleDrinkReminder_\(UUID().uuidString)"
+        lastSingleNotificationIdentifier = identifier
         let trigger = UNTimeIntervalNotificationTrigger(
             timeInterval: timeInterval,
             repeats: false
@@ -66,7 +77,6 @@ final class NotificationUtilities {
             logger.error("Error scheduling single notification: \(error.localizedDescription)")
         }
     }
-
     
     public static func scheduleDailyNotifications(interval: Int, startMinutes: Int, endMinutes: Int) async {
         let center = UNUserNotificationCenter.current()

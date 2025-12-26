@@ -9,6 +9,7 @@ import SwiftUI
 
 
 struct DrinkTrackView: View {
+    @AppStorage("notificationType") private var notificationType: NotificationType = .smart
     @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
     @AppStorage("storedDailyProgress") private var storedDailyProgress: Double = 0.0
     @AppStorage("gulpSize") private var gulpSize: Double = 10.0 / 1000.0 // 10 ml
@@ -116,6 +117,7 @@ struct DrinkTrackView: View {
         VStack(spacing: 16) {
             Button(action: {
                 HydrationManager.shared.addWater(amount: gulpSize * numberOfGulps)
+                notificationType.makeScheduler().rescheduleNextDynamicNotification()
             }) {
                 (Text("track.button.chug") + Text(" 💧"))
                     .font(.system(size: 16, weight: .bold))

@@ -25,4 +25,7 @@ struct IntervalNotificationScheduler: NotificationScheduling {
     
     func scheduleNextDynamicNotification() {
     }
+    
+    func rescheduleNextDynamicNotification() {
+    }
 }
