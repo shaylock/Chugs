@@ -22,8 +22,8 @@ struct SettingsView: View {
             Form {
                 goalsSection
                 NotificationTimesSection()
-                gulpSizeSection
-                resetReplaySection	
+                gulpSizeSection()
+                resetReplaySection
             }
             .navigationTitle(LocalizedStringKey("settings.title"))
         }
@@ -89,16 +89,28 @@ struct SettingsView: View {
             .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
         }
     }
+}
 
-    private var gulpSizeSection: some View {
+struct gulpSizeSection: View {
+    @AppStorage("gulpSize") private var gulpSize: Double = 10.0 / 1000.0 // liters
+    
+    private var gulpSizeInML: Binding<Int> {
+        Binding(
+            get: {
+                Int((gulpSize * 1000).rounded())
+            },
+            set: { newValue in
+                gulpSize = Double(newValue) / 1000.0
+            }
+        )
+    }
+    
+    var body: some View {
         Section(header: Text(LocalizedStringKey("settings.gulpSize.header"))) {
-            Picker(LocalizedStringKey("settings.gulpSize.picker"), selection: $tempGulpSizeInt) {
+            Picker(LocalizedStringKey("settings.gulpSize.picker"), selection: gulpSizeInML) {
                 ForEach(1..<101, id: \.self) { value in
                     Text("\(value) ml").tag(value)
                 }
-            }
-            .onChange(of: tempGulpSizeInt) {
-                gulpSize = Double(tempGulpSizeInt) / 1000.0
             }
         }
     }
