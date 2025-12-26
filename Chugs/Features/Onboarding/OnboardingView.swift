@@ -18,6 +18,7 @@ enum OnboardingStep: Int, CaseIterable {
 }
 
 struct OnboardingView: View {
+    @AppStorage("notificationType") private var notificationType: NotificationType = .smart
     @Binding var hasCompletedOnboarding: Bool
     @State private var page: Int = 0
 
@@ -122,7 +123,10 @@ struct OnboardingView: View {
 
     private func finishOnboarding() {
         hasCompletedOnboarding = true
-        HydrationManager.shared.runAppResumeLogic()
+        Task {
+            await HydrationManager.shared.runAppResumeLogic()
+            notificationType.makeScheduler().scheduleNotifications()
+        }
     }
 
     func openAppNotificationSettings() {

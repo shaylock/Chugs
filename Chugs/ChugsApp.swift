@@ -126,7 +126,9 @@ struct ChugsApp: App {
 //            : now.timeIntervalSince1970 - lastAppActivationTime
 
         // Fan-out lifecycle event
-        HydrationManager.shared.runAppResumeLogic()
+        Task {
+            await HydrationManager.shared.runAppResumeLogic()
+        }
 
         // Persist new activation time
         lastAppActivationTime = now.timeIntervalSince1970

@@ -121,28 +121,26 @@ final class HydrationManager: ObservableObject {
         }
     }
     
-    func runAppResumeLogic() {
+    func runAppResumeLogic() async {
         let now = Date()
         let next = storedNextUpdateDate()
 
 //        if BuildUtilities.isDebugEnabled || now >= next {
         if now >= next || !hydrationHabits.isInitialized() {
             logger.info("App resume — performing weekly update")
-            Task {
-                do {
-                    let healthStore = HKHealthStore()
+            do {
+                let healthStore = HKHealthStore()
 
-                    let habits = try await collectHydrationHabits(
-                        healthStore: healthStore
-                    )
+                let habits = try await collectHydrationHabits(
+                    healthStore: healthStore
+                )
 
-                    await MainActor.run {
-                        self.hydrationHabits = habits
-                        self.saveHydrationHabits(habits)
-                    }
-                } catch {
-                    logger.error("Error collecting hydration habits: \(error.localizedDescription)")
+                await MainActor.run {
+                    self.hydrationHabits = habits
+                    self.saveHydrationHabits(habits)
                 }
+            } catch {
+                logger.error("Error collecting hydration habits: \(error.localizedDescription)")
             }
             // Schedule the next one for the upcoming Sunday at 00:00
             let newNext = TimeUtilities.upcomingSundayMidnight(from: now)
