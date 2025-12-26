@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import ChugsShared
 
 struct DrinkTrackView: View {
     @AppStorage("notificationType") private var notificationType: NotificationType = .smart
@@ -155,7 +155,7 @@ struct DrinkTrackView: View {
                         .foregroundColor(Color(UIColor.label))
                 }
                 
-                PillSlider(value: $numberOfGulps,
+                ChugsShared.PillSlider(value: $numberOfGulps,
                            range: 1...10,
                            step: 1,
                            thumbSize: 48,

@@ -12,6 +12,8 @@
 		9D62B6542EFEB4E6005743E5 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DF10C4F2E98FE9D00F451FC /* UserNotifications.framework */; };
 		9D62B6552EFEB4E6005743E5 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DF10C512E98FE9D00F451FC /* UserNotificationsUI.framework */; };
 		9D62B65F2EFEB4E6005743E5 /* ChugsNotification.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9D62B6532EFEB4E6005743E5 /* ChugsNotification.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9D62B6AE2EFEF904005743E5 /* ChugsShared in Frameworks */ = {isa = PBXBuildFile; productRef = 9D62B6AD2EFEF904005743E5 /* ChugsShared */; };
+		9D62B6B02EFEF91B005743E5 /* ChugsShared in Frameworks */ = {isa = PBXBuildFile; productRef = 9D62B6AF2EFEF91B005743E5 /* ChugsShared */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +68,7 @@
 		9D62B63F2EFD49D7005743E5 /* water_drop.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = water_drop.caf; sourceTree = "<group>"; };
 		9D62B64B2EFE9650005743E5 /* water_poured.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = water_poured.caf; sourceTree = "<group>"; };
 		9D62B6532EFEB4E6005743E5 /* ChugsNotification.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ChugsNotification.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D62B6AC2EFEF7F5005743E5 /* ChugsShared */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ChugsShared; sourceTree = "<group>"; };
 		9DF10C4F2E98FE9D00F451FC /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		9DF10C512E98FE9D00F451FC /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -121,6 +124,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D62B6AE2EFEF904005743E5 /* ChugsShared in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,6 +146,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D62B6B02EFEF91B005743E5 /* ChugsShared in Frameworks */,
 				9D62B6552EFEB4E6005743E5 /* UserNotificationsUI.framework in Frameworks */,
 				9D62B6542EFEB4E6005743E5 /* UserNotifications.framework in Frameworks */,
 			);
@@ -153,6 +158,7 @@
 		9D0AFF1E2E69C0490079E900 = {
 			isa = PBXGroup;
 			children = (
+				9D62B6AC2EFEF7F5005743E5 /* ChugsShared */,
 				9D62B63A2EFD47D0005743E5 /* Resources */,
 				9D0AFF292E69C0490079E900 /* Chugs */,
 				9D0AFF372E69C04A0079E900 /* ChugsTests */,
@@ -223,6 +229,7 @@
 			);
 			name = Chugs;
 			packageProductDependencies = (
+				9D62B6AD2EFEF904005743E5 /* ChugsShared */,
 			);
 			productName = Chugs;
 			productReference = 9D0AFF272E69C0490079E900 /* Chugs.app */;
@@ -291,6 +298,7 @@
 			);
 			name = ChugsNotification;
 			packageProductDependencies = (
+				9D62B6AF2EFEF91B005743E5 /* ChugsShared */,
 			);
 			productName = ChugsNotification;
 			productReference = 9D62B6532EFEB4E6005743E5 /* ChugsNotification.appex */;
@@ -794,6 +802,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9D62B6AD2EFEF904005743E5 /* ChugsShared */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ChugsShared;
+		};
+		9D62B6AF2EFEF91B005743E5 /* ChugsShared */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ChugsShared;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9D0AFF1F2E69C0490079E900 /* Project object */;
 }
