@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-//import CoreHaptics // optional, for haptics if you want
 
 public struct PillSlider: View {
     @Binding var value: Double

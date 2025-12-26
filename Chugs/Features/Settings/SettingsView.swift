@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ChugsShared
 
 struct SettingsView: View {
     @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
@@ -74,7 +75,7 @@ struct SettingsView: View {
                     Text(String(format: "%.1fL", dailyGoal))
                 }
 
-                PillSlider(value: $dailyGoal,
+                ChugsShared.PillSlider(value: $dailyGoal,
                            range: 1...5,
                            step: 0.1,
                            thumbSize: 48,
