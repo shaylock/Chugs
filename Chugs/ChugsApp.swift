@@ -74,7 +74,7 @@ struct ChugsApp: App {
         if hasCompletedOnboarding {
             NotificationPermission.shared.requestNotificationPermission()
             // TODO: REVERT
-//            NotificationManager.shared.ensureChugsCategoryExists()
+            NotificationManager.shared.ensureChugsCategoryExists()
             NotificationManager.shared.registerChugsCategory()
         }
         

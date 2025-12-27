@@ -17,7 +17,7 @@ final class NotificationViewController: UIViewController, UNNotificationContentE
 
         print("🚰 ChugsNotification viewDidLoad")
 
-        let swiftUIView = TrackingButtonsNotificationView()
+        let swiftUIView = DrinkTrackNotificationView()
         let hostingController = UIHostingController(rootView: swiftUIView)
 
         addChild(hostingController)

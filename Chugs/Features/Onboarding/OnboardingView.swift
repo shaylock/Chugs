@@ -125,7 +125,7 @@ struct OnboardingView: View {
         hasCompletedOnboarding = true
         Task {
             // TODO: REVERT
-//            NotificationManager.shared.ensureChugsCategoryExists()
+            NotificationManager.shared.ensureChugsCategoryExists()
             NotificationManager.shared.registerChugsCategory()
             await HydrationManager.shared.runAppResumeLogic()
             notificationType.makeScheduler().scheduleNotifications()
