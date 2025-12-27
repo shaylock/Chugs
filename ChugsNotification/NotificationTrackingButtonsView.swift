@@ -11,35 +11,55 @@ import ChugsShared
 struct NotificationTrackingButtonsView: View {
 
     @State private var numberOfGulps: Double = 3
+    @State private var didTrack = false
 
     public var body: some View {
         // Track + slider section
         VStack(spacing: 16) {
-
             Button {
+                // TODO: REPLACE
                 print("💧 Track button tapped with \(Int(numberOfGulps)) gulps")
+
+                withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) {
+                    didTrack = true
+                }
+
+                // Reset after short delay
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+                    withAnimation(.easeOut(duration: 0.2)) {
+                        didTrack = false
+                    }
+                }
+
             } label: {
-                (Text("Track") + Text(" 💧"))
+                Text(didTrack ? NSLocalizedString("track.button.great", comment: "") + " ✓" :
+                        NSLocalizedString("track.button.chug", comment: "") + " 💧")
                     .font(.system(size: 16, weight: .bold))
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
                     .background(
                         LinearGradient(
-                            colors: [
-                                Color(red: 0.0, green: 0.78, blue: 1.0),
-                                Color(red: 0.0, green: 0.45, blue: 0.98)
-                            ],
+                            colors: didTrack
+                                ? [Color.green.opacity(0.9), Color.green]
+                                : [
+                                    Color(red: 0.0, green: 0.78, blue: 1.0),
+                                    Color(red: 0.0, green: 0.45, blue: 0.98)
+                                  ],
                             startPoint: .leading,
                             endPoint: .trailing
                         )
                     )
                     .foregroundColor(.white)
                     .cornerRadius(999)
+                    .scaleEffect(didTrack ? 0.97 : 1.0)
+                    .opacity(didTrack ? 0.9 : 1.0)
             }
+            .disabled(didTrack)
+
 
             VStack(spacing: 6) {
                 HStack {
-                    Text("Gulps")
+                    Text("track.slider.gulps")
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(.secondary)
 
