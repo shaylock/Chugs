@@ -75,7 +75,7 @@ struct SettingsView: View {
                     Text(String(format: "%.1fL", dailyGoal))
                 }
 
-                ChugsShared.PillSlider(value: $dailyGoal,
+                PillSlider(value: $dailyGoal,
                            range: 1...5,
                            step: 0.1,
                            thumbSize: 48,

@@ -2,29 +2,23 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>NSExtension</key>
-    <dict>
-        <key>NSExtensionPointIdentifier</key>
-        <string>com.apple.usernotifications.content-extension</string>
-
-        <key>NSExtensionPrincipalClass</key>
-        <string>$(PRODUCT_MODULE_NAME).NotificationViewController</string>
-
-        <key>NSExtensionAttributes</key>
-        <dict>
-            <key>UNNotificationExtensionCategory</key>
-            <string>CHUGS_TRACK</string>
-
-            <key>UNNotificationExtensionDefaultContentHidden</key>
-            <true/>
-
-            <key>UNNotificationExtensionUserInteractionEnabled</key>
-            <true/>
-
-            <key>UNNotificationExtensionInitialContentSizeRatio</key>
-            <real>1.4</real>
-        </dict>
-    </dict>
-
+	<key>NSExtension</key>
+	<dict>
+		<key>NSExtensionPointIdentifier</key>
+		<string>com.apple.usernotifications.content-extension</string>
+		<key>NSExtensionPrincipalClass</key>
+		<string>$(PRODUCT_MODULE_NAME).NotificationViewController</string>
+		<key>NSExtensionAttributes</key>
+		<dict>
+			<key>UNNotificationExtensionCategory</key>
+			<string>CHUGS_TRACK</string>
+			<key>UNNotificationExtensionDefaultContentHidden</key>
+			<true/>
+			<key>UNNotificationExtensionUserInteractionEnabled</key>
+			<true/>
+			<key>UNNotificationExtensionInitialContentSizeRatio</key>
+			<real>1.6</real>
+		</dict>
+	</dict>
 </dict>
 </plist>

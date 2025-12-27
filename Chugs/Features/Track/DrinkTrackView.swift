@@ -96,10 +96,10 @@ struct DrinkTrackView: View {
     // MARK: - Progress view
     private var progressView: some View {
         ZStack {
-            ChugsShared.RingView(progress: 1.0)
+            RingView(progress: 1.0)
                 .frame(width: 220, height: 220)
                 .opacity(0.12)
-            ChugsShared.RingView(progress: min(storedDailyProgress / dailyGoal, 1.0))
+            RingView(progress: min(storedDailyProgress / dailyGoal, 1.0))
                 .frame(width: 220, height: 220)
             
             VStack(spacing: 6) {
@@ -155,7 +155,7 @@ struct DrinkTrackView: View {
                         .foregroundColor(Color(UIColor.label))
                 }
                 
-                ChugsShared.PillSlider(value: $numberOfGulps,
+                PillSlider(value: $numberOfGulps,
                            range: 1...10,
                            step: 1,
                            thumbSize: 48,
