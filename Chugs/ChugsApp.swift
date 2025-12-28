@@ -8,6 +8,11 @@
 import SwiftUI
 import UserNotifications
 
+enum AppGroup {
+    static let id = "group.com.shayblum.Chugs"
+    static let defaults = UserDefaults(suiteName: id)!
+}
+
 // 1️⃣ Define a Theme struct holding your colors
 struct AppTheme {
     let label: Color
@@ -105,6 +110,12 @@ struct ChugsApp: App {
     private func handleScenePhaseChange(from oldPhase: ScenePhase, to newPhase: ScenePhase) {
         switch newPhase {
         case .active:
+            // TODO: REVERT
+            let url = FileManager.default
+                .containerURL(forSecurityApplicationGroupIdentifier: AppGroup.id)
+
+            print("📦 App Group container URL:", url ?? "nil")
+
             logger.info("Scene became active (from \(String(describing: oldPhase)))")
             runAppResumeLogic()
 

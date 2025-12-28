@@ -2,7 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Privacy - Local Notifications Usage Description</key>
-	<string>"Chugs uses notifications to remind you to drink water."</string>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.com.shayblum.Chugs</string>
+	</array>
 </dict>
 </plist>
