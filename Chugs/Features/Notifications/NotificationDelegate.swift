@@ -11,6 +11,9 @@ import UserNotifications
 class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     @AppStorage("gulpSize") private var gulpSize: Double = 10.0 / 1000.0 // 10 ml
     @AppStorage("notificationType") private var notificationType: NotificationType = .smart
+    
+    @AppStorage("numberOfGulps", store: AppGroup.defaults)
+    private var numberOfGulps: Double = 1.0
 
     override init() {
         super.init()
@@ -37,22 +40,9 @@ class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
         switch response.actionIdentifier {
-        case "CHUG_1":
-            HydrationManager.shared.addWater(amount: gulpSize)
+        case "TRACK":
+            HydrationManager.shared.addWater(amount: gulpSize * numberOfGulps)
             notificationType.makeScheduler().scheduleNextDynamicNotification()
-        case "CHUG_2":
-            HydrationManager.shared.addWater(amount: gulpSize * 2.0)
-            notificationType.makeScheduler().scheduleNextDynamicNotification()
-        case "CHUG_3":
-            HydrationManager.shared.addWater(amount: gulpSize * 3.0)
-            notificationType.makeScheduler().scheduleNextDynamicNotification()
-        case "CHUG_4":
-            HydrationManager.shared.addWater(amount: gulpSize * 4.0)
-            notificationType.makeScheduler().scheduleNextDynamicNotification()
-        case "CHUG_MORE":
-            print("Opening app for more gulps…")
-        case "NOT_NOW":
-            print("Skipped chug")
         default:
             break
         }

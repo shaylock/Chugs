@@ -11,15 +11,14 @@ import ChugsShared
 struct DrinkTrackView: View {
     @AppStorage("notificationType") private var notificationType: NotificationType = .smart
     @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
-    @AppStorage(
-        "storedDailyProgress",
-        store: AppGroup.defaults
-    )
-    private var storedDailyProgress: Double = 0.0
     @AppStorage("gulpSize") private var gulpSize: Double = 10.0 / 1000.0 // 10 ml
     @AppStorage("tooltipsShown") private var tooltipsShown: Bool = false
+    
+    @AppStorage("storedDailyProgress", store: AppGroup.defaults)
+    private var storedDailyProgress: Double = 0.0
+    @AppStorage("numberOfGulps", store: AppGroup.defaults)
+    private var numberOfGulps: Double = 1.0
 
-    @State private var numberOfGulps: Double = 1.0
     @State private var tooltipIndex: Int = 0
     @Environment(\.scenePhase) private var scenePhase
 
@@ -120,12 +119,6 @@ struct DrinkTrackView: View {
     private var trackingButtonsView: some View {
         VStack(spacing: 16) {
             Button(action: {
-                // TODO: REVERT
-                UNUserNotificationCenter.current().getNotificationCategories { categories in
-                    print("📦 Registered categories:")
-                    categories.forEach { print("•", $0.identifier) }
-                }
-                NotificationManager.shared.testNotification()
                 HydrationManager.shared.addWater(amount: gulpSize * numberOfGulps)
                 notificationType.makeScheduler().rescheduleNextDynamicNotification()
             }) {

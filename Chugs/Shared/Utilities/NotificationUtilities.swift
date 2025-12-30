@@ -52,7 +52,7 @@ final class NotificationUtilities {
         let content = UNMutableNotificationContent()
         content.title = NSLocalizedString("intervalScheduler.notification.title", comment: "")
         content.body  = NSLocalizedString("intervalScheduler.notification.body", comment: "")
-        content.categoryIdentifier = "CHUGS_CATEGORY"
+        content.categoryIdentifier = "CHUGS_TRACK"
         content.sound = UNNotificationSound(
             named: UNNotificationSoundName("water_poured.caf")
         )
@@ -110,7 +110,7 @@ final class NotificationUtilities {
             let content = UNMutableNotificationContent()
             content.title = NSLocalizedString("intervalScheduler.notification.title", comment: "")
             content.body  = NSLocalizedString("intervalScheduler.notification.body", comment: "")
-            content.categoryIdentifier = "CHUGS_CATEGORY"
+            content.categoryIdentifier = "CHUGS_TRACK"
             content.sound = .default
 
             let identifier = "drinkReminder_\(hour)_\(minute)_\(second)"

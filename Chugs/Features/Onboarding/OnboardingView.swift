@@ -126,7 +126,6 @@ struct OnboardingView: View {
         Task {
             // TODO: REVERT
             NotificationManager.shared.ensureChugsCategoryExists()
-            NotificationManager.shared.registerChugsCategory()
             await HydrationManager.shared.runAppResumeLogic()
             notificationType.makeScheduler().scheduleNotifications()
         }

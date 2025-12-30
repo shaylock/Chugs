@@ -11,20 +11,13 @@ import SwiftUI
 class NotificationManager {
     static let shared = NotificationManager()
     
-//    private let userDefaults = UserDefaults.standard
-    
     // MARK: - Set up action buttons
     private func makeChugsCategory() -> UNNotificationCategory {
-        let gulp1 = UNNotificationAction(identifier: "CHUG_1", title: NSLocalizedString("notification.button.1gulp", comment: ""), options: [])
-        let gulp2 = UNNotificationAction(identifier: "CHUG_2", title: NSLocalizedString("notification.button.2gulps", comment: ""), options: [])
-        let gulp3 = UNNotificationAction(identifier: "CHUG_3", title: NSLocalizedString("notification.button.3gulps", comment: ""), options: [])
-        let gulp4 = UNNotificationAction(identifier: "CHUG_4", title: NSLocalizedString("notification.button.4gulps", comment: ""), options: [])
-        let more = UNNotificationAction(identifier: "CHUG_MORE", title: NSLocalizedString("notification.button.more", comment: ""), options: [.foreground])
-        let notNow = UNNotificationAction(identifier: "NOT_NOW", title: NSLocalizedString("notification.button.notnow", comment: ""), options: [])
+        let track = UNNotificationAction(identifier: "TRACK", title: NSLocalizedString("track.button.chug", comment: ""), options: [])
 
         return UNNotificationCategory(
-            identifier: "CHUGS_CATEGORY",
-            actions: [gulp1, gulp2, gulp3, gulp4, more, notNow],
+            identifier: "CHUGS_TRACK",
+            actions: [track],
             intentIdentifiers: [],
             options: []
         )
@@ -40,38 +33,5 @@ class NotificationManager {
                 center.setNotificationCategories(merged)
             }
         }
-    }
-    
-    // TODO: REVERT - make better
-    func registerChugsCategory() {
-        let category = UNNotificationCategory(
-            identifier: "CHUGS_TRACK",
-            actions: [],               // extension handles UI
-            intentIdentifiers: [],
-            options: []
-        )
-
-        UNUserNotificationCenter.current()
-            .setNotificationCategories([category])
-    }
-
-    func testNotification() {
-        let content = UNMutableNotificationContent()
-        content.title = "Time to chug chug chug 💧"
-        content.body = "Track your water intake"
-        content.categoryIdentifier = "CHUGS_TRACK"
-
-        let trigger = UNTimeIntervalNotificationTrigger(
-            timeInterval: 5,
-            repeats: false
-        )
-
-        let request = UNNotificationRequest(
-            identifier: "chugs_test",
-            content: content,
-            trigger: trigger
-        )
-
-        UNUserNotificationCenter.current().add(request)
     }
 }
