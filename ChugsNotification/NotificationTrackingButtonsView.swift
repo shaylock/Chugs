@@ -34,6 +34,9 @@ struct NotificationTrackingButtonsView: View {
             )
             .frame(height: 60)
         }
+        .padding(.horizontal, 20)   // ✅ THIS is the key line
+        .padding(.vertical, 8)      // optional, but looks nicer in notifications
     }
 }
+
 

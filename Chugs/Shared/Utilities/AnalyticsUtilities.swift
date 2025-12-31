@@ -32,6 +32,11 @@ struct AnalyticsUtilities {
             serverURL: "https://api-eu.mixpanel.com"
         )
     }
+    // TODO: is this needed?
+    static func flushMixpanelData() {
+        Mixpanel.mainInstance().flush()
+    }
+    
 
     static func getAnonymousUserId() -> String {
         if let existingId = anonymousUserId {
@@ -59,8 +64,9 @@ struct AnalyticsUtilities {
     }
     
     /// Identifies the anonymous user and tracks app start
-    static func trackDrink() {
+    static func trackDrink(fromNotification: Bool) {
         let userId = getAnonymousUserId()
+        let source = fromNotification ? "notification" : "app"
 
         let mixpanel = Mixpanel.mainInstance()
         mixpanel.identify(distinctId: userId)
@@ -68,8 +74,13 @@ struct AnalyticsUtilities {
         mixpanel.track(
             event: "Drink Logged",
             properties: [
-                "anonymous_user": true
+                "anonymous_user": true,
+                "source": source
             ]
         )
+        
+        if fromNotification {
+            mixpanel.flush()
+        }
     }
 }

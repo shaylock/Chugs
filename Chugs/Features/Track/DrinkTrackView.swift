@@ -121,7 +121,7 @@ struct DrinkTrackView: View {
             Button(action: {
                 HydrationManager.shared.addWater(amount: gulpSize * numberOfGulps)
                 notificationType.makeScheduler().rescheduleNextDynamicNotification()
-                AnalyticsUtilities.trackDrink()
+                AnalyticsUtilities.trackDrink(fromNotification: false)
             }) {
                 (Text("track.button.chug") + Text(" 💧"))
                     .font(.system(size: 16, weight: .bold))
