@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UserNotifications
+import Mixpanel
 
 enum AppGroup {
     static let id = "group.com.shayblum.Chugs"
@@ -81,6 +82,12 @@ struct ChugsApp: App {
             NotificationManager.shared.ensureChugsCategoryExists()
         }
         
+        AnalyticsUtilities.initializeMixpanel()
+        // TODO: REMOVE
+        Mixpanel.mainInstance().loggingEnabled = true
+        AnalyticsUtilities.trackAppStart()
+        Mixpanel.mainInstance().flush()
+        
         OnboardingPageConstants.subtitleFont = .system(size: 18)
         OnboardingPageConstants.buttonFont = .system(size: 20, weight: .semibold)
     }
@@ -108,12 +115,6 @@ struct ChugsApp: App {
     private func handleScenePhaseChange(from oldPhase: ScenePhase, to newPhase: ScenePhase) {
         switch newPhase {
         case .active:
-            // TODO: REVERT
-            let url = FileManager.default
-                .containerURL(forSecurityApplicationGroupIdentifier: AppGroup.id)
-
-            print("📦 App Group container URL:", url ?? "nil")
-
             logger.info("Scene became active (from \(String(describing: oldPhase)))")
             runAppResumeLogic()
 

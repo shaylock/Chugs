@@ -14,6 +14,7 @@
 		9D62B65F2EFEB4E6005743E5 /* ChugsNotification.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9D62B6532EFEB4E6005743E5 /* ChugsNotification.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9D62B6AE2EFEF904005743E5 /* ChugsShared in Frameworks */ = {isa = PBXBuildFile; productRef = 9D62B6AD2EFEF904005743E5 /* ChugsShared */; };
 		9D62B6B02EFEF91B005743E5 /* ChugsShared in Frameworks */ = {isa = PBXBuildFile; productRef = 9D62B6AF2EFEF91B005743E5 /* ChugsShared */; };
+		9D8458852F040DFA007DA294 /* Mixpanel in Frameworks */ = {isa = PBXBuildFile; productRef = 9D8458842F040DFA007DA294 /* Mixpanel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +126,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D8458852F040DFA007DA294 /* Mixpanel in Frameworks */,
 				9D62B6AE2EFEF904005743E5 /* ChugsShared in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -231,6 +233,7 @@
 			name = Chugs;
 			packageProductDependencies = (
 				9D62B6AD2EFEF904005743E5 /* ChugsShared */,
+				9D8458842F040DFA007DA294 /* Mixpanel */,
 			);
 			productName = Chugs;
 			productReference = 9D0AFF272E69C0490079E900 /* Chugs.app */;
@@ -342,6 +345,9 @@
 			);
 			mainGroup = 9D0AFF1E2E69C0490079E900;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				9D8458832F040DFA007DA294 /* XCRemoteSwiftPackageReference "mixpanel-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9D0AFF282E69C0490079E900 /* Products */;
 			projectDirPath = "";
@@ -817,6 +823,17 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		9D8458832F040DFA007DA294 /* XCRemoteSwiftPackageReference "mixpanel-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mixpanel/mixpanel-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		9D62B6AD2EFEF904005743E5 /* ChugsShared */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -829,6 +846,11 @@
 		9D62B7092F004C33005743E5 /* ChugsShared */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ChugsShared;
+		};
+		9D8458842F040DFA007DA294 /* Mixpanel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9D8458832F040DFA007DA294 /* XCRemoteSwiftPackageReference "mixpanel-swift" */;
+			productName = Mixpanel;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

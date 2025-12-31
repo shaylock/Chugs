@@ -24,12 +24,6 @@ final class NotificationViewController: UIViewController, UNNotificationContentE
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // TODO: REVERT
-        let url = FileManager.default
-            .containerURL(forSecurityApplicationGroupIdentifier: AppGroup.id)
-
-        print("📦 App Group container URL:", url ?? "nil")
-
 
         print("🚰 ChugsNotification viewDidLoad yess")
         print("stored daily progress is \(storedDailyProgress) liters")
