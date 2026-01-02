@@ -43,23 +43,48 @@ extension HealthStore {
 class NotificationPermission {
     static let shared = NotificationPermission()
     
-    public func requestNotificationPermission() {
+    public static func allowedNotifications() async -> Bool {
         let center = UNUserNotificationCenter.current()
-        center.getNotificationSettings { settings in
-            switch settings.authorizationStatus {
-            case .notDetermined:
-                center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-                    if !granted {
-                        self.promptToOpenSettings()
-                    }
-                }
-            case .denied:
-                self.promptToOpenSettings()
-            case .authorized, .provisional, .ephemeral:
-                break
-            @unknown default:
-                break
+        let settings = await center.notificationSettings()
+        
+        switch settings.authorizationStatus {
+        case .authorized, .provisional, .ephemeral:
+            return true
+        default:
+            do {
+                return try await center.requestAuthorization(options: [.alert, .sound, .badge])
+            } catch {
+                print("Error requesting notification authorization: \(error)")
+                return false
             }
+        }
+    }
+
+    public func requestNotificationPermission(promptIfNeeded: Bool = false) async -> Bool {
+        let center = UNUserNotificationCenter.current()
+        let settings = await center.notificationSettings()
+        switch settings.authorizationStatus {
+        case .notDetermined:
+            do {
+                let granted = try await center.requestAuthorization(
+                    options: [.alert, .sound, .badge]
+                )
+                if !granted, promptIfNeeded {
+                    self.promptToOpenSettings()
+                }
+                return granted
+            } catch {
+                return false
+            }
+        case .denied:
+            if promptIfNeeded {
+                self.promptToOpenSettings()
+            }
+            return false
+        case .authorized, .provisional, .ephemeral:
+            return true
+        @unknown default:
+            return false
         }
     }
     

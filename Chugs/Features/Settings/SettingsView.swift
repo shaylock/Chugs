@@ -22,7 +22,7 @@ struct SettingsView: View {
         NavigationView {
             Form {
                 goalsSection
-                NotificationTimesSection()
+                NotificationSection()
                 gulpSizeSection()
                 resetReplaySection
             }
@@ -117,79 +117,55 @@ struct gulpSizeSection: View {
     }
 }
 
-struct NotificationTimesSection: View {
+struct NotificationSection: View {
     @AppStorage("notificationType") private var notificationType: NotificationType = .smart
     @AppStorage("startMinutes") private var startMinutes: Int = 8 * 60   // 08:00
     @AppStorage("endMinutes") private var endMinutes: Int = 22 * 60      // 22:00
+    @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = false
+
     @State private var draftStartMinutes: Int = 8 * 60
     @State private var draftEndMinutes: Int = 22 * 60
+
     private let logger = LoggerUtilities.makeLogger(for: Self.self)
-    
-    init() {}
-    
+
     private var hasChanges: Bool {
         draftStartMinutes != startMinutes ||
         draftEndMinutes != endMinutes
     }
-    
+
     var body: some View {
-        Section(header: Text(LocalizedStringKey("settings.notificationTimes.header"))) {
+        Section(header: Text("settings.notificationTimes.header")) {
+
+            Toggle("settings.notifications.enable", isOn: $notificationsEnabled)
+                .onChange(of: notificationsEnabled) { _, newValue in
+                    handleNotificationToggleChange(isEnabled: newValue)
+                }
+
             DatePicker(
-                LocalizedStringKey("settings.startHour"),
+                "settings.startHour",
                 selection: Binding(
                     get: { TimeUtilities.minutesToDate(draftStartMinutes) },
-                    set: { newValue in
-                        let newMinutes = TimeUtilities.dateToMinutes(newValue)
-                        draftStartMinutes = newMinutes
-                        if draftStartMinutes > draftEndMinutes {
-                            draftEndMinutes = draftStartMinutes
-                        }
-                    }
+                    set: updateStartTime
                 ),
                 displayedComponents: .hourAndMinute
             )
 
             DatePicker(
-                LocalizedStringKey("settings.endHour"),
+                "settings.endHour",
                 selection: Binding(
                     get: { TimeUtilities.minutesToDate(draftEndMinutes) },
-                    set: { newValue in
-                        let newMinutes = TimeUtilities.dateToMinutes(newValue)
-                        draftEndMinutes = newMinutes
-                        if draftEndMinutes < draftStartMinutes {
-                            draftStartMinutes = draftEndMinutes
-                        }
-                    }
+                    set: updateEndTime
                 ),
                 displayedComponents: .hourAndMinute
             )
-            
-            Button(action: {
-                startMinutes = draftStartMinutes
-                endMinutes = draftEndMinutes
-                notificationType.makeScheduler().scheduleNotifications()
-            }) {
+
+            Button(action: confirmChanges) {
                 Text("settings.notifications.confirmButton")
                     .font(.system(size: 16, weight: .bold))
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
                     .foregroundColor(.white)
-                    .background(
-                        Group {
-                            if hasChanges {
-                                LinearGradient(
-                                    gradient: Gradient(colors: [
-                                        Color(#colorLiteral(red: 0.0, green: 0.7843137389, blue: 1.0, alpha: 1.0)),
-                                        Color(#colorLiteral(red: 0.0, green: 0.4470588267, blue: 0.9764705896, alpha: 1.0))
-                                    ]),
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            } else {
-                                Color(.systemGray4)
-                            }
-                        }
-                    )
+                    .background(buttonBackground)
                     .cornerRadius(999)
                     .shadow(
                         color: hasChanges ? Color.primary.opacity(0.2) : .clear,
@@ -197,17 +173,85 @@ struct NotificationTimesSection: View {
                         x: 0,
                         y: 6
                     )
-                    .frame(maxWidth: 320)
-                    .animation(.easeInOut(duration: 0.2), value: hasChanges)
             }
+            .frame(maxWidth: 320)
             .disabled(!hasChanges)
+            .animation(.easeInOut(duration: 0.2), value: hasChanges)
         }
-        .onAppear {
-            draftStartMinutes = startMinutes
-            draftEndMinutes = endMinutes
+        .onAppear(perform: loadDraftValues)
+    }
+}
+
+private extension NotificationSection {
+
+    func loadDraftValues() {
+        draftStartMinutes = startMinutes
+        draftEndMinutes = endMinutes
+    }
+
+    func updateStartTime(_ date: Date) {
+        let minutes = TimeUtilities.dateToMinutes(date)
+        draftStartMinutes = minutes
+        if draftStartMinutes > draftEndMinutes {
+            draftEndMinutes = draftStartMinutes
+        }
+    }
+
+    func updateEndTime(_ date: Date) {
+        let minutes = TimeUtilities.dateToMinutes(date)
+        draftEndMinutes = minutes
+        if draftEndMinutes < draftStartMinutes {
+            draftStartMinutes = draftEndMinutes
+        }
+    }
+
+    func confirmChanges() {
+        startMinutes = draftStartMinutes
+        endMinutes = draftEndMinutes
+        notificationType
+            .makeScheduler()
+            .scheduleNotifications()
+    }
+
+    func handleNotificationToggleChange(isEnabled: Bool) {
+        if isEnabled {
+            Task {
+                let granted = await NotificationPermission.shared
+                    .requestNotificationPermission(promptIfNeeded: true)
+
+                if granted {
+                    notificationType.makeScheduler().scheduleNotifications()
+                } else {
+                    await MainActor.run {
+                        notificationsEnabled = false
+                    }
+                }
+            }
+        } else {
+            Task {
+                await NotificationUtilities.removeAllNotifications()
+            }
+        }
+    }
+
+    var buttonBackground: some View {
+        Group {
+            if hasChanges {
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(#colorLiteral(red: 0.0, green: 0.7843137389, blue: 1.0, alpha: 1.0)),
+                        Color(#colorLiteral(red: 0.0, green: 0.4470588267, blue: 0.9764705896, alpha: 1.0))
+                    ]),
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            } else {
+                Color(.systemGray4)
+            }
         }
     }
 }
+
 
 #Preview {
     SettingsView()

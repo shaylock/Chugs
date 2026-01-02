@@ -12,23 +12,6 @@ final class NotificationUtilities {
     private static var lastSingleNotificationIdentifier: String?
     private static let logger = LoggerUtilities.makeLogger(for: NotificationUtilities.self)
     
-    public static func checkPermission() async -> Bool {
-        let center = UNUserNotificationCenter.current()
-        let settings = await center.notificationSettings()
-        
-        switch settings.authorizationStatus {
-        case .authorized, .provisional, .ephemeral:
-            return true
-        default:
-            do {
-                return try await center.requestAuthorization(options: [.alert, .sound, .badge])
-            } catch {
-                print("Error requesting notification authorization: \(error)")
-                return false
-            }
-        }
-    }
-    
     public static func removeLastSingleNotification() async {
         let center = UNUserNotificationCenter.current()
         guard let identifier = lastSingleNotificationIdentifier else {
@@ -38,6 +21,13 @@ final class NotificationUtilities {
         center.removePendingNotificationRequests(withIdentifiers: [identifier])
         lastSingleNotificationIdentifier = nil
         logger.debug("🗑️ Removed last single notification with identifier: \(identifier)")
+    }
+    
+    public static func removeAllNotifications() async {
+        let center = UNUserNotificationCenter.current()
+        center.removeAllPendingNotificationRequests()
+        lastSingleNotificationIdentifier = nil
+        logger.debug("🗑️ Removed all pending notifications.")
     }
     
     public static func scheduleSingleNotificationIn(minutes: Double) async {
@@ -79,8 +69,7 @@ final class NotificationUtilities {
     }
     
     public static func scheduleDailyNotifications(interval: Int, startMinutes: Int, endMinutes: Int) async {
-        let center = UNUserNotificationCenter.current()
-        center.removeAllPendingNotificationRequests()
+        await removeAllNotifications()
 
         let intervalSeconds: Int = interval * 60
         let startSeconds: Int = startMinutes * 60
@@ -118,7 +107,7 @@ final class NotificationUtilities {
             let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
 
             do {
-                try await center.add(request)
+                try await UNUserNotificationCenter.current().add(request)
             } catch {
                 logger.error("Error scheduling notification: \(error.localizedDescription)")
             }

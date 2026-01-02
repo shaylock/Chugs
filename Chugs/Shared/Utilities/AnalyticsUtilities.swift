@@ -31,6 +31,9 @@ struct AnalyticsUtilities {
             trackAutomaticEvents: false,
             serverURL: "https://api-eu.mixpanel.com"
         )
+        #if DEBUG
+        Mixpanel.mainInstance().loggingEnabled = true
+        #endif
     }
     // TODO: is this needed?
     static func flushMixpanelData() {
@@ -61,6 +64,7 @@ struct AnalyticsUtilities {
                 "anonymous_user": true
             ]
         )
+        Mixpanel.mainInstance().flush()
     }
     
     /// Identifies the anonymous user and tracks app start

@@ -17,6 +17,7 @@
 "settings.goals.header" = "מטרות";
 "settings.goals.dailyWaterConsumption" = "צריכת מים יומית";
 "settings.notificationTimes.header" = "זמני ההתראות";
+"settings.notifications.enable" = "הפעלת התראות";
 "settings.startHour" = "שעת התחלה";
 "settings.endHour" = "שעת סיום";
 "settings.gulpSize.header" = "גודל לגימה";

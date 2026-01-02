@@ -17,6 +17,7 @@
 "settings.goals.header" = "Objectifs";
 "settings.goals.dailyWaterConsumption" = "Consommation d’eau quotidienne";
 "settings.notificationTimes.header" = "Heures de notification";
+"settings.notifications.enable" = "Activer les notifications";
 "settings.startHour" = "Heure de début";
 "settings.endHour" = "Heure de fin";
 "settings.gulpSize.header" = "Taille de gorgée";

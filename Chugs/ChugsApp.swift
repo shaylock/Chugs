@@ -69,6 +69,7 @@ struct ChugsApp: App {
     private let notificationDelegate: NotificationDelegate
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
     @AppStorage("lastAppActivationTime") private var lastAppActivationTime: Double = 0
+    @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = false
     
     private let logger = LoggerUtilities.makeLogger(for: Self.self)
     
@@ -76,18 +77,10 @@ struct ChugsApp: App {
         notificationDelegate = NotificationDelegate()
         UNUserNotificationCenter.current().delegate = notificationDelegate
         
-        // Request notification permission and ensure our category exists.
-        if hasCompletedOnboarding {
-            NotificationPermission.shared.requestNotificationPermission()
-            NotificationManager.shared.ensureChugsCategoryExists()
-        }
-        
         AnalyticsUtilities.initializeMixpanel()
-        // TODO: REMOVE
-        Mixpanel.mainInstance().loggingEnabled = true
         AnalyticsUtilities.trackAppStart()
-        Mixpanel.mainInstance().flush()
         
+        // TODO: why is this here?
         OnboardingPageConstants.subtitleFont = .system(size: 18)
         OnboardingPageConstants.buttonFont = .system(size: 20, weight: .semibold)
     }
@@ -116,7 +109,11 @@ struct ChugsApp: App {
         switch newPhase {
         case .active:
             logger.info("Scene became active (from \(String(describing: oldPhase)))")
-            runAppResumeLogic()
+            if hasCompletedOnboarding {
+                Task {
+                    await runAppResumeLogic()
+                }
+            }
 
         case .background:
             logger.info("Scene moved to background")
@@ -129,19 +126,24 @@ struct ChugsApp: App {
         }
     }
     
-    private func runAppResumeLogic() {
+    @MainActor
+    private func runAppResumeLogic() async {
         let now = Date()
 
 //        let elapsedSinceLastActivation: TimeInterval =
 //            lastAppActivationTime == 0
 //            ? 0
 //            : now.timeIntervalSince1970 - lastAppActivationTime
-
-        // Fan-out lifecycle event
-        Task {
-            await HydrationManager.shared.runAppResumeLogic()
+        
+        let allowed = await NotificationPermission.allowedNotifications()
+        if (!allowed) {
+            notificationsEnabled = false
         }
-
+        NotificationManager.shared.ensureChugsCategoryExists()
+        
+        // Fan-out lifecycle event
+        await HydrationManager.shared.runAppResumeLogic()
+        
         // Persist new activation time
         lastAppActivationTime = now.timeIntervalSince1970
     }
