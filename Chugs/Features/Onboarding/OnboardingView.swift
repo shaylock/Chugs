@@ -21,6 +21,8 @@ struct OnboardingView: View {
     @AppStorage("notificationType") private var notificationType: NotificationType = .smart
     @Binding var hasCompletedOnboarding: Bool
     @State private var page: Int = 0
+    
+    private let logger = LoggerUtilities.makeLogger(for: OnboardingView.self)
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -87,6 +89,7 @@ struct OnboardingView: View {
                 action: {
                     Task { @MainActor in
                         let granted = await NotificationPermission.shared.requestNotificationPermission()
+                        logger.info("Notification permission granted: \(granted)")
                         goToNext()
                     }
                 }
@@ -125,10 +128,12 @@ struct OnboardingView: View {
     private func finishOnboarding() {
         hasCompletedOnboarding = true
         Task {
-            // TODO: REVERT
-            NotificationManager.shared.ensureChugsCategoryExists()
             await HydrationManager.shared.runAppResumeLogic()
             notificationType.makeScheduler().scheduleNotifications()
+            AnalyticsUtilities.trackNotificationSettingsSnapshotIfNeeded(
+                notificationType: notificationType,
+                intervalValue: notificationType.makeScheduler().getIntervalString()
+            )
         }
     }
 

@@ -41,7 +41,7 @@ private struct notificationTypePickerView: View {
             }
         }
         .onChange(of: notificationType) {
-            notificationType.makeScheduler().scheduleNotifications()
+            notificationType.notificationSettingsChanged()
         }
         .pickerStyle(SegmentedPickerStyle())
         .padding()
@@ -106,7 +106,7 @@ struct SmartSettings: View {
                 }
             }
             .onChange(of: smartInterval) {
-                notificationType.makeScheduler().scheduleNotifications()
+                notificationType.notificationSettingsChanged()
             }
             .pickerStyle(.inline)
             .padding()
@@ -190,7 +190,7 @@ struct IntervalSettingsView: View {
             Button(action: {
                 interval = tempInterval
                 guard notificationType == .interval else { return }
-                notificationType.makeScheduler().scheduleNotifications()
+                notificationType.notificationSettingsChanged()
             }) {
                 Text("settings.notifications.confirmButton")
                     .font(.system(size: 16, weight: .bold))

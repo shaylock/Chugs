@@ -35,11 +35,6 @@ struct AnalyticsUtilities {
         Mixpanel.mainInstance().loggingEnabled = true
         #endif
     }
-    // TODO: is this needed?
-    static func flushMixpanelData() {
-        Mixpanel.mainInstance().flush()
-    }
-    
 
     static func getAnonymousUserId() -> String {
         if let existingId = anonymousUserId {
@@ -51,14 +46,15 @@ struct AnalyticsUtilities {
         return newId
     }
 
-    /// Identifies the anonymous user and tracks app start
-    static func trackAppStart() {
+    private static func identifyAnonymousUser() {
         let userId = getAnonymousUserId()
+        Mixpanel.mainInstance().identify(distinctId: userId)
+    }
+    
+    static func trackAppStart() {
+        identifyAnonymousUser()
 
-        let mixpanel = Mixpanel.mainInstance()
-        mixpanel.identify(distinctId: userId)
-
-        mixpanel.track(
+        Mixpanel.mainInstance().track(
             event: "App Started",
             properties: [
                 "anonymous_user": true
@@ -67,24 +63,58 @@ struct AnalyticsUtilities {
         Mixpanel.mainInstance().flush()
     }
     
-    /// Identifies the anonymous user and tracks app start
     static func trackDrink(fromNotification: Bool) {
-        let userId = getAnonymousUserId()
+        identifyAnonymousUser()
         let source = fromNotification ? "notification" : "app"
 
-        let mixpanel = Mixpanel.mainInstance()
-        mixpanel.identify(distinctId: userId)
-
-        mixpanel.track(
+        Mixpanel.mainInstance().track(
             event: "Drink Logged",
             properties: [
                 "anonymous_user": true,
                 "source": source
             ]
         )
-        
+
         if fromNotification {
-            mixpanel.flush()
+            Mixpanel.mainInstance().flush()
         }
+    }
+    
+    static func trackNotificationSettingsChanged(
+        notificationType: NotificationType,
+        intervalValue: String
+    ) {
+        identifyAnonymousUser()
+
+        let properties: [String: MixpanelType] = [
+            "anonymous_user": true,
+            "notification_type": notificationType.rawValue,
+            "notification_interval_value": intervalValue
+        ]
+
+        let mixpanel = Mixpanel.mainInstance()
+        
+        mixpanel.people.set(properties: properties)
+        mixpanel.track(
+            event: "Notification Settings Changed",
+            properties: properties
+        )
+    }
+    
+    static func trackNotificationSettingsSnapshotIfNeeded(
+        notificationType: NotificationType,
+        intervalValue: String
+    ) {
+        let snapshotKey = "didTrackNotificationSettingsSnapshot"
+        let hasTracked = UserDefaults.standard.bool(forKey: snapshotKey)
+
+        guard !hasTracked else { return }
+
+        trackNotificationSettingsChanged(
+            notificationType: notificationType,
+            intervalValue: intervalValue
+        )
+
+        UserDefaults.standard.set(true, forKey: snapshotKey)
     }
 }

@@ -15,6 +15,10 @@ struct IntervalNotificationScheduler: NotificationScheduling {
     private let logger = LoggerUtilities.makeLogger(for: Self.self)
     static var shared: IntervalNotificationScheduler = .init()
     
+    func getIntervalString() -> String {
+        return "\(interval)"
+    }
+    
     func scheduleNotifications() {
         Task {
             await NotificationUtilities.scheduleDailyNotifications(

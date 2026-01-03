@@ -48,6 +48,10 @@ struct SmartNotificationScheduler: NotificationScheduling {
     
     private let logger = LoggerUtilities.makeLogger(for: SmartNotificationScheduler.self)
     
+    func getIntervalString() -> String {
+        return smartInterval.rawValue
+    }
+    
     func scheduleNotifications() {
         Task {
             await NotificationUtilities.scheduleDailyNotifications(
