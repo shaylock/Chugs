@@ -43,7 +43,7 @@ class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         case "TRACK":
             HydrationManager.shared.addWater(amount: gulpSize * numberOfGulps)
             notificationType.makeScheduler().rescheduleNextDynamicNotification()
-            AnalyticsUtilities.trackDrink(fromNotification: true)
+            AnalyticsUtilities.trackDrink(fromNotification: true, numberOfGulps: Int(numberOfGulps))
         default:
             break
         }

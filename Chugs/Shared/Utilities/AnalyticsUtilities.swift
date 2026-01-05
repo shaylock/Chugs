@@ -67,7 +67,11 @@ struct AnalyticsUtilities {
         Mixpanel.mainInstance().flush()
     }
     
-    static func trackDrink(fromNotification: Bool) {
+    static func trackDrink(
+        fromNotification: Bool,
+        numberOfGulps: Int
+    ) {
+        identifyAnonymousUser()
         identifyAnonymousUser()
         let source = fromNotification ? "notification" : "app"
 
@@ -75,7 +79,8 @@ struct AnalyticsUtilities {
             event: "Drink Logged",
             properties: [
                 "anonymous_user": true,
-                "source": source
+                "source": source,
+                "number_of_gulps": numberOfGulps
             ]
         )
 
