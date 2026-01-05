@@ -132,7 +132,8 @@ struct OnboardingView: View {
             notificationType.makeScheduler().scheduleNotifications()
             AnalyticsUtilities.trackNotificationSettingsSnapshotIfNeeded(
                 notificationType: notificationType,
-                intervalValue: notificationType.makeScheduler().getIntervalString()
+                intervalValue: notificationType.makeScheduler().getIntervalString(),
+                isEnabled: notificationType.makeScheduler().isNotificationEnabled()
             )
         }
     }

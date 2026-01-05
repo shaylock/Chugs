@@ -84,16 +84,38 @@ struct AnalyticsUtilities {
         }
     }
     
-    static func trackNotificationSettingsChanged(
+    static func trackNotificationToggleChanged(
         notificationType: NotificationType,
-        intervalValue: String
+        isEnabled: Bool
     ) {
         identifyAnonymousUser()
 
         let properties: [String: MixpanelType] = [
             "anonymous_user": true,
             "notification_type": notificationType.rawValue,
-            "notification_interval_value": intervalValue
+            "notifications_enabled": isEnabled
+        ]
+
+        Mixpanel.mainInstance().track(
+            event: isEnabled
+                ? "Notifications Enabled"
+                : "Notifications Disabled",
+            properties: properties
+        )
+    }
+    
+    static func trackNotificationSettingsChanged(
+        notificationType: NotificationType,
+        intervalValue: String,
+        isEnabled: Bool
+    ) {
+        identifyAnonymousUser()
+
+        let properties: [String: MixpanelType] = [
+            "anonymous_user": true,
+            "notification_type": notificationType.rawValue,
+            "notification_interval_value": intervalValue,
+            "notifications_enabled": isEnabled
         ]
 
         let mixpanel = Mixpanel.mainInstance()
@@ -107,7 +129,8 @@ struct AnalyticsUtilities {
     
     static func trackNotificationSettingsSnapshotIfNeeded(
         notificationType: NotificationType,
-        intervalValue: String
+        intervalValue: String,
+        isEnabled: Bool
     ) {
         let snapshotKey = "didTrackNotificationSettingsSnapshot"
         let hasTracked = UserDefaults.standard.bool(forKey: snapshotKey)
@@ -116,7 +139,8 @@ struct AnalyticsUtilities {
 
         trackNotificationSettingsChanged(
             notificationType: notificationType,
-            intervalValue: intervalValue
+            intervalValue: intervalValue,
+            isEnabled: isEnabled
         )
 
         UserDefaults.standard.set(true, forKey: snapshotKey)

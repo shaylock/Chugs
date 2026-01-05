@@ -214,6 +214,7 @@ private extension NotificationSection {
     }
 
     func handleNotificationToggleChange(isEnabled: Bool) {
+        AnalyticsUtilities.trackNotificationToggleChanged(notificationType: notificationType, isEnabled: isEnabled)
         if isEnabled {
             Task {
                 let granted = await NotificationPermission.shared

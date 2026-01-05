@@ -40,6 +40,7 @@ struct SmartNotificationScheduler: NotificationScheduling {
     @AppStorage("startMinutes") private var startMinutes: Int = 8 * 60     // 08:00
     @AppStorage("endMinutes") private var endMinutes: Int = 22 * 60        // 22:00
     @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
+    @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = false
     @AppStorage(
         "storedDailyProgress",
         store: AppGroup.defaults
@@ -50,6 +51,10 @@ struct SmartNotificationScheduler: NotificationScheduling {
     
     func getIntervalString() -> String {
         return smartInterval.rawValue
+    }
+    
+    func isNotificationEnabled() -> Bool {
+        return notificationsEnabled
     }
     
     func scheduleNotifications() {

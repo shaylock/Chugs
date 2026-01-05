@@ -10,6 +10,7 @@ import UserNotifications
 
 protocol NotificationScheduling {
     func getIntervalString() -> String
+    func isNotificationEnabled() -> Bool
     func scheduleNotifications()
     func scheduleNextDynamicNotification()
     func rescheduleNextDynamicNotification()
@@ -35,7 +36,8 @@ enum NotificationType: String, CaseIterable, Identifiable {
         scheduler.scheduleNotifications()
         AnalyticsUtilities.trackNotificationSettingsChanged(
             notificationType: self,
-            intervalValue: scheduler.getIntervalString()
+            intervalValue: scheduler.getIntervalString(),
+            isEnabled: scheduler.isNotificationEnabled()
             )
     }
 }
