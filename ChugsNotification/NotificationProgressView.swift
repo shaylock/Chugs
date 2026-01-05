@@ -15,6 +15,12 @@ public struct NotificationProgressView: View {
     )
     private var storedDailyProgress: Double = 0.0
 
+    @AppStorage(
+        "lastUpdateDay",
+        store: AppGroup.defaults
+    )
+    private var lastUpdateDay: Date = Date.distantPast
+
     let progress: Double          // 0...1
     let currentLiters: Double
     let goalLiters: Double
@@ -37,7 +43,6 @@ public struct NotificationProgressView: View {
                 .opacity(0.12)
 
             // Progress ring
-//            RingView(progress: progress)
             RingView(progress: min(storedDailyProgress / goalLiters, 1.0))
 
             VStack(spacing: 4) {
@@ -50,5 +55,19 @@ public struct NotificationProgressView: View {
             }
         }
         .frame(width: 140, height: 140)
+        .onAppear {
+            resetProgressIfNeeded()
+        }
+    }
+
+    private func resetProgressIfNeeded() {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let lastDay = calendar.startOfDay(for: lastUpdateDay)
+
+        guard today != lastDay else { return }
+
+        storedDailyProgress = 0
+        lastUpdateDay = today
     }
 }
