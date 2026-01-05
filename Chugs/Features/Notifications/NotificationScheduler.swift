@@ -32,6 +32,9 @@ enum NotificationType: String, CaseIterable, Identifiable {
     }
     
     func notificationSettingsChanged() {
+        if (self == .smart) {
+            guard HealthStore.shared.hasReadAccess() else { return }
+        }
         let scheduler: NotificationScheduling = makeScheduler()
         scheduler.scheduleNotifications()
         AnalyticsUtilities.trackNotificationSettingsChanged(

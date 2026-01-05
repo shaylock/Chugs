@@ -70,6 +70,7 @@ struct ChugsApp: App {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
     @AppStorage("lastAppActivationTime") private var lastAppActivationTime: Double = 0
     @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = false
+    @AppStorage("notificationType") private var notificationType: NotificationType = .smart
     
     private let logger = LoggerUtilities.makeLogger(for: Self.self)
     
@@ -141,6 +142,11 @@ struct ChugsApp: App {
             notificationsEnabled = false
         }
         NotificationManager.shared.ensureChugsCategoryExists()
+        
+        let healthAllowed = HealthStore.shared.hasReadAccess()
+        if (!healthAllowed && notificationType == .smart) {
+            notificationType = .interval
+        }
         
         // Fan-out lifecycle event
         await HydrationManager.shared.runAppResumeLogic()
