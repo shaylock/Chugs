@@ -58,6 +58,7 @@ struct SmartNotificationScheduler: NotificationScheduling {
     }
     
     func scheduleNotifications() {
+        guard notificationsEnabled else { return }
         Task {
             await NotificationUtilities.scheduleDailyNotifications(
                 // todo: if fixed interval is not 60 this will break
@@ -68,6 +69,7 @@ struct SmartNotificationScheduler: NotificationScheduling {
     }
     
     func scheduleNextDynamicNotification() {
+        guard notificationsEnabled else { return }
         let hoursPassed: Double = (Double)(Calendar.current.component(.hour, from: Date()))
         let goalUntilNow = (dailyGoal / 24) * hoursPassed
         let urgency: Double = max(1, 1 - (storedDailyProgress / goalUntilNow))
@@ -89,6 +91,7 @@ struct SmartNotificationScheduler: NotificationScheduling {
     }
     
     func rescheduleNextDynamicNotification() {
+        guard notificationsEnabled else { return }
         Task {
             await NotificationUtilities.removeLastSingleNotification()
             scheduleNextDynamicNotification()

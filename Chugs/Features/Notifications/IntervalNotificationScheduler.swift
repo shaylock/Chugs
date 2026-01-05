@@ -25,6 +25,7 @@ struct IntervalNotificationScheduler: NotificationScheduling {
     }
     
     func scheduleNotifications() {
+        guard notificationsEnabled else { return }
         Task {
             await NotificationUtilities.scheduleDailyNotifications(
                 interval: interval, startMinutes: startMinutes, endMinutes: endMinutes
@@ -33,8 +34,10 @@ struct IntervalNotificationScheduler: NotificationScheduling {
     }
     
     func scheduleNextDynamicNotification() {
+        guard notificationsEnabled else { return }
     }
     
     func rescheduleNextDynamicNotification() {
+        guard notificationsEnabled else { return }
     }
 }
