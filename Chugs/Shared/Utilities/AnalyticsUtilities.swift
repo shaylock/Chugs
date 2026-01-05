@@ -35,6 +35,10 @@ struct AnalyticsUtilities {
         Mixpanel.mainInstance().loggingEnabled = true
         #endif
     }
+    
+    static func flushMixpanel() {
+        Mixpanel.mainInstance().flush()
+    }
 
     static func getAnonymousUserId() -> String {
         if let existingId = anonymousUserId {

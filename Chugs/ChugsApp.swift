@@ -116,6 +116,7 @@ struct ChugsApp: App {
             }
 
         case .background:
+            AnalyticsUtilities.flushMixpanel()
             logger.info("Scene moved to background")
 
         case .inactive:
