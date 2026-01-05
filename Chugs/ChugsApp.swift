@@ -69,7 +69,7 @@ struct ChugsApp: App {
     private let notificationDelegate: NotificationDelegate
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
     @AppStorage("lastAppActivationTime") private var lastAppActivationTime: Double = 0
-    @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = false
+    @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = true
     @AppStorage("notificationType") private var notificationType: NotificationType = .smart
     
     private let logger = LoggerUtilities.makeLogger(for: Self.self)

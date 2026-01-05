@@ -103,7 +103,7 @@ struct NotificationSection: View {
     @AppStorage("notificationType") private var notificationType: NotificationType = .smart
     @AppStorage("startMinutes") private var startMinutes: Int = 8 * 60   // 08:00
     @AppStorage("endMinutes") private var endMinutes: Int = 22 * 60      // 22:00
-    @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = false
+    @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = true
 
     @State private var draftStartMinutes: Int = 8 * 60
     @State private var draftEndMinutes: Int = 22 * 60

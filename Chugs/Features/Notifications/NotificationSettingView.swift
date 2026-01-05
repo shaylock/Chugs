@@ -173,6 +173,7 @@ struct IntervalSettingsView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
+            Text("settings.notifications.interval.description")
             
             Picker("settings.notifications.intervalPicker.title", selection: $tempInterval) {
                 ForEach(Array(stride(from: 5, through: 120, by: 5)), id: \.self) { minutes in
@@ -182,10 +183,6 @@ struct IntervalSettingsView: View {
             }
             .pickerStyle(WheelPickerStyle())
             .frame(maxWidth: .infinity, maxHeight: 150)
-            
-            Text("settings.notifications.interval.description")
-                .font(.footnote)
-                .foregroundColor(.secondary)
             
             Button(action: {
                 interval = tempInterval

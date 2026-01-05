@@ -10,8 +10,8 @@ import AVKit
 
 enum OnboardingStep: Int, CaseIterable {
     case welcome
-    case enableNotifications
     case notificationVideo
+    case enableNotifications
     case lockScreen
     case enableHealth
     case smartVsInterval
