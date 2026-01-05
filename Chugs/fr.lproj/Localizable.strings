@@ -8,10 +8,6 @@
 
 "settings.title" = "Réglages";
 "settings.resetReplay.header" = "Réinitialiser / Rejouer";
-"settings.resetDailyProgress" = "Réinitialiser la progression quotidienne";
-"settings.resetDailyProgress.confirmation" = "Êtes-vous sûr de vouloir réinitialiser votre progression quotidienne ? Cette action est irréversible.";
-"settings.reset" = "Réinitialiser";
-"settings.cancel" = "Annuler";
 "settings.replayOnboarding" = "Rejouer l’onboarding";
 "settings.replayTooltips" = "Rejouer les info-bulles";
 "settings.goals.header" = "Objectifs";

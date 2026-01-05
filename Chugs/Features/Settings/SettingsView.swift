@@ -33,24 +33,6 @@ struct SettingsView: View {
     private var resetReplaySection: some View {
         Section(header: Text(LocalizedStringKey("settings.resetReplay.header"))) {
             Button {
-                showResetConfirmation = true
-            } label: {
-                Text(LocalizedStringKey("settings.resetDailyProgress"))
-                    .foregroundColor(dailyProgress == 0 ? .gray : .red)
-            }
-            .disabled(dailyProgress == 0)
-            .confirmationDialog(
-                LocalizedStringKey("settings.resetDailyProgress.confirmation"),
-                isPresented: $showResetConfirmation,
-                titleVisibility: .visible
-            ) {
-                Button(LocalizedStringKey("settings.reset"), role: .destructive) {
-                    dailyProgress = 0
-                }
-                Button(LocalizedStringKey("settings.cancel"), role: .cancel) {}
-            }
-
-            Button {
                 hasCompletedOnboarding = false
             } label: {
                 Text(LocalizedStringKey("settings.replayOnboarding"))

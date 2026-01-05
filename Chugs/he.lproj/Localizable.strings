@@ -8,10 +8,6 @@
 
 "settings.title" = "הגדרות";
 "settings.resetReplay.header" = "אפס / הפעל";
-"settings.resetDailyProgress" = "אפס את ההתקדמות היומית";
-"settings.resetDailyProgress.confirmation" = "האם אתה בטוח שברצונך לאפס את ההתקדמות היומית? פעולה זו לא ניתנת לביטול.";
-"settings.reset" = "אפס";
-"settings.cancel" = "בטל";
 "settings.replayOnboarding" = "הפעל מחדש את ההדרכה";
 "settings.replayTooltips" = "הפעל מחדש את הטיפים";
 "settings.goals.header" = "מטרות";
