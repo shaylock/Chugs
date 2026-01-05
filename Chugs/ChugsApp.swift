@@ -156,26 +156,45 @@ struct ChugsApp: App {
     }
 }
 
+final class NotificationRouter: ObservableObject {
+    static let shared = NotificationRouter()
+
+    @Published var selectedTab: Int = 0
+
+    func routeToDrinkTrack() {
+        DispatchQueue.main.async {
+            self.selectedTab = 0
+        }
+    }
+}
+
 struct MainTabView: View {
+    @StateObject private var router = NotificationRouter.shared
+
     var body: some View {
-        TabView {
+        TabView(selection: $router.selectedTab) {
+
             DrinkTrackView()
                 .tabItem {
                     Label("tab.drink", systemImage: "drop.fill")
                 }
+                .tag(0)
 
             NotificationSettingView()
                 .tabItem {
                     Label("tab.reminders", systemImage: "alarm")
                 }
+                .tag(1)
 
             SettingsView()
                 .tabItem {
                     Label("tab.settings", systemImage: "gearshape")
                 }
+                .tag(2)
         }
     }
 }
+
 
 
 #Preview {

@@ -40,10 +40,14 @@ class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
         switch response.actionIdentifier {
+        case UNNotificationDefaultActionIdentifier:
+            NotificationRouter.shared.routeToDrinkTrack()
+            
         case "TRACK":
             HydrationManager.shared.addWater(amount: gulpSize * numberOfGulps)
             notificationType.makeScheduler().rescheduleNextDynamicNotification()
             AnalyticsUtilities.trackDrink(fromNotification: true, numberOfGulps: Int(numberOfGulps))
+            
         default:
             break
         }
