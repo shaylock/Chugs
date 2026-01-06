@@ -101,6 +101,21 @@
 "onboarding.smartVsInterval.subtitle" = "Le mode intelligent s’adapte à vos habitudes. Le mode intervalle vous rappelle toutes les X minutes.";
 "onboarding.smartVsInterval.button" = "Continuer";
 
+/* Disclaimer */
+"onboarding.disclaimer.title" = "Juste une petite note";
+"onboarding.disclaimer.subtitle" = "Chugs vous aide à définir des rappels de boisson selon vos préférences. Les besoins individuels varient et cette application ne fournit pas de conseils médicaux.";
+"onboarding.disclaimer.button" = "Commencer";
+
 "tooltip.progressRing.text" = "Cet anneau affiche votre progression vers votre objectif quotidien !";
 "tooltip.chugButton.text" = "Touchez ce bouton pour enregistrer une gorgée !";
 "tooltip.slider.text" = "Utilisez ce curseur pour sélectionner le nombre de gorgées.";
+
+/* About */
+"settings.about.title" = "À propos";
+"about.title" = "À propos";
+"about.tagline" = "Des rappels de boisson simples";
+"about.whatItDoes.title" = "Ce que fait Chugs";
+"about.whatItDoes.body" = "Chugs vous aide à définir des rappels de boisson en fonction de vos préférences et de vos habitudes quotidiennes.";
+"about.disclaimer.title" = "Avertissement";
+"about.disclaimer.body" = "Chugs est conçue uniquement à des fins générales de rappel et de suivi. Les besoins individuels varient et cette application ne fournit pas de conseils médicaux ou de santé.";
+"about.version" = "Version";

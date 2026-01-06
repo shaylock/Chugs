@@ -101,6 +101,21 @@
 "onboarding.smartVsInterval.subtitle" = "מצב חכם מסתגל להרגלים שלך. מצב מרווחים מזכיר כל X דקות.";
 "onboarding.smartVsInterval.button" = "המשך";
 
+/* Disclaimer */
+"onboarding.disclaimer.title" = "רק הערה קצרה";
+"onboarding.disclaimer.subtitle" = "Chugs עוזר לך להגדיר תזכורות לשתייה בהתאם להעדפות שלך. הצרכים האישיים משתנים, והאפליקציה אינה מספקת ייעוץ רפואי.";
+"onboarding.disclaimer.button" = "נתחיל";
+
 "tooltip.progressRing.text" = "הטבעת הזו מציגה את ההתקדמות שלך לקראת היעד היומי!";
 "tooltip.chugButton.text" = "הקש על הכפתור הזה כדי לרשום לגימה!";
 "tooltip.slider.text" = "השתמש במחוון כדי לבחור את מספר השלוקים.";
+
+/* About */
+"settings.about.title" = "אודות";
+"about.title" = "אודות";
+"about.tagline" = "תזכורות שתייה פשוטות";
+"about.whatItDoes.title" = "מה Chugs עושה";
+"about.whatItDoes.body" = "Chugs עוזר לך להגדיר תזכורות לשתייה בהתאם להעדפות שלך ולהרגלים היומיים שלך.";
+"about.disclaimer.title" = "הבהרה";
+"about.disclaimer.body" = "Chugs מיועדת לצורכי תזכורת ומעקב כלליים בלבד. הצרכים האישיים משתנים, והאפליקציה אינה מספקת ייעוץ רפואי או בריאותי.";
+"about.version" = "גרסה";

@@ -25,6 +25,7 @@ struct SettingsView: View {
                 NotificationSection()
                 gulpSizeSection()
                 resetReplaySection
+                aboutSection
             }
             .navigationTitle(LocalizedStringKey("settings.title"))
         }
@@ -47,6 +48,20 @@ struct SettingsView: View {
             }
         }
     }
+    
+    private var aboutSection: some View {
+        Section {
+            NavigationLink {
+                AboutView()
+            } label: {
+                Label(
+                    LocalizedStringKey("settings.about.title"),
+                    systemImage: "info.circle"
+                )
+            }
+        }
+    }
+
 
     private var goalsSection: some View {
         Section(header: Text(LocalizedStringKey("settings.goals.header"))) {

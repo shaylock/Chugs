@@ -15,6 +15,7 @@ enum OnboardingStep: Int, CaseIterable {
     case lockScreen
     case enableHealth
     case smartVsInterval
+    case disclaimer
 }
 
 struct OnboardingView: View {
@@ -114,9 +115,19 @@ struct OnboardingView: View {
                 title: LocalizedStringKey("onboarding.smartVsInterval.title"),
                 subtitle: LocalizedStringKey("onboarding.smartVsInterval.subtitle"),
                 buttonTitle: LocalizedStringKey("onboarding.smartVsInterval.button"),
+                action: goToNext
+            )
+    
+        case .disclaimer:
+            OnboardingPage<EmptyView>(
+                image: "info.circle.fill",
+                title: LocalizedStringKey("onboarding.disclaimer.title"),
+                subtitle: LocalizedStringKey("onboarding.disclaimer.subtitle"),
+                buttonTitle: LocalizedStringKey("onboarding.disclaimer.button"),
                 action: finishOnboarding
             )
         }
+
     }
 
     // MARK: - Actions
