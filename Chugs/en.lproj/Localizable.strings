@@ -39,7 +39,7 @@
 "settings.notifications.smart.health.description" = "Smart notifications require access to your Apple Health water intake data.";
 "settings.notifications.smart.health.step.settings" = "Open Settings → Apps";
 "settings.notifications.smart.health.step.health" = "Tap Health → Data Access & Devices";
-"settings.notifications.smart.health.step.enable" = "Click Chugs → Turn On All";
+"settings.notifications.smart.health.step.enable" = "Click Tipot → Turn On All";
 "settings.notifications.smart.health.enableButton" = "Enable Health";
 
 "history.view.title" = "Hydration History";
@@ -57,7 +57,7 @@
 "history.trend.subtitle" = "Last 7 days vs previous week";
 
 "notification.alert.disabled.title" = "Notifications Disabled";
-"notification.alert.disabled.message" = "To receive chug reminders, please enable notifications in Settings → Chugs → Notifications.";
+"notification.alert.disabled.message" = "To receive chug reminders, please enable notifications in Settings → Tipot → Notifications.";
 "notification.button.cancel" = "Cancel";
 "notification.button.openSettings" = "Open Settings";
 "notification.button.1gulp" = "1 gulp";
@@ -72,7 +72,7 @@
 
 /* Welcome Page */
 "onboarding.skip" = "Skip";
-"onboarding.pageWelcome.title" = "Welcome to Chugs 💧";
+"onboarding.pageWelcome.title" = "Welcome to Tipot 💧";
 "onboarding.pageWelcome.subtitle" = "Your smart water drinking buddy.";
 "onboarding.pageWelcome.button" = "Continue";
 
@@ -88,7 +88,7 @@
 
 /* Lock Screen Setup */
 "onboarding.lockScreen.title" = "Track From Lock Screen";
-"onboarding.lockScreen.subtitle" = "In Settings → Apps → Chugs\nOpen Notifications → Show Preview\nClick 'Always'.";
+"onboarding.lockScreen.subtitle" = "In Settings → Apps → Tipot\nOpen Notifications → Show Preview\nClick 'Always'.";
 "onboarding.lockScreen.button" = "Open App Settings";
 
 /* Enable Health */
@@ -103,7 +103,7 @@
 
 /* Disclaimer */
 "onboarding.disclaimer.title" = "Just a quick note";
-"onboarding.disclaimer.subtitle" = "Chugs helps you set drink reminders based on your preferences. Individual needs vary, and this app does not provide medical advice.";
+"onboarding.disclaimer.subtitle" = "Tipot helps you set drink reminders based on your preferences. Individual needs vary, and this app does not provide medical advice.";
 "onboarding.disclaimer.button" = "Get started";
 
 "tooltip.progressRing.text" = "This ring shows your progress towards your daily goal!";
@@ -114,8 +114,8 @@
 "settings.about.title" = "About";
 "about.title" = "About";
 "about.tagline" = "Simple drink reminders";
-"about.whatItDoes.title" = "What Chugs Does";
-"about.whatItDoes.body" = "Chugs helps you set drink reminders based on your preferences and daily habits.";
+"about.whatItDoes.title" = "What Tipot Does";
+"about.whatItDoes.body" = "Tipot helps you set drink reminders based on your preferences and daily habits.";
 "about.disclaimer.title" = "Disclaimer";
-"about.disclaimer.body" = "Chugs is designed for general reminder and tracking purposes only. Individual needs vary, and this app does not provide medical or health advice.";
+"about.disclaimer.body" = "Tipot is designed for general reminder and tracking purposes only. Individual needs vary, and this app does not provide medical or health advice.";
 "about.version" = "Version";

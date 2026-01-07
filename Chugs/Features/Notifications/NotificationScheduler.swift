@@ -1,6 +1,6 @@
 //
 //  NotificationScheduler.swift
-//  Chugs
+//  Tipot
 //
 //  Created by Shay Blum on 12/09/2025.
 //

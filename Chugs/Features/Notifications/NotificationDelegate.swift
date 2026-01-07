@@ -1,6 +1,6 @@
 //
 //  NotificationDelegate.swift
-//  Chugs
+//  Tipot
 //
 //  Created by Shay Blum on 04/09/2025.
 //

@@ -1,6 +1,6 @@
 //
 //  OnboardingView.swift
-//  Chugs
+//  Tipot
 //
 //  Created by Shay Blum on 05/11/2025.
 //

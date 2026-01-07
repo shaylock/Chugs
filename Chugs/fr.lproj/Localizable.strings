@@ -39,7 +39,7 @@
 "settings.notifications.smart.health.description" = "Les notifications intelligentes nécessitent l’accès aux données de consommation d’eau d’Apple Santé.";
 "settings.notifications.smart.health.step.settings" = "Ouvrez Réglages → Apps";
 "settings.notifications.smart.health.step.health" = "Appuyez sur Santé → Accès aux données et appareils";
-"settings.notifications.smart.health.step.enable" = "Sélectionnez Chugs → Tout activer";
+"settings.notifications.smart.health.step.enable" = "Sélectionnez Tipot → Tout activer";
 "settings.notifications.smart.health.enableButton" = "Activer Santé";
 
 "history.view.title" = "Historique d’hydratation";
@@ -57,7 +57,7 @@
 "history.trend.subtitle" = "7 derniers jours vs semaine précédente";
 
 "notification.alert.disabled.title" = "Notifications désactivées";
-"notification.alert.disabled.message" = "Pour recevoir des rappels de chug, veuillez activer les notifications dans Réglages → Chugs → Notifications.";
+"notification.alert.disabled.message" = "Pour recevoir des rappels de chug, veuillez activer les notifications dans Réglages → Tipot → Notifications.";
 "notification.button.cancel" = "Annuler";
 "notification.button.openSettings" = "Ouvrir les Réglages";
 "notification.button.1gulp" = "1 gorgée";
@@ -72,7 +72,7 @@
 
 /* Welcome Page */
 "onboarding.skip" = "Passer";
-"onboarding.pageWelcome.title" = "Bienvenue sur Chugs 💧";
+"onboarding.pageWelcome.title" = "Bienvenue sur Tipot 💧";
 "onboarding.pageWelcome.subtitle" = "Votre compagnon intelligent pour boire de l’eau.";
 "onboarding.pageWelcome.button" = "Continuer";
 
@@ -88,7 +88,7 @@
 
 /* Lock Screen Setup */
 "onboarding.lockScreen.title" = "Suivi depuis l’écran verrouillé";
-"onboarding.lockScreen.subtitle" = "Dans Réglages → Apps → Chugs\nOuvrez Notifications → Afficher l’aperçu\nChoisissez « Toujours ».";
+"onboarding.lockScreen.subtitle" = "Dans Réglages → Apps → Tipot\nOuvrez Notifications → Afficher l’aperçu\nChoisissez « Toujours ».";
 "onboarding.lockScreen.button" = "Ouvrir les réglages de l’app";
 
 /* Enable Health */
@@ -103,7 +103,7 @@
 
 /* Disclaimer */
 "onboarding.disclaimer.title" = "Juste une petite note";
-"onboarding.disclaimer.subtitle" = "Chugs vous aide à définir des rappels de boisson selon vos préférences. Les besoins individuels varient et cette application ne fournit pas de conseils médicaux.";
+"onboarding.disclaimer.subtitle" = "Tipot vous aide à définir des rappels de boisson selon vos préférences. Les besoins individuels varient et cette application ne fournit pas de conseils médicaux.";
 "onboarding.disclaimer.button" = "Commencer";
 
 "tooltip.progressRing.text" = "Cet anneau affiche votre progression vers votre objectif quotidien !";
@@ -114,8 +114,8 @@
 "settings.about.title" = "À propos";
 "about.title" = "À propos";
 "about.tagline" = "Des rappels de boisson simples";
-"about.whatItDoes.title" = "Ce que fait Chugs";
-"about.whatItDoes.body" = "Chugs vous aide à définir des rappels de boisson en fonction de vos préférences et de vos habitudes quotidiennes.";
+"about.whatItDoes.title" = "Ce que fait Tipot";
+"about.whatItDoes.body" = "Tipot vous aide à définir des rappels de boisson en fonction de vos préférences et de vos habitudes quotidiennes.";
 "about.disclaimer.title" = "Avertissement";
-"about.disclaimer.body" = "Chugs est conçue uniquement à des fins générales de rappel et de suivi. Les besoins individuels varient et cette application ne fournit pas de conseils médicaux ou de santé.";
+"about.disclaimer.body" = "Tipot est conçue uniquement à des fins générales de rappel et de suivi. Les besoins individuels varient et cette application ne fournit pas de conseils médicaux ou de santé.";
 "about.version" = "Version";

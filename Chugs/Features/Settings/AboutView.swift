@@ -1,6 +1,6 @@
 //
 //  AboutView.swift
-//  Chugs
+//  Tipot
 //
 //  Created by Shay Blum on 06/01/2026.
 //
@@ -25,7 +25,7 @@ struct AboutView: View {
                         .font(.system(size: 48))
                         .foregroundStyle(.blue)
 
-                    Text("Chugs")
+                    Text("Tipot")
                         .font(.title.bold())
 
                     Text(LocalizedStringKey("about.tagline"))

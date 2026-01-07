@@ -1,6 +1,6 @@
 //
 //  NotificationProgressView.swift
-//  Chugs
+//  Tipot
 //
 //  Created by Shay Blum on 26/12/2025.
 //

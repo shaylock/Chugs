@@ -1,6 +1,6 @@
 //
 //  LoggerUtilities.swift
-//  Chugs
+//  Tipot
 //
 //  Created by Shay Blum on 17/10/2025.
 //

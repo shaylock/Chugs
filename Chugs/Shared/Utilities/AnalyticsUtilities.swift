@@ -1,6 +1,6 @@
 //
 //  AnalyticsUtilities.swift
-//  Chugs
+//  Tipot
 //
 //  Created by Shay Blum on 31/12/2025.
 //

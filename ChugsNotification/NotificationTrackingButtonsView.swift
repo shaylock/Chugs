@@ -1,6 +1,6 @@
 //
 //  NotificationTrackingButtonsView.swift
-//  Chugs
+//  Tipot
 //
 //  Created by Shay Blum on 27/12/2025.
 //

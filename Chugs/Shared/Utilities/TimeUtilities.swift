@@ -1,6 +1,6 @@
 //
 //  TimeUtilities.swift
-//  Chugs
+//  Tipot
 //
 //  Created by Shay Blum on 10/10/2025.
 //

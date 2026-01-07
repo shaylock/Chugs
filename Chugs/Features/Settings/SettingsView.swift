@@ -1,6 +1,6 @@
 //
 //  SettingsView.swift
-//  Chugs
+//  Tipot
 //
 //  Created by Shay Blum on 19/09/2025.
 //

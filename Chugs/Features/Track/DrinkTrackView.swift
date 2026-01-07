@@ -1,6 +1,6 @@
 //
 //  HydrationLogView.swift
-//  Chugs
+//  Tipot
 //
 //  Created by Shay Blum on 22/09/2025.
 //

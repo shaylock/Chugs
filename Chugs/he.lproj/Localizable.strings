@@ -39,7 +39,7 @@
 "settings.notifications.smart.health.description" = "התראות חכמות דורשות גישה לנתוני צריכת המים שלך מ־Apple Health.";
 "settings.notifications.smart.health.step.settings" = "פתח את ההגדרות ← יישומים";
 "settings.notifications.smart.health.step.health" = "הקש על בריאות ← גישה לנתונים ומכשירים";
-"settings.notifications.smart.health.step.enable" = "לחץ על Chugs ← הפעל הכל";
+"settings.notifications.smart.health.step.enable" = "לחץ על Tipot ← הפעל הכל";
 "settings.notifications.smart.health.enableButton" = "אפשר בריאות";
 
 "history.view.title" = "היסטוריית שתייה";
@@ -57,7 +57,7 @@
 "history.trend.subtitle" = "7 הימים האחרונים מול השבוע הקודם";
 
 "notification.alert.disabled.title" = "התראות כבויות";
-"notification.alert.disabled.message" = "כדי לקבל תזכורות שתייה, אנא אפשר התראות בהגדרות ← Chugs ← עידכונים.";
+"notification.alert.disabled.message" = "כדי לקבל תזכורות שתייה, אנא אפשר התראות בהגדרות ← Tipot ← עידכונים.";
 "notification.button.cancel" = "ביטול";
 "notification.button.openSettings" = "פתח הגדרות";
 "notification.button.1gulp" = "לגימה 1";
@@ -72,7 +72,7 @@
 
 /* Welcome Page */
 "onboarding.skip" = "דלג";
-"onboarding.pageWelcome.title" = "ברוכים הבאים ל-Chugs 💧";
+"onboarding.pageWelcome.title" = "ברוכים הבאים ל-Tipot 💧";
 "onboarding.pageWelcome.subtitle" = "החבר החכם לשתיית מים.";
 "onboarding.pageWelcome.button" = "המשך";
 
@@ -88,7 +88,7 @@
 
 /* Lock Screen Setup */
 "onboarding.lockScreen.title" = "עידכון גם ממסך נעול";
-"onboarding.lockScreen.subtitle" = "הגדרות ← אפליקציות ← Chugs\nהתראות ← הצג תצוגה מקדימה\nבחרו 'תמיד'.";
+"onboarding.lockScreen.subtitle" = "הגדרות ← אפליקציות ← Tipot\nהתראות ← הצג תצוגה מקדימה\nבחרו 'תמיד'.";
 "onboarding.lockScreen.button" = "פתח הגדרות אפליקציה";
 
 /* Enable Health */
@@ -103,7 +103,7 @@
 
 /* Disclaimer */
 "onboarding.disclaimer.title" = "רק הערה קצרה";
-"onboarding.disclaimer.subtitle" = "Chugs עוזר לך להגדיר תזכורות לשתייה בהתאם להעדפות שלך. הצרכים האישיים משתנים, והאפליקציה אינה מספקת ייעוץ רפואי.";
+"onboarding.disclaimer.subtitle" = "Tipot עוזר לך להגדיר תזכורות לשתייה בהתאם להעדפות שלך. הצרכים האישיים משתנים, והאפליקציה אינה מספקת ייעוץ רפואי.";
 "onboarding.disclaimer.button" = "נתחיל";
 
 "tooltip.progressRing.text" = "הטבעת הזו מציגה את ההתקדמות שלך לקראת היעד היומי!";
@@ -114,8 +114,8 @@
 "settings.about.title" = "אודות";
 "about.title" = "אודות";
 "about.tagline" = "תזכורות שתייה פשוטות";
-"about.whatItDoes.title" = "מה Chugs עושה";
-"about.whatItDoes.body" = "Chugs עוזר לך להגדיר תזכורות לשתייה בהתאם להעדפות שלך ולהרגלים היומיים שלך.";
+"about.whatItDoes.title" = "מה Tipot עושה";
+"about.whatItDoes.body" = "Tipot עוזר לך להגדיר תזכורות לשתייה בהתאם להעדפות שלך ולהרגלים היומיים שלך.";
 "about.disclaimer.title" = "הבהרה";
-"about.disclaimer.body" = "Chugs מיועדת לצורכי תזכורת ומעקב כלליים בלבד. הצרכים האישיים משתנים, והאפליקציה אינה מספקת ייעוץ רפואי או בריאותי.";
+"about.disclaimer.body" = "Tipot מיועדת לצורכי תזכורת ומעקב כלליים בלבד. הצרכים האישיים משתנים, והאפליקציה אינה מספקת ייעוץ רפואי או בריאותי.";
 "about.version" = "גרסה";

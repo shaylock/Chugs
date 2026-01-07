@@ -25,7 +25,7 @@ final class NotificationViewController: UIViewController, UNNotificationContentE
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        print("🚰 ChugsNotification viewDidLoad yess")
+        print("🚰 TipotNotification viewDidLoad yess")
         print("stored daily progress is \(storedDailyProgress) liters")
 
         let swiftUIView = DrinkTrackNotificationView()

@@ -1,6 +1,6 @@
 //
 //  PermissionUtilities.swift
-//  Chugs
+//  Tipot
 //
 //  Created by Shay Blum on 15/11/2025.
 //

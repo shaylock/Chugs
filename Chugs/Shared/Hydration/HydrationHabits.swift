@@ -1,6 +1,6 @@
 //
 //  HydrationHabits.swift
-//  Chugs
+//  Tipot
 //
 //  Created by Shay Blum on 19/12/2025.
 //

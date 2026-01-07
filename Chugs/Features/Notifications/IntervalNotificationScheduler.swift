@@ -1,6 +1,6 @@
 //
 //  IntervalNotificationScheduler.swift
-//  Chugs
+//  Tipot
 //
 //  Created by Shay Blum on 08/10/2025.
 //
