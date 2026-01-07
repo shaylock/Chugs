@@ -72,6 +72,8 @@ struct ChugsApp: App {
     @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = true
     @AppStorage("notificationType") private var notificationType: NotificationType = .smart
     
+    @State private var showSplash = true
+    
     private let logger = LoggerUtilities.makeLogger(for: Self.self)
     
     init() {
@@ -88,16 +90,22 @@ struct ChugsApp: App {
     
     var body: some Scene {
         WindowGroup {
-            Group {
-                if hasCompletedOnboarding {
-                    MainTabView()
-                        .appTheme(AppTheme(
-                            label: Color("Label"),
-                            background: Color("SystemBackground"),
-                            accent: Color("AccentColor")
-                        ))
+            ZStack {
+                if showSplash {
+                    SplashView()
                 } else {
-                    OnboardingView(hasCompletedOnboarding: $hasCompletedOnboarding)
+                    Group {
+                        if hasCompletedOnboarding {
+                            MainTabView()
+                                .appTheme(AppTheme(
+                                    label: Color("Label"),
+                                    background: Color("SystemBackground"),
+                                    accent: Color("AccentColor")
+                                ))
+                        } else {
+                            OnboardingView(hasCompletedOnboarding: $hasCompletedOnboarding)
+                        }
+                    }
                 }
             }
             .onChange(of: scenePhase) { oldPhase, newPhase in
@@ -109,6 +117,12 @@ struct ChugsApp: App {
     private func handleScenePhaseChange(from oldPhase: ScenePhase, to newPhase: ScenePhase) {
         switch newPhase {
         case .active:
+            Task {
+                try? await Task.sleep(for: .seconds(1.5))
+                withAnimation(.easeOut(duration: 0.3)) {
+                    showSplash = false
+                }
+            }
             logger.info("Scene became active (from \(String(describing: oldPhase)))")
             if hasCompletedOnboarding {
                 Task {
@@ -119,6 +133,7 @@ struct ChugsApp: App {
         case .background:
             AnalyticsUtilities.flushMixpanel()
             logger.info("Scene moved to background")
+            showSplash = true
 
         case .inactive:
             break
@@ -191,6 +206,27 @@ struct MainTabView: View {
                     Label("tab.settings", systemImage: "gearshape")
                 }
                 .tag(2)
+        }
+    }
+}
+
+struct SplashView: View {
+    var body: some View {
+        ZStack {
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    Color(red: 0.74, green: 0.91, blue: 0.99), // light sky blue
+                    Color(red: 0.38, green: 0.69, blue: 0.95), // medium blue
+                    Color(red: 0.23, green: 0.49, blue: 0.87)  // deeper blue
+                ]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
+            Image("TipotAppLogo")
+                .resizable()
+                .scaledToFit()
         }
     }
 }
