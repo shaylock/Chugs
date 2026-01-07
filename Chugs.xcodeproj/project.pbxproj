@@ -11,7 +11,7 @@
 		9D62B64C2EFE9650005743E5 /* water_poured.caf in Resources */ = {isa = PBXBuildFile; fileRef = 9D62B64B2EFE9650005743E5 /* water_poured.caf */; };
 		9D62B6542EFEB4E6005743E5 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DF10C4F2E98FE9D00F451FC /* UserNotifications.framework */; };
 		9D62B6552EFEB4E6005743E5 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DF10C512E98FE9D00F451FC /* UserNotificationsUI.framework */; };
-		9D62B65F2EFEB4E6005743E5 /* ChugsNotification.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9D62B6532EFEB4E6005743E5 /* ChugsNotification.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9D62B65F2EFEB4E6005743E5 /* TipotNotification.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9D62B6532EFEB4E6005743E5 /* TipotNotification.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9D62B6AE2EFEF904005743E5 /* ChugsShared in Frameworks */ = {isa = PBXBuildFile; productRef = 9D62B6AD2EFEF904005743E5 /* ChugsShared */; };
 		9D62B6B02EFEF91B005743E5 /* ChugsShared in Frameworks */ = {isa = PBXBuildFile; productRef = 9D62B6AF2EFEF91B005743E5 /* ChugsShared */; };
 		9D8458852F040DFA007DA294 /* Mixpanel in Frameworks */ = {isa = PBXBuildFile; productRef = 9D8458842F040DFA007DA294 /* Mixpanel */; };
@@ -48,7 +48,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				9D62B65F2EFEB4E6005743E5 /* ChugsNotification.appex in Embed Foundation Extensions */,
+				9D62B65F2EFEB4E6005743E5 /* TipotNotification.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -56,38 +56,38 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		9D0AFF272E69C0490079E900 /* Chugs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chugs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D0AFF272E69C0490079E900 /* Tipot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tipot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D0AFF342E69C04A0079E900 /* ChugsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChugsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D0AFF3E2E69C04A0079E900 /* ChugsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChugsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D62B63F2EFD49D7005743E5 /* water_drop.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = water_drop.caf; sourceTree = "<group>"; };
 		9D62B64B2EFE9650005743E5 /* water_poured.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = water_poured.caf; sourceTree = "<group>"; };
-		9D62B6532EFEB4E6005743E5 /* ChugsNotification.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ChugsNotification.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D62B6532EFEB4E6005743E5 /* TipotNotification.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TipotNotification.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D62B6AC2EFEF7F5005743E5 /* ChugsShared */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ChugsShared; sourceTree = "<group>"; };
 		9DF10C4F2E98FE9D00F451FC /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		9DF10C512E98FE9D00F451FC /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		9D0AFF522E69C0D40079E900 /* Exceptions for "Chugs" folder in "Chugs" target */ = {
+		9D0AFF522E69C0D40079E900 /* Exceptions for "Chugs" folder in "Tipot" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 9D0AFF262E69C0490079E900 /* Chugs */;
+			target = 9D0AFF262E69C0490079E900 /* Tipot */;
 		};
-		9D62B6632EFEB4E6005743E5 /* Exceptions for "ChugsNotification" folder in "ChugsNotification" target */ = {
+		9D62B6632EFEB4E6005743E5 /* Exceptions for "ChugsNotification" folder in "TipotNotification" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 9D62B6522EFEB4E6005743E5 /* ChugsNotification */;
+			target = 9D62B6522EFEB4E6005743E5 /* TipotNotification */;
 		};
-		9D62B7072F001F64005743E5 /* Exceptions for "Chugs" folder in "ChugsNotification" target */ = {
+		9D62B7072F001F64005743E5 /* Exceptions for "Chugs" folder in "TipotNotification" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"/Localized: Localizable.strings",
 			);
-			target = 9D62B6522EFEB4E6005743E5 /* ChugsNotification */;
+			target = 9D62B6522EFEB4E6005743E5 /* TipotNotification */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -95,8 +95,8 @@
 		9D0AFF292E69C0490079E900 /* Chugs */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				9D0AFF522E69C0D40079E900 /* Exceptions for "Chugs" folder in "Chugs" target */,
-				9D62B7072F001F64005743E5 /* Exceptions for "Chugs" folder in "ChugsNotification" target */,
+				9D0AFF522E69C0D40079E900 /* Exceptions for "Chugs" folder in "Tipot" target */,
+				9D62B7072F001F64005743E5 /* Exceptions for "Chugs" folder in "TipotNotification" target */,
 			);
 			path = Chugs;
 			sourceTree = "<group>";
@@ -114,7 +114,7 @@
 		9D62B6562EFEB4E6005743E5 /* ChugsNotification */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				9D62B6632EFEB4E6005743E5 /* Exceptions for "ChugsNotification" folder in "ChugsNotification" target */,
+				9D62B6632EFEB4E6005743E5 /* Exceptions for "ChugsNotification" folder in "TipotNotification" target */,
 			);
 			path = ChugsNotification;
 			sourceTree = "<group>";
@@ -175,10 +175,10 @@
 		9D0AFF282E69C0490079E900 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9D0AFF272E69C0490079E900 /* Chugs.app */,
+				9D0AFF272E69C0490079E900 /* Tipot.app */,
 				9D0AFF342E69C04A0079E900 /* ChugsTests.xctest */,
 				9D0AFF3E2E69C04A0079E900 /* ChugsUITests.xctest */,
-				9D62B6532EFEB4E6005743E5 /* ChugsNotification.appex */,
+				9D62B6532EFEB4E6005743E5 /* TipotNotification.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -212,9 +212,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9D0AFF262E69C0490079E900 /* Chugs */ = {
+		9D0AFF262E69C0490079E900 /* Tipot */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9D0AFF482E69C04A0079E900 /* Build configuration list for PBXNativeTarget "Chugs" */;
+			buildConfigurationList = 9D0AFF482E69C04A0079E900 /* Build configuration list for PBXNativeTarget "Tipot" */;
 			buildPhases = (
 				9D0AFF232E69C0490079E900 /* Sources */,
 				9D0AFF242E69C0490079E900 /* Frameworks */,
@@ -230,13 +230,13 @@
 			fileSystemSynchronizedGroups = (
 				9D0AFF292E69C0490079E900 /* Chugs */,
 			);
-			name = Chugs;
+			name = Tipot;
 			packageProductDependencies = (
 				9D62B6AD2EFEF904005743E5 /* ChugsShared */,
 				9D8458842F040DFA007DA294 /* Mixpanel */,
 			);
 			productName = Chugs;
-			productReference = 9D0AFF272E69C0490079E900 /* Chugs.app */;
+			productReference = 9D0AFF272E69C0490079E900 /* Tipot.app */;
 			productType = "com.apple.product-type.application";
 		};
 		9D0AFF332E69C04A0079E900 /* ChugsTests */ = {
@@ -285,9 +285,9 @@
 			productReference = 9D0AFF3E2E69C04A0079E900 /* ChugsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		9D62B6522EFEB4E6005743E5 /* ChugsNotification */ = {
+		9D62B6522EFEB4E6005743E5 /* TipotNotification */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9D62B6602EFEB4E6005743E5 /* Build configuration list for PBXNativeTarget "ChugsNotification" */;
+			buildConfigurationList = 9D62B6602EFEB4E6005743E5 /* Build configuration list for PBXNativeTarget "TipotNotification" */;
 			buildPhases = (
 				9D62B64F2EFEB4E6005743E5 /* Sources */,
 				9D62B6502EFEB4E6005743E5 /* Frameworks */,
@@ -300,12 +300,12 @@
 			fileSystemSynchronizedGroups = (
 				9D62B6562EFEB4E6005743E5 /* ChugsNotification */,
 			);
-			name = ChugsNotification;
+			name = TipotNotification;
 			packageProductDependencies = (
 				9D62B6AF2EFEF91B005743E5 /* ChugsShared */,
 			);
 			productName = ChugsNotification;
-			productReference = 9D62B6532EFEB4E6005743E5 /* ChugsNotification.appex */;
+			productReference = 9D62B6532EFEB4E6005743E5 /* TipotNotification.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -353,10 +353,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9D0AFF262E69C0490079E900 /* Chugs */,
+				9D0AFF262E69C0490079E900 /* Tipot */,
 				9D0AFF332E69C04A0079E900 /* ChugsTests */,
 				9D0AFF3D2E69C04A0079E900 /* ChugsUITests */,
-				9D62B6522EFEB4E6005743E5 /* ChugsNotification */,
+				9D62B6522EFEB4E6005743E5 /* TipotNotification */,
 			);
 		};
 /* End PBXProject section */
@@ -428,17 +428,17 @@
 /* Begin PBXTargetDependency section */
 		9D0AFF362E69C04A0079E900 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9D0AFF262E69C0490079E900 /* Chugs */;
+			target = 9D0AFF262E69C0490079E900 /* Tipot */;
 			targetProxy = 9D0AFF352E69C04A0079E900 /* PBXContainerItemProxy */;
 		};
 		9D0AFF402E69C04A0079E900 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9D0AFF262E69C0490079E900 /* Chugs */;
+			target = 9D0AFF262E69C0490079E900 /* Tipot */;
 			targetProxy = 9D0AFF3F2E69C04A0079E900 /* PBXContainerItemProxy */;
 		};
 		9D62B65E2EFEB4E6005743E5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9D62B6522EFEB4E6005743E5 /* ChugsNotification */;
+			target = 9D62B6522EFEB4E6005743E5 /* TipotNotification */;
 			targetProxy = 9D62B65D2EFEB4E6005743E5 /* PBXContainerItemProxy */;
 		};
 		9D62B70A2F004C33005743E5 /* PBXTargetDependency */ = {
@@ -583,6 +583,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Chugs/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Tipot;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "“This app reads your hydration data from Apple Health to track your daily water intake.”";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "\"This app needs permission to record the amount of water you drink in Apple Health.\"";
@@ -620,6 +621,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Chugs/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Tipot;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "“This app reads your hydration data from Apple Health to track your daily water intake.”";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "\"This app needs permission to record the amount of water you drink in Apple Health.\"";
@@ -721,7 +723,7 @@
 				DEVELOPMENT_TEAM = MB8WUDQ572;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ChugsNotification/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = ChugsNotification;
+				INFOPLIST_KEY_CFBundleDisplayName = TipotNotification;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -753,7 +755,7 @@
 				DEVELOPMENT_TEAM = MB8WUDQ572;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ChugsNotification/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = ChugsNotification;
+				INFOPLIST_KEY_CFBundleDisplayName = TipotNotification;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -787,7 +789,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9D0AFF482E69C04A0079E900 /* Build configuration list for PBXNativeTarget "Chugs" */ = {
+		9D0AFF482E69C04A0079E900 /* Build configuration list for PBXNativeTarget "Tipot" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9D0AFF492E69C04A0079E900 /* Debug */,
@@ -814,7 +816,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9D62B6602EFEB4E6005743E5 /* Build configuration list for PBXNativeTarget "ChugsNotification" */ = {
+		9D62B6602EFEB4E6005743E5 /* Build configuration list for PBXNativeTarget "TipotNotification" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9D62B6612EFEB4E6005743E5 /* Debug */,

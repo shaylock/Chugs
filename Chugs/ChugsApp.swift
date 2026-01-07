@@ -63,6 +63,12 @@ struct ThemedText: View {
     }
 }
 
+enum RootView {
+    case onboarding
+    case splash
+    case main
+}
+
 @main
 struct ChugsApp: App {
     @Environment(\.scenePhase) private var scenePhase
@@ -73,7 +79,11 @@ struct ChugsApp: App {
     @AppStorage("notificationType") private var notificationType: NotificationType = .smart
     
     @State private var showSplash = true
-    
+    var rootView: RootView {
+        if !hasCompletedOnboarding { return .onboarding }
+        if showSplash { return .splash }
+        return .main
+    }
     private let logger = LoggerUtilities.makeLogger(for: Self.self)
     
     init() {
@@ -90,27 +100,24 @@ struct ChugsApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ZStack {
-                if showSplash {
-                    SplashView()
-                } else {
-                    Group {
-                        if hasCompletedOnboarding {
-                            MainTabView()
-                                .appTheme(AppTheme(
-                                    label: Color("Label"),
-                                    background: Color("SystemBackground"),
-                                    accent: Color("AccentColor")
-                                ))
-                        } else {
-                            OnboardingView(hasCompletedOnboarding: $hasCompletedOnboarding)
-                        }
-                    }
-                }
+            switch rootView {
+            case .onboarding:
+                OnboardingView(hasCompletedOnboarding: $hasCompletedOnboarding)
+
+            case .splash:
+                SplashView()
+
+            case .main:
+                MainTabView()
+                    .appTheme(AppTheme(
+                        label: Color("Label"),
+                        background: Color("SystemBackground"),
+                        accent: Color("AccentColor")
+                    ))
             }
-            .onChange(of: scenePhase) { oldPhase, newPhase in
-                handleScenePhaseChange(from: oldPhase, to: newPhase)
-            }
+        }
+        .onChange(of: scenePhase) { oldPhase, newPhase in
+            handleScenePhaseChange(from: oldPhase, to: newPhase)
         }
     }
     
