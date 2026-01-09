@@ -72,7 +72,6 @@ struct AnalyticsUtilities {
         numberOfGulps: Int
     ) {
         identifyAnonymousUser()
-        identifyAnonymousUser()
         let source = fromNotification ? "notification" : "app"
 
         Mixpanel.mainInstance().track(
@@ -87,6 +86,22 @@ struct AnalyticsUtilities {
         if fromNotification {
             Mixpanel.mainInstance().flush()
         }
+    }
+    
+    static func trackFeedbackSubmitted(
+        messageLength: Int,
+        source: String = "settings"
+    ) {
+        identifyAnonymousUser()
+
+        Mixpanel.mainInstance().track(
+            event: "Feedback Submitted",
+            properties: [
+                "anonymous_user": true,
+                "source": source,
+                "message_length": messageLength
+            ]
+        )
     }
     
     static func trackNotificationToggleChanged(

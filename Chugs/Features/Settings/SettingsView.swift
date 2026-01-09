@@ -25,6 +25,7 @@ struct SettingsView: View {
                 NotificationSection()
                 gulpSizeSection()
                 resetReplaySection
+                feedbackSection
                 aboutSection
             }
             .navigationTitle(LocalizedStringKey("settings.title"))
@@ -45,6 +46,19 @@ struct SettingsView: View {
             } label: {
                 Text(LocalizedStringKey("settings.replayTooltips"))
                     .foregroundColor(.red)
+            }
+        }
+    }
+    
+    private var feedbackSection: some View {
+        Section {
+            NavigationLink {
+                FeedbackView()
+            } label: {
+                Label(
+                    LocalizedStringKey("settings.feedback.title"),
+                    systemImage: "bubble.left"
+                )
             }
         }
     }

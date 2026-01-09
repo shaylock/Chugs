@@ -8,13 +8,7 @@
 import SwiftUI
 
 struct AboutView: View {
-
-    private var appVersion: String {
-        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "-"
-        let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "-"
-        return "\(version) (\(build))"
-    }
-
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 28) {
@@ -52,7 +46,7 @@ struct AboutView: View {
                         .font(.footnote)
                         .foregroundColor(.secondary)
 
-                    Text(appVersion)
+                    Text(Bundle.main.appVersionString)
                         .font(.footnote)
                         .foregroundColor(.secondary)
                 }

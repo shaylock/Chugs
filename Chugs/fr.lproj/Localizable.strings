@@ -110,6 +110,20 @@
 "tooltip.chugButton.text" = "Touchez ce bouton pour enregistrer une gorgée !";
 "tooltip.slider.text" = "Utilisez ce curseur pour sélectionner le nombre de gorgées.";
 
+/* Feedback */
+"settings.feedback.title" = "Envoyer un commentaire";
+"feedback.navTitle" = "Commentaires";
+"feedback.title" = "Envoyer un commentaire";
+"feedback.subtitle" = "Vous avez un commentaire ou une suggestion d’amélioration ? Votre message aide à améliorer l’application.";
+"feedback.footer" = "Les messages sont lus, mais une réponse n’est pas garantie.";
+"feedback.sendButton" = "Envoyer";
+"feedback.thankYou.title" = "Merci";
+"feedback.thankYou.message" = "Votre commentaire a bien été envoyé et aide à améliorer Tipot.";
+"feedback.thankYou.button" = "OK";
+"feedback.mailUnavailable.title" = "Mail non disponible";
+"feedback.mailUnavailable.message" = "L’application Mail n’est pas configurée sur cet appareil.";
+"feedback.charactersRemaining" = "%d caractères restants";
+
 /* About */
 "settings.about.title" = "À propos";
 "about.title" = "À propos";

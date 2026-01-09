@@ -110,6 +110,20 @@
 "tooltip.chugButton.text" = "Tap this button to log a gulp!";
 "tooltip.slider.text" = "Use this slider to select the number of gulps.";
 
+/* Feedback */
+"settings.feedback.title" = "Send Feedback";
+"feedback.navTitle" = "Feedback";
+"feedback.title" = "Send Feedback";
+"feedback.subtitle" = "Have feedback or found something that could be better? Your message helps improve the app.";
+"feedback.footer" = "Messages are read but replies aren’t guaranteed.";
+"feedback.sendButton" = "Send";
+"feedback.thankYou.title" = "Thank You";
+"feedback.thankYou.message" = "Your feedback has been sent and really helps improve Tipot.";
+"feedback.thankYou.button" = "Done";
+"feedback.mailUnavailable.title" = "Mail Not Available";
+"feedback.mailUnavailable.message" = "Mail is not configured on this device.";
+"feedback.charactersRemaining" = "%d characters remaining";
+
 /* About */
 "settings.about.title" = "About";
 "about.title" = "About";

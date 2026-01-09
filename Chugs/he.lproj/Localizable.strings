@@ -110,6 +110,20 @@
 "tooltip.chugButton.text" = "הקש על הכפתור הזה כדי לרשום לגימה!";
 "tooltip.slider.text" = "השתמש במחוון כדי לבחור את מספר השלוקים.";
 
+/* Feedback */
+"settings.feedback.title" = "שליחת משוב";
+"feedback.navTitle" = "משוב";
+"feedback.title" = "שליחת משוב";
+"feedback.subtitle" = "יש לך משוב או משהו שאפשר לשפר? ההודעה שלך עוזרת לשפר את האפליקציה.";
+"feedback.footer" = "כל ההודעות נקראות, אך אין התחייבות למענה.";
+"feedback.sendButton" = "שליחה";
+"feedback.thankYou.title" = "תודה!";
+"feedback.thankYou.message" = "המשוב שלך נשלח ועוזר לנו לשפר את Tipot.";
+"feedback.thankYou.button" = "סיום";
+"feedback.mailUnavailable.title" = "דואר לא זמין";
+"feedback.mailUnavailable.message" = "האפליקציה דואר אינה מוגדרת במכשיר זה.";
+"feedback.charactersRemaining" = "נותרו %d תווים";
+
 /* About */
 "settings.about.title" = "אודות";
 "about.title" = "אודות";

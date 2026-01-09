@@ -8,6 +8,14 @@
 import Foundation
 import SwiftUI
 
+extension Bundle {
+    var appVersionString: String {
+        let version = infoDictionary?["CFBundleShortVersionString"] as? String ?? "-"
+        let build = infoDictionary?["CFBundleVersion"] as? String ?? "-"
+        return "\(version) (\(build))"
+    }
+}
+
 final class BuildUtilities {
     @AppStorage("isDebugOverride") private static var isDebugOverride: Bool = false
     static let shared = BuildUtilities()
