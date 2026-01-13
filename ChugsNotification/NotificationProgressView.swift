@@ -9,31 +9,14 @@ import SwiftUI
 import ChugsShared
 
 public struct NotificationProgressView: View {
-    @AppStorage(
-        "storedDailyProgress",
-        store: AppGroup.defaults
-    )
+    @AppStorage("storedDailyProgress", store: AppGroup.defaults)
     private var storedDailyProgress: Double = 0.0
-
-    @AppStorage(
-        "lastUpdateDay",
-        store: AppGroup.defaults
-    )
+    @AppStorage("lastUpdateDay", store: AppGroup.defaults)
     private var lastUpdateDay: Date = Date.distantPast
+    @AppStorage("dailyGoal", store: AppGroup.defaults)
+    private var dailyGoal: Double = 2.0
 
-    let progress: Double          // 0...1
-    let currentLiters: Double
-    let goalLiters: Double
-
-    public init(
-        progress: Double,
-        currentLiters: Double,
-        goalLiters: Double
-    ) {
-        self.progress = progress
-        self.currentLiters = currentLiters
-        self.goalLiters = goalLiters
-    }
+    public init() {}
 
     public var body: some View {
         ZStack {
@@ -43,13 +26,13 @@ public struct NotificationProgressView: View {
                 .opacity(0.12)
 
             // Progress ring
-            RingView(progress: min(storedDailyProgress / goalLiters, 1.0))
+            RingView(progress: min(storedDailyProgress / dailyGoal, 1.0))
 
             VStack(spacing: 4) {
                 Text(String(format: "%.2fL", storedDailyProgress))
                     .font(.system(size: 24, weight: .bold))
 
-                Text(String(format: "/ %.1fL", goalLiters))
+                Text(String(format: "/ %.1fL", dailyGoal))
                     .font(.system(size: 13))
                     .foregroundColor(.secondary)
             }

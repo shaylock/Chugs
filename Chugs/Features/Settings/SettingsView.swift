@@ -9,11 +9,13 @@ import SwiftUI
 import ChugsShared
 
 struct SettingsView: View {
-    @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
     @AppStorage("dailyProgress") private var dailyProgress: Double = 0.0
     @AppStorage("gulpSize") private var gulpSize: Double = 10.0 / 1000.0 // 10 ml
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
     @AppStorage("tooltipsShown") private var tooltipsShown: Bool = false
+    
+    @AppStorage("dailyGoal", store: AppGroup.defaults)
+    private var dailyGoal: Double = 2.0
 
     @State private var tempGulpSizeInt: Int = 10
     @State private var showResetConfirmation = false

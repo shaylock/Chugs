@@ -16,20 +16,14 @@ struct HydrationEntry {
 
 final class HydrationManager: ObservableObject {
     @AppStorage("hydrationHabits") private var hydrationHabitsData: Data = Data()
-    @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
     @AppStorage("lastProgressDate") private var lastProgressDate: String = ""
     @AppStorage("nextWeeklyUpdateAt") private var nextWeeklyUpdateAt: Double = 0
     
-    @AppStorage(
-        "storedDailyProgress",
-        store: AppGroup.defaults
-    )
+    @AppStorage("storedDailyProgress", store: AppGroup.defaults)
     private var storedDailyProgress: Double = 0.0
-    
-    @AppStorage(
-        "lastUpdateDay",
-        store: AppGroup.defaults
-    )
+    @AppStorage("dailyGoal", store: AppGroup.defaults)
+    private var dailyGoal: Double = 2.0
+    @AppStorage("lastUpdateDay", store: AppGroup.defaults)
     private var lastUpdateDay: Date = Date.distantPast
     
     private let logger = LoggerUtilities.makeLogger(for: HydrationManager.self)
@@ -40,9 +34,6 @@ final class HydrationManager: ObservableObject {
     private let healthStore = HKHealthStore()
     private let habitsEncoder = JSONEncoder()
     private let habitsDecoder = JSONDecoder()
-    
-    // Expose goal to UI
-    var goalLiters: Double { dailyGoal }
 
     private init() {
         loadHydrationHabits()

@@ -39,13 +39,12 @@ struct SmartNotificationScheduler: NotificationScheduling {
     @AppStorage("smartInterval") private var smartInterval: SmartInterval = .normal  // in minutes
     @AppStorage("startMinutes") private var startMinutes: Int = 8 * 60     // 08:00
     @AppStorage("endMinutes") private var endMinutes: Int = 22 * 60        // 22:00
-    @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
     @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = true
-    @AppStorage(
-        "storedDailyProgress",
-        store: AppGroup.defaults
-    )
+    
+    @AppStorage("storedDailyProgress", store: AppGroup.defaults)
     private var storedDailyProgress: Double = 0.0
+    @AppStorage("dailyGoal", store: AppGroup.defaults)
+    private var dailyGoal: Double = 2.0
     
     private let logger = LoggerUtilities.makeLogger(for: SmartNotificationScheduler.self)
     

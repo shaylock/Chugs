@@ -10,7 +10,6 @@ import ChugsShared
 
 struct DrinkTrackView: View {
     @AppStorage("notificationType") private var notificationType: NotificationType = .smart
-    @AppStorage("dailyGoal") private var dailyGoal: Double = 3.0
     @AppStorage("gulpSize") private var gulpSize: Double = 10.0 / 1000.0 // 10 ml
     @AppStorage("tooltipsShown") private var tooltipsShown: Bool = false
     
@@ -18,6 +17,8 @@ struct DrinkTrackView: View {
     private var storedDailyProgress: Double = 0.0
     @AppStorage("numberOfGulps", store: AppGroup.defaults)
     private var numberOfGulps: Double = 1.0
+    @AppStorage("dailyGoal", store: AppGroup.defaults)
+    private var dailyGoal: Double = 2.0
 
     @State private var tooltipIndex: Int = 0
     @Environment(\.scenePhase) private var scenePhase
