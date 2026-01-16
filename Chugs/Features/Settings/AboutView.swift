@@ -14,13 +14,16 @@ struct AboutView: View {
             VStack(spacing: 28) {
 
                 // App Identity
-                VStack(spacing: 8) {
-                    Image(systemName: "drop.fill")
-                        .font(.system(size: 48))
-                        .foregroundStyle(.blue)
+                VStack(spacing: 12) {
+                    Image("TipotImageLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 80)
 
-                    Text("Tipot")
-                        .font(.title.bold())
+                    Image("TipotNamedLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 40)
 
                     Text(LocalizedStringKey("about.tagline"))
                         .font(.subheadline)

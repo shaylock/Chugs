@@ -125,7 +125,7 @@ struct ChugsApp: App {
         switch newPhase {
         case .active:
             Task {
-                try? await Task.sleep(for: .seconds(1.5))
+                try? await Task.sleep(for: .seconds(1.3))
                 withAnimation(.easeOut(duration: 0.3)) {
                     showSplash = false
                 }
@@ -230,10 +230,23 @@ struct SplashView: View {
                 endPoint: .bottomTrailing
             )
             .ignoresSafeArea()
+            
+            GeometryReader { geo in
+                VStack(spacing: 0) {
+                    Spacer()
+                    Image("TipotImageLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: geo.size.width * 0.45)
 
-            Image("TipotAppLogo")
-                .resizable()
-                .scaledToFit()
+                    Image("TipotNamedLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: geo.size.width * 0.6)
+                    Spacer()
+                }
+                .frame(width: geo.size.width)
+            }
         }
     }
 }

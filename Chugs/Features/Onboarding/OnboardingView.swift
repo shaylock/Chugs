@@ -52,7 +52,8 @@ struct OnboardingView: View {
         switch step {
         case .welcome:
             OnboardingPage<EmptyView>(
-                image: "drop.fill",
+                image: "TipotImageLogo",
+                titleImage: "TipotNamedLogo",
                 title: LocalizedStringKey("onboarding.pageWelcome.title"),
                 subtitle: LocalizedStringKey("onboarding.pageWelcome.subtitle"),
                 buttonTitle: LocalizedStringKey("onboarding.pageWelcome.button"),
@@ -167,6 +168,7 @@ struct OnboardingPageConstants {
 
 struct OnboardingPage<Content: View>: View {
     let image: String?
+    let titleImage: String?
     let title: LocalizedStringKey
     let subtitle: LocalizedStringKey
     let buttonTitle: LocalizedStringKey
@@ -175,6 +177,7 @@ struct OnboardingPage<Content: View>: View {
 
     init(
         image: String? = nil,
+        titleImage: String? = nil,
         title: LocalizedStringKey,
         subtitle: LocalizedStringKey,
         buttonTitle: LocalizedStringKey,
@@ -182,6 +185,7 @@ struct OnboardingPage<Content: View>: View {
         action: @escaping () -> Void
     ) {
         self.image = image
+        self.titleImage = titleImage
         self.title = title
         self.subtitle = subtitle
         self.buttonTitle = buttonTitle
@@ -194,14 +198,19 @@ struct OnboardingPage<Content: View>: View {
             Spacer()
 
             if let image = image, !image.isEmpty {
-                Image(systemName: image)
-                    .font(.system(size: OnboardingPageConstants.imageSize))
-                    .foregroundStyle(.blue)
+                onboardingImage(named: image)
             }
-
-            Text(title)
-                .font(OnboardingPageConstants.titleFont)
-                .multilineTextAlignment(.center)
+            
+            if let titleImage, !titleImage.isEmpty {
+                Image(titleImage)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 40)
+            } else {
+                Text(title)
+                    .font(OnboardingPageConstants.titleFont)
+                    .multilineTextAlignment(.center)
+            }
 
             Text(subtitle)
                 .font(OnboardingPageConstants.subtitleFont)
@@ -222,6 +231,26 @@ struct OnboardingPage<Content: View>: View {
                 .padding(.bottom, 40)
 
             Spacer()
+        }
+    }
+    
+    private func onboardingImage(named name: String) -> some View {
+        Group {
+            if UIImage(systemName: name) != nil {
+                // SF Symbol
+                Image(systemName: name)
+                    .font(.system(size: OnboardingPageConstants.imageSize))
+                    .foregroundStyle(.blue)
+            } else {
+                // Asset image
+                Image(name)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(
+                        maxWidth: OnboardingPageConstants.imageSize,
+                        maxHeight: OnboardingPageConstants.imageSize
+                    )
+            }
         }
     }
 }
