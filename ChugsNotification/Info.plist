@@ -16,8 +16,6 @@
 			<true/>
 			<key>UNNotificationExtensionUserInteractionEnabled</key>
 			<true/>
-			<key>UNNotificationExtensionInitialContentSizeRatio</key>
-			<real>1.6</real>
 		</dict>
 	</dict>
 </dict>
