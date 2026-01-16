@@ -12,7 +12,7 @@ protocol NotificationScheduling {
     func getIntervalString() -> String
     func isNotificationEnabled() -> Bool
     func scheduleNotifications()
-    func scheduleNextDynamicNotification()
+    func scheduleNextDynamicNotification() async
     func rescheduleNextDynamicNotification()
 }
 

@@ -32,6 +32,36 @@ enum SmartInterval: String, CaseIterable, Identifiable {
             return 90.0
         }
     }
+    
+    var fixedInterval: Int {
+        switch self {
+        case .veryOften:
+            return 30
+        case .often:
+            return 45
+        case .normal:
+            return 60
+        case .rarely:
+            return 90
+        case .veryRarely:
+            return 120
+        }
+    }
+    
+    var minimumDynamic: Double {
+        switch self {
+        case .veryOften:
+            return 0.5
+        case .often:
+            return 5.0
+        case .normal:
+            return 10.0
+        case .rarely:
+            return 15.0
+        case .veryRarely:
+            return 20.0
+        }
+    }
 }
 
 struct SmartNotificationScheduler: NotificationScheduling {
@@ -60,14 +90,13 @@ struct SmartNotificationScheduler: NotificationScheduling {
         guard notificationsEnabled else { return }
         Task {
             await NotificationUtilities.scheduleDailyNotifications(
-                // todo: if fixed interval is not 60 this will break
-                interval: 60, startMinutes: startMinutes, endMinutes: endMinutes
+                interval: smartInterval.fixedInterval, startMinutes: startMinutes, endMinutes: endMinutes
             )
-            scheduleNextDynamicNotification()
+            await scheduleNextDynamicNotification()
         }
     }
     
-    func scheduleNextDynamicNotification() {
+    func scheduleNextDynamicNotification() async {
         guard notificationsEnabled else { return }
         let hoursPassed: Double = (Double)(Calendar.current.component(.hour, from: Date()))
         let goalUntilNow = (dailyGoal / 24) * hoursPassed
@@ -77,23 +106,27 @@ struct SmartNotificationScheduler: NotificationScheduling {
         let urgencyFactor: Double = 1 - habitFactor
         logger.debug("habit: \(habit), habitFactor: \(habitFactor), urgency: \(urgency), urgencyFactor: \(urgencyFactor)")
         let reminder = 1 - ((urgency * urgencyFactor) + (habit * habitFactor))
-//        let minutesUntilNext = BuildUtilities.isDebugEnabled ? 0.1 : max(smartInterval.value * reminder, 0.5) // Minimum of 30 seconds
-        let minutesUntilNext = max(smartInterval.value * reminder, 0.5) // Minimum of 30 seconds
+        let minutesUntilNext = max(smartInterval.value * reminder, smartInterval.minimumDynamic)
         logger.debug("reminder: \(reminder), scheduling next smart notification in \(minutesUntilNext) minutes.")
-        // todo: if fixed interval is not 60 this will break
-        if minutesUntilNext < Calendar.current.minutesLeftInHour &&
-            minutesUntilNext < Calendar.current.minutesLeftUntil(endMinutes) {
-            Task {
-                await NotificationUtilities.scheduleSingleNotificationIn(minutes: minutesUntilNext)
-            }
+        let timeToExistingNotification = await NotificationUtilities.timeToNextNotification() ?? .infinity
+        
+        guard minutesUntilNext < timeToExistingNotification else {
+            logger.debug("Skipping: another notification is scheduled sooner.")
+            return
         }
+        guard minutesUntilNext < Calendar.current.minutesLeftUntil(endMinutes) else {
+            logger.debug("Skipping: next notification would be after end time.")
+            return
+        }
+        await NotificationUtilities.scheduleSingleNotificationIn(minutes: minutesUntilNext)
     }
+
     
     func rescheduleNextDynamicNotification() {
         guard notificationsEnabled else { return }
         Task {
             await NotificationUtilities.removeLastSingleNotification()
-            scheduleNextDynamicNotification()
+            await scheduleNextDynamicNotification()
         }
     }
 }

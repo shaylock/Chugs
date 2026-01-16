@@ -30,6 +30,27 @@ final class NotificationUtilities {
         logger.debug("🗑️ Removed all pending notifications.")
     }
     
+    public static func timeToNextNotification() async -> Double? {
+        let requests = await UNUserNotificationCenter.current().pendingNotificationRequests()
+        let now = Date()
+
+        let nextDate = requests.compactMap { request -> Date? in
+            if let trigger = request.trigger as? UNCalendarNotificationTrigger {
+                return trigger.nextTriggerDate()
+            }
+            if let trigger = request.trigger as? UNTimeIntervalNotificationTrigger {
+                return Date(timeIntervalSinceNow: trigger.timeInterval)
+            }
+            return nil
+        }
+        .filter { $0 > now }
+        .min()
+
+        guard let fireDate = nextDate else { return nil }
+        return fireDate.timeIntervalSince(now) / 60.0   // minutes
+    }
+
+    
     public static func scheduleSingleNotificationIn(minutes: Double) async {
         guard minutes > 0 else {
             logger.warning("scheduleSingleNotificationIn called with non-positive minutes: \(minutes)")
