@@ -10,6 +10,7 @@
 "settings.resetReplay.header" = "אפס / הפעל";
 "settings.replayOnboarding" = "הפעל מחדש את ההדרכה";
 "settings.replayTooltips" = "הפעל מחדש את הטיפים";
+"settings.replayTooltips.confirmation" = "בעמוד השתייה יוצגו שוב טיפים.";
 "settings.goals.header" = "מטרות";
 "settings.goals.dailyWaterConsumption" = "צריכת מים יומית";
 "settings.notificationTimes.header" = "זמני ההתראות";

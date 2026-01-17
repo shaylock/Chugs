@@ -19,6 +19,7 @@ struct SettingsView: View {
 
     @State private var tempGulpSizeInt: Int = 10
     @State private var showResetConfirmation = false
+    @State private var showTooltipResetConfirmation = false
 
     var body: some View {
         NavigationView {
@@ -30,6 +31,7 @@ struct SettingsView: View {
                 feedbackSection
                 aboutSection
             }
+            .overlay(toastOverlay)
             .navigationTitle(LocalizedStringKey("settings.title"))
         }
     }
@@ -45,12 +47,36 @@ struct SettingsView: View {
 
             Button {
                 tooltipsShown = false
+                showTooltipResetConfirmation = true
+                // Auto-hide after 2 seconds
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    showTooltipResetConfirmation = false
+                }
             } label: {
                 Text(LocalizedStringKey("settings.replayTooltips"))
                     .foregroundColor(.red)
             }
         }
     }
+    
+    private var toastOverlay: some View {
+        VStack {
+            if showTooltipResetConfirmation {
+                Text(LocalizedStringKey("settings.replayTooltips.confirmation"))
+                    .font(.footnote)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(.black.opacity(0.85))
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                    .padding(.top, 12)
+            }
+            Spacer()
+        }
+        .animation(.easeInOut, value: showTooltipResetConfirmation)
+    }
+
     
     private var feedbackSection: some View {
         Section {

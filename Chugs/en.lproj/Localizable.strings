@@ -10,6 +10,7 @@
 "settings.resetReplay.header" = "Reset / Replay";
 "settings.replayOnboarding" = "Replay Onboarding";
 "settings.replayTooltips" = "Replay Tooltips";
+"settings.replayTooltips.confirmation" = "Drink page will now show tooltips.";
 "settings.goals.header" = "Goals";
 "settings.goals.dailyWaterConsumption" = "Daily Water Consumption";
 "settings.notificationTimes.header" = "Notification times";

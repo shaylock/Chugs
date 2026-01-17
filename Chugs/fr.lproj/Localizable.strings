@@ -10,6 +10,7 @@
 "settings.resetReplay.header" = "Réinitialiser / Rejouer";
 "settings.replayOnboarding" = "Rejouer l’onboarding";
 "settings.replayTooltips" = "Rejouer les info-bulles";
+"settings.replayTooltips.confirmation" = "La page Boissons affichera désormais des info-bulles.";
 "settings.goals.header" = "Objectifs";
 "settings.goals.dailyWaterConsumption" = "Consommation d’eau quotidienne";
 "settings.notificationTimes.header" = "Heures de notification";
