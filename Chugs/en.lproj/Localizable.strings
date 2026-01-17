@@ -94,7 +94,7 @@
 
 /* Enable Health */
 "onboarding.enableHealth.title" = "Enable Health";
-"onboarding.enableHealth.subtitle" = "We’ll update Apple Health with your progress.";
+"onboarding.enableHealth.subtitle" = "We’ll update Apple Health with your progress.\nClick the button below, then click 'Turn On All' and 'Allow' in Apple Health.";
 "onboarding.enableHealth.button" = "Enable";
 
 /* Smart vs Interval */

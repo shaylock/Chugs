@@ -94,7 +94,7 @@
 
 /* Enable Health */
 "onboarding.enableHealth.title" = "Activer Santé";
-"onboarding.enableHealth.subtitle" = "Nous mettrons à jour Apple Health avec vos progrès.";
+"onboarding.enableHealth.subtitle" = "Nous mettrons à jour Apple Health avec votre progression.\nAppuyez sur le bouton ci-dessous, puis touchez « Tout activer » et « Autoriser » dans Apple Health.";
 "onboarding.enableHealth.button" = "Activer";
 
 /* Smart vs Interval */

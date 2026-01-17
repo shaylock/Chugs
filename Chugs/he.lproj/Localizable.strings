@@ -94,11 +94,11 @@
 
 /* Enable Health */
 "onboarding.enableHealth.title" = "חיבור ל-Apple Health";
-"onboarding.enableHealth.subtitle" = "נעדכן את Apple Health בהתקדמות שלך.";
+"onboarding.enableHealth.subtitle" = "נעדכן את Apple Health בהתקדמות שלך.\nלחץ על הכפתור למטה, ואז הקש על \"הפעל הכל\" ועל \"אפשר\" ב-Apple Health.";
 "onboarding.enableHealth.button" = "הפעל";
 
 /* Smart vs Interval */
-"onboarding.smartVsInterval.title" = "חכם מול מרווחים";
+"onboarding.smartVsInterval.title" = "מצב חכם או מרווח קבוע";
 "onboarding.smartVsInterval.subtitle" = "מצב חכם מסתגל להרגלים שלך. מצב מרווחים מזכיר כל X דקות.";
 "onboarding.smartVsInterval.button" = "המשך";
 
