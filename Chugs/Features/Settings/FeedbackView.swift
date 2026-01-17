@@ -114,7 +114,6 @@ struct FeedbackView: View {
     }
 
     // MARK: - Networking
-
     private func sendFeedback() async {
         guard canSend else { return }
 
@@ -126,10 +125,13 @@ struct FeedbackView: View {
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
+        let userId = AnalyticsUtilities.getAnonymousUserId()
+
         let payload: [String: Any] = [
             "message": message,
             "platform": "ios",
-            "app_version": Bundle.main.appVersionString
+            "app_version": Bundle.main.appVersionString,
+            "user_id": userId
         ]
 
         do {
