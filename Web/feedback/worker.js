@@ -34,7 +34,10 @@ export default {
 
     if (message.length > 2000) {
       return json({ error: "Message too long" }, 400);
-    }    
+    }
+
+    // New: user id handling
+    const userId = (data.user_id || "").trim() || "unknown";
 
     const emailBody = `
 New feedback received:
@@ -42,6 +45,7 @@ New feedback received:
 ${message}
 
 ---
+User ID: ${userId}
 App version: ${data.app_version || "unknown"}
 Platform: ${data.platform || "unknown"}
 User agent: ${request.headers.get("User-Agent") || "unknown"}
@@ -56,7 +60,7 @@ User agent: ${request.headers.get("User-Agent") || "unknown"}
       body: JSON.stringify({
         from: "Tipot Feedback <feedback@tipot.app>",
         to: ["tipot.drops@gmail.com"],
-        subject: "User feedback",
+        subject: `User feedback ${userId}`,   // 👈 here
         text: emailBody
       })
     });
