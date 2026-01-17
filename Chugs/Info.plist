@@ -3,6 +3,6 @@
 <plist version="1.0">
 <dict>
 	<key>Privacy - Local Notifications Usage Description</key>
-	<string>&quot;Tipot uses notifications to remind you to drink water.&quot;</string>
+	<string>"Tipot uses notifications to remind you to drink water."</string>
 </dict>
 </plist>
